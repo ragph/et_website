@@ -1,12 +1,43 @@
 import { Box, Container, Typography, Paper, Chip, Dialog, DialogTitle, DialogContent, IconButton, List, ListItem, ListItemText, Divider, CircularProgress } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CloseIcon from '@mui/icons-material/Close';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Polygon, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { regionalData, RegionData } from './RegionalData';
+import { provinceData, ProvinceData } from './ProvinceData';
+
+// Mapping between MapData region names and ProvinceData region names
+const regionNameMap: Record<string, string> = {
+  'National Capital Region': 'Metropolitan Manila',
+  'Cordillera Administrative Region': 'Cordillera Administrative Region (CAR)',
+  'Ilocos Region': 'Ilocos Region (Region I)',
+  'Cagayan Valley': 'Cagayan Valley (Region II)',
+  'Central Luzon': 'Central Luzon (Region III)',
+  'Calabarzon': 'CALABARZON (Region IV-A)',
+  'Mimaropa': 'MIMAROPA (Region IV-B)',
+  'Bicol Region': 'Bicol Region (Region V)',
+  'Western Visayas': 'Western Visayas (Region VI)',
+  'Central Visayas': 'Central Visayas (Region VII)',
+  'Eastern Visayas': 'Eastern Visayas (Region VIII)',
+  'Zamboanga Peninsula': 'Zamboanga Peninsula (Region IX)',
+  'Northern Mindanao': 'Northern Mindanao (Region X)',
+  'Davao Region': 'Davao Region (Region XI)',
+  'Soccsksargen': 'SOCCSKSARGEN (Region XII)',
+  'Caraga': 'Caraga (Region XIII)',
+  'Bangsamoro (BARMM)': 'Autonomous Region of Muslim Mindanao (ARMM)',
+};
+
+// Helper to get provinces for a region
+const getProvincesForRegion = (regionName: string) => {
+  const mappedName = regionNameMap[regionName] || regionName;
+  return provinceData.filter(p => p.region === mappedName);
+};
 import { SectionHeader } from '../../landing/components/SectionHeader';
 import { AnimatedSection } from '../../landing/components/AnimatedSection';
 
@@ -34,6 +65,16 @@ const UserLocationIcon = L.icon({
   iconAnchor: [16, 16],
 });
 
+// Create label icon for province names
+const createLabelIcon = (name: string) => {
+  return L.divIcon({
+    className: '',
+    html: `<span style="background:rgba(255,255,255,0.92);padding:2px 6px;border-radius:3px;font-size:10px;font-weight:600;color:#333;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.3);display:inline-block;transform:translate(-50%,-50%)">${name}</span>`,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
+  });
+};
+
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // Component to handle map center changes
@@ -56,6 +97,37 @@ const Map = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [viewMode, setViewMode] = useState<'regions' | 'provinces'>('regions');
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+
+  // Toggle fullscreen mode
+  const toggleFullscreen = useCallback(() => {
+    if (!mapContainerRef.current) return;
+
+    if (!document.fullscreenElement) {
+      mapContainerRef.current.requestFullscreen().then(() => {
+        setIsFullscreen(true);
+      }).catch((err) => {
+        console.error('Error enabling fullscreen:', err);
+      });
+    } else {
+      document.exitFullscreen().then(() => {
+        setIsFullscreen(false);
+      }).catch((err) => {
+        console.error('Error exiting fullscreen:', err);
+      });
+    }
+  }, []);
+
+  // Listen for fullscreen changes (e.g., pressing Escape)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -153,13 +225,14 @@ const Map = () => {
         {/* Interactive Leaflet Map */}
         <AnimatedSection animation="fadeUp" duration={0.8} delay={0.1}>
           <Paper
+            ref={mapContainerRef}
             elevation={3}
             sx={{
-              height: { xs: 500, md: 600 },
-              borderRadius: 2,
+              height: isFullscreen ? '100vh' : { xs: 500, md: 600 },
+              borderRadius: isFullscreen ? 0 : 2,
               overflow: 'hidden',
               position: 'relative',
-              mb: 4,
+              mb: isFullscreen ? 0 : 4,
               '& .leaflet-container': {
                 height: '100%',
                 width: '100%',
@@ -167,6 +240,25 @@ const Map = () => {
               },
             }}
           >
+          {/* Fullscreen Toggle Button */}
+          <IconButton
+            onClick={toggleFullscreen}
+            sx={{
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              zIndex: 1000,
+              bgcolor: 'white',
+              boxShadow: 2,
+              '&:hover': {
+                bgcolor: 'grey.100',
+              },
+            }}
+            size="small"
+          >
+            {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+          </IconButton>
+
           <MapContainer
             center={mapCenter}
             zoom={6}
@@ -178,31 +270,44 @@ const Map = () => {
             />
             <MapCenterController center={mapCenter} />
 
-            {/* Regional Boundaries */}
-            {regionalData.map((region) => (
-              <Polygon
-                key={region.id}
-                positions={region.boundaries}
-                pathOptions={{
-                  color: region.color,
-                  fillColor: region.color,
-                  fillOpacity: 0.2,
-                  weight: 2,
-                }}
-              >
-                <Tooltip permanent direction="center" className="region-label">
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      fontWeight: 700,
-                      color: 'text.primary',
-                      fontSize: '0.75rem',
-                    }}
-                  >
-                    {region.region}
-                  </Typography>
-                </Tooltip>
-              </Polygon>
+            {/* Province Boundaries */}
+            {provinceData.map((province) => {
+              // Handle both single polygon and MultiPolygon
+              const positions = province.isMultiPolygon
+                ? province.boundaries as [number, number][][]
+                : province.boundaries as [number, number][];
+
+              return (
+                <Polygon
+                  key={province.id}
+                  positions={positions}
+                  pathOptions={{
+                    color: '#444',
+                    fillColor: province.color,
+                    fillOpacity: 0.5,
+                    weight: 1,
+                  }}
+                  eventHandlers={{
+                    click: () => {
+                      // Find the region this province belongs to
+                      const region = regionalData.find(r => r.region === province.region);
+                      if (region) {
+                        handleRegionClick(region);
+                      }
+                    },
+                  }}
+                />
+              );
+            })}
+
+            {/* Province Labels */}
+            {provinceData.map((province) => (
+              <Marker
+                key={`label-${province.id}`}
+                position={[province.lat, province.lng]}
+                icon={createLabelIcon(province.province)}
+                interactive={false}
+              />
             ))}
 
             {/* User Location Marker */}
@@ -221,30 +326,6 @@ const Map = () => {
               </Marker>
             )}
 
-            {/* Region Markers */}
-            {regionalData.map((region) => (
-              <Marker
-                key={region.id}
-                position={[region.lat, region.lng]}
-                eventHandlers={{
-                  click: () => handleRegionClick(region),
-                }}
-              >
-                <Popup>
-                  <Box sx={{ minWidth: 200 }}>
-                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                      {region.region}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
-                      {region.touristSpots.length} Tourist Spots
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: 'primary.main', cursor: 'pointer' }}>
-                      Click to see more →
-                    </Typography>
-                  </Box>
-                </Popup>
-              </Marker>
-            ))}
           </MapContainer>
         </Paper>
         </AnimatedSection>
@@ -338,69 +419,155 @@ const Map = () => {
           )}
         </Dialog>
 
-        {/* Regions List */}
+        {/* Regions & Provinces Combined Section */}
         <AnimatedSection animation="fadeUp" duration={0.8} delay={0.2}>
           <Box sx={{ mt: 4 }}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: 600,
-                mb: 3,
-                color: 'text.primary',
-              }}
-            >
-              Philippine Regions
-            </Typography>
+            {/* Header with back button when viewing provinces */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+              {viewMode === 'provinces' && selectedRegion && (
+                <IconButton
+                  onClick={() => {
+                    setViewMode('regions');
+                    setSelectedRegion(null);
+                  }}
+                  sx={{
+                    bgcolor: 'action.hover',
+                    '&:hover': { bgcolor: 'action.selected' },
+                  }}
+                >
+                  <ArrowBackIcon />
+                </IconButton>
+              )}
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.primary',
+                  }}
+                >
+                  {viewMode === 'regions' ? 'Philippine Regions' : selectedRegion?.region}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: 'text.secondary' }}
+                >
+                  {viewMode === 'regions'
+                    ? '17 regions across the archipelago'
+                    : `${getProvincesForRegion(selectedRegion?.region || '').length} provinces in this region`}
+                </Typography>
+              </Box>
+            </Box>
 
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
-                gap: 2,
-              }}
-            >
-            {regionalData.map((region) => (
-              <Paper
-                key={region.id}
-                elevation={2}
-                onClick={() => handleRegionClick(region)}
+            {/* Regions Grid */}
+            {viewMode === 'regions' && (
+              <Box
                 sx={{
-                  p: 2,
-                  borderRadius: 2,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  border: 2,
-                  borderColor: selectedRegion?.id === region.id ? 'primary.main' : 'transparent',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: 4,
-                    borderColor: 'primary.light',
-                  },
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
+                  gap: 2,
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
-                  <LocationOnIcon sx={{ color: 'primary.main', fontSize: 20 }} />
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
-                    {region.region}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    width: 16,
-                    height: 16,
-                    bgcolor: region.color,
-                    borderRadius: 1,
-                    mb: 1,
-                    border: '1px solid rgba(0,0,0,0.1)',
-                  }}
-                />
-                <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                  {region.touristSpots.length} tourist spots
-                </Typography>
-              </Paper>
-            ))}
+                {regionalData.map((region) => {
+                  const provincesInRegion = getProvincesForRegion(region.region);
+                  return (
+                    <Paper
+                      key={region.id}
+                      elevation={2}
+                      onClick={() => {
+                        setSelectedRegion(region);
+                        setViewMode('provinces');
+                        setMapCenter([region.lat, region.lng]);
+                      }}
+                      sx={{
+                        p: 2,
+                        borderRadius: 2,
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        border: 2,
+                        borderColor: 'transparent',
+                        '&:hover': {
+                          transform: 'translateY(-4px)',
+                          boxShadow: 4,
+                          borderColor: 'primary.light',
+                        },
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
+                        <LocationOnIcon sx={{ color: 'primary.main', fontSize: 20 }} />
+                        <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
+                          {region.region}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          width: 16,
+                          height: 16,
+                          bgcolor: region.color,
+                          borderRadius: 1,
+                          mb: 1,
+                          border: '1px solid rgba(0,0,0,0.1)',
+                        }}
+                      />
+                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                        {provincesInRegion.length} provinces · {region.touristSpots.length} tourist spots
+                      </Typography>
+                    </Paper>
+                  );
+                })}
+              </Box>
+            )}
+
+            {/* Provinces Grid (filtered by selected region) */}
+            {viewMode === 'provinces' && selectedRegion && (
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' },
+                  gap: 2,
+                }}
+              >
+                {getProvincesForRegion(selectedRegion.region)
+                  .map((province) => (
+                    <Paper
+                      key={province.id}
+                      elevation={2}
+                      onClick={() => {
+                        setMapCenter([province.lat, province.lng]);
+                        handleRegionClick(selectedRegion);
+                      }}
+                      sx={{
+                        p: 2,
+                        borderRadius: 2,
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          transform: 'translateY(-4px)',
+                          boxShadow: 4,
+                          bgcolor: 'action.hover',
+                        },
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <Box
+                          sx={{
+                            width: 16,
+                            height: 16,
+                            bgcolor: province.color,
+                            borderRadius: '50%',
+                            flexShrink: 0,
+                            border: '1px solid rgba(0,0,0,0.1)',
+                          }}
+                        />
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          {province.province}
+                        </Typography>
+                      </Box>
+                    </Paper>
+                  ))}
+              </Box>
+            )}
           </Box>
-        </Box>
         </AnimatedSection>
       </Container>
     </Box>
