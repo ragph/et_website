@@ -270,40 +270,79 @@ const Map = () => {
             />
             <MapCenterController center={mapCenter} />
 
-            {/* Province Boundaries */}
-            {provinceData.map((province) => {
+            {/* Region Boundaries - shown when viewing regions OR for non-selected regions */}
+            {regionalData.map((region) => {
+              const isSelected = selectedRegion?.id === region.id && viewMode === 'provinces';
+
+              // Don't render region polygon if it's selected (we'll show provinces instead)
+              if (isSelected) return null;
+
               // Handle both single polygon and MultiPolygon
-              const positions = province.isMultiPolygon
-                ? province.boundaries as [number, number][][]
-                : province.boundaries as [number, number][];
+              const positions = region.isMultiPolygon
+                ? region.boundaries as [number, number][][]
+                : region.boundaries as [number, number][];
 
               return (
                 <Polygon
-                  key={province.id}
+                  key={`region-${region.id}`}
                   positions={positions}
                   pathOptions={{
-                    color: '#444',
-                    fillColor: province.color,
-                    fillOpacity: 0.5,
-                    weight: 1,
+                    color: '#333',
+                    fillColor: region.color,
+                    fillOpacity: viewMode === 'provinces' ? 0.3 : 0.5,
+                    weight: 2,
                   }}
                   eventHandlers={{
                     click: () => {
-                      // Find the region this province belongs to
-                      const region = regionalData.find(r => r.region === province.region);
-                      if (region) {
-                        handleRegionClick(region);
-                      }
+                      setSelectedRegion(region);
+                      setViewMode('provinces');
+                      setMapCenter([region.lat, region.lng]);
                     },
                   }}
                 />
               );
             })}
 
-            {/* Province Labels */}
-            {provinceData.map((province) => (
+            {/* Region Labels - shown when viewing regions */}
+            {viewMode === 'regions' && regionalData.map((region) => (
               <Marker
-                key={`label-${province.id}`}
+                key={`region-label-${region.id}`}
+                position={[region.lat, region.lng]}
+                icon={createLabelIcon(region.shortName || region.region)}
+                interactive={false}
+              />
+            ))}
+
+            {/* Province Boundaries - only shown for selected region */}
+            {viewMode === 'provinces' && selectedRegion && getProvincesForRegion(selectedRegion.region).map((province) => {
+              const positions = province.isMultiPolygon
+                ? province.boundaries as [number, number][][]
+                : province.boundaries as [number, number][];
+
+              return (
+                <Polygon
+                  key={`province-${province.id}`}
+                  positions={positions}
+                  pathOptions={{
+                    color: '#444',
+                    fillColor: province.color,
+                    fillOpacity: 0.6,
+                    weight: 1.5,
+                  }}
+                  eventHandlers={{
+                    click: () => {
+                      setMapCenter([province.lat, province.lng]);
+                      handleRegionClick(selectedRegion);
+                    },
+                  }}
+                />
+              );
+            })}
+
+            {/* Province Labels - only shown for selected region */}
+            {viewMode === 'provinces' && selectedRegion && getProvincesForRegion(selectedRegion.region).map((province) => (
+              <Marker
+                key={`province-label-${province.id}`}
                 position={[province.lat, province.lng]}
                 icon={createLabelIcon(province.province)}
                 interactive={false}
@@ -493,25 +532,27 @@ const Map = () => {
                         },
                       }}
                     >
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
-                        <LocationOnIcon sx={{ color: 'primary.main', fontSize: 20 }} />
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: '0.95rem' }}>
-                          {region.region}
-                        </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
+                        <Box
+                          sx={{
+                            width: 18,
+                            height: 18,
+                            bgcolor: region.color,
+                            borderRadius: 1,
+                            flexShrink: 0,
+                            mt: 0.3,
+                            border: '1px solid rgba(0,0,0,0.1)',
+                          }}
+                        />
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: '0.95rem', lineHeight: 1.3 }}>
+                            {region.region}
+                          </Typography>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.5 }}>
+                            {provincesInRegion.length} provinces · {region.touristSpots.length} tourist spots
+                          </Typography>
+                        </Box>
                       </Box>
-                      <Box
-                        sx={{
-                          width: 16,
-                          height: 16,
-                          bgcolor: region.color,
-                          borderRadius: 1,
-                          mb: 1,
-                          border: '1px solid rgba(0,0,0,0.1)',
-                        }}
-                      />
-                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                        {provincesInRegion.length} provinces · {region.touristSpots.length} tourist spots
-                      </Typography>
                     </Paper>
                   );
                 })}
