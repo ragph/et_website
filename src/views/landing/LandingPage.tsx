@@ -1,0 +1,84 @@
+import { useState } from "react";
+import { Box, Container } from "@mui/material";
+import { Hero } from "./sections/Hero";
+import { About } from "./sections/About";
+import { Categories } from "./sections/Categories";
+import { Features } from "./sections/Features";
+import { Explore } from "./sections/Explore";
+import { Promo } from "./sections/Promo";
+import { Partners } from "./sections/Partners";
+import { Gallery } from "./sections/Gallery";
+import { Blog } from "./sections/Blog";
+import { Contact } from "./sections/Contact";
+import { Footer } from "./sections/Footer";
+import Header from "@/layouts/full/Header";
+import Sidebar from "@/layouts/full/Sidebar";
+import { AnimatedSection } from "./components/AnimatedSection";
+import { ScrollToTop } from "./components/ScrollToTop";
+
+const LandingPage = () => {
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  const toggleMobileSidebar = () => {
+    setMobileSidebarOpen(!isMobileSidebarOpen);
+  };
+
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        bgcolor: "background.default",
+      }}
+    >
+      {/* Sidebar - only shows on mobile when menu is clicked */}
+      <Sidebar
+        isMobileSidebarOpen={isMobileSidebarOpen}
+        onSidebarClose={() => setMobileSidebarOpen(false)}
+        mobileOnly={true}
+      />
+
+      {/* Header */}
+      <Header toggleMobileSidebar={toggleMobileSidebar} />
+      
+      {/* Page Content */}
+      <Container maxWidth={false} disableGutters>
+        <Box>
+          {/* Hero - No animation (first view) */}
+          <Hero />
+
+          {/* Animated Sections */}
+          <About />
+
+          <Features />
+
+          <Categories />
+
+          <Explore />
+
+          <Promo />
+
+          <Partners />
+
+          <AnimatedSection animation="fadeUp" duration={0.8} delay={0.1}>
+            <Gallery />
+          </AnimatedSection>
+
+          <Blog />
+
+          <AnimatedSection animation="fadeUp" duration={0.8} delay={0.1}>
+            <Contact />
+          </AnimatedSection>
+
+          <Footer />
+        </Box>
+      </Container>
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
+    </Box>
+  );
+};
+
+export default LandingPage;
