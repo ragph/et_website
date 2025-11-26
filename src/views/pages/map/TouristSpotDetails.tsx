@@ -12,9 +12,13 @@ import {
   Link,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import HomeIcon from "@mui/icons-material/Home";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import { regionalData } from "./RegionalData";
 import { SectionHeader } from "../../landing/components/SectionHeader";
 import { AnimatedSection } from "../../landing/components/AnimatedSection";
@@ -166,15 +170,11 @@ const TouristSpotDetails = () => {
                 flexWrap: "wrap",
               }}
             >
-              <LocationOnIcon
-                sx={{ color: "primary.main", fontSize: { xs: 24, md: 28 } }}
-              />
               <Chip label={touristSpot.province} color="primary" size="medium" />
               <Chip label={region.region} variant="outlined" size="medium" />
             </Box>
             <SectionHeader
               title={touristSpot.name}
-              subtitle={touristSpot.description}
               align="left"
               containerSx={{ mb: 0 }}
             />
@@ -182,35 +182,92 @@ const TouristSpotDetails = () => {
         </AnimatedSection>
 
         {/* Main Content */}
-        <Grid container spacing={4}>
-          {/* Image Section */}
-          <Grid size={{ xs: 12, md: 7 }}>
-            <AnimatedSection animation="fadeLeft" duration={0.8} delay={0.2}>
+        <Grid container spacing={3}>
+          {/* Image Carousel Section */}
+          <Grid size={{ xs: 12, md: 12 }}>
+            <AnimatedSection animation="fadeUp" duration={0.8} delay={0.2}>
               <Paper
                 elevation={3}
                 sx={{
                   borderRadius: 2,
                   overflow: "hidden",
-                  height: { xs: 300, sm: 400, md: 500 },
+                  "& .swiper": {
+                    borderRadius: 2,
+                  },
+                  "& .swiper-button-next, & .swiper-button-prev": {
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    backdropFilter: "blur(8px)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    color: "white",
+                    width: "36px",
+                    height: "36px",
+                    padding: 1,
+                    borderRadius: "50%",
+                    transition: "all 0.3s ease",
+                    "&:after": {
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                    },
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                    },
+                  },
+                  "& .swiper-pagination": {
+                    bottom: "16px",
+                  },
+                  "& .swiper-pagination-bullet": {
+                    width: "8px",
+                    height: "8px",
+                    backgroundColor: "white",
+                    opacity: 0.4,
+                    transition: "all 0.3s ease",
+                  },
+                  "& .swiper-pagination-bullet-active": {
+                    width: "24px",
+                    borderRadius: "4px",
+                    opacity: 1,
+                  },
                 }}
               >
-                <Box
-                  component="img"
-                  src={touristSpot.image}
-                  alt={touristSpot.name}
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
+                <Swiper
+                  modules={[Navigation, Pagination, Autoplay]}
+                  navigation
+                  pagination={{ clickable: true }}
+                  autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
                   }}
-                />
+                  loop={true}
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  style={{
+                    height: "auto",
+                  }}
+                >
+                  {touristSpot.images.map((image, index) => (
+                    <SwiperSlide key={index}>
+                      <Box
+                        component="img"
+                        src={image}
+                        alt={`${touristSpot.name} - Image ${index + 1}`}
+                        sx={{
+                          width: "100%",
+                          height: { xs: 300, sm: 400, md: 500 },
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </Paper>
             </AnimatedSection>
           </Grid>
 
           {/* Details Section */}
-          <Grid size={{ xs: 12, md: 5 }}>
-            <AnimatedSection animation="fadeRight" duration={0.8} delay={0.2}>
+          <Grid size={{ xs: 12, md: 12 }}>
+            <AnimatedSection animation="fadeUp" duration={0.8} delay={0.2}>
               <Paper
                 elevation={2}
                 sx={{
@@ -295,21 +352,6 @@ const TouristSpotDetails = () => {
                     </Box>
                   </Box>
                 </Box>
-
-                <Button
-                  variant="contained"
-                  fullWidth
-                  size="large"
-                  sx={{
-                    mt: 2,
-                    borderRadius: 999,
-                    textTransform: "none",
-                    fontWeight: 600,
-                    py: 1.5,
-                  }}
-                >
-                  Plan Your Visit
-                </Button>
               </Paper>
             </AnimatedSection>
           </Grid>
@@ -335,7 +377,7 @@ const TouristSpotDetails = () => {
                   if (index === Number(spotId)) return null; // Skip current spot
 
                   return (
-                    <Grid size={{ xs: 12, sm: 6, md: 6 }} key={index}>
+                    <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
                       <Paper
                         elevation={2}
                         onClick={() => navigate(`/region/${regionId}/${index}`)}
@@ -359,7 +401,7 @@ const TouristSpotDetails = () => {
                       >
                         <Box
                           component="img"
-                          src={spot.image}
+                          src={spot.images[0]}
                           alt={spot.name}
                           sx={{
                             width: "100%",
