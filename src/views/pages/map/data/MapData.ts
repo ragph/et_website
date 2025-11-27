@@ -5,6 +5,8 @@ export interface TouristSpot {
   description: string;
   images: string[];
   province: string;
+  address?: string;
+  trivia?: string;
 }
 
 export interface RegionData {
@@ -549,6 +551,8 @@ export const regionalData: RegionData[] = [
         "name": "Intramuros",
         "province": "Manila",
         "description": "Historic walled city with Spanish colonial architecture",
+        "address": "Intramuros, Manila, Metro Manila, Philippines",
+        "trivia": "Intramuros was founded in 1571 and is the oldest district in Manila. The name means 'within the walls' in Latin.",
         "images": [
           "https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -559,6 +563,8 @@ export const regionalData: RegionData[] = [
         "name": "Rizal Park",
         "province": "Manila",
         "description": "Large urban park honoring national hero Jose Rizal",
+        "address": "Roxas Boulevard, Ermita, Manila, Metro Manila, Philippines",
+        "trivia": "Also known as Luneta Park, this is where Dr. Jose Rizal was executed in 1896, marking a turning point in Philippine history.",
         "images": [
           "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -569,6 +575,8 @@ export const regionalData: RegionData[] = [
         "name": "BGC (Bonifacio Global City)",
         "province": "Taguig",
         "description": "Modern business district with art installations",
+        "address": "Bonifacio Global City, Taguig, Metro Manila, Philippines",
+        "trivia": "BGC was once the main military base of the Philippines called Fort Bonifacio. It was transformed into a modern business district in the 1990s.",
         "images": [
           "https://images.unsplash.com/photo-1533050487297-09b450131914?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -2162,6 +2170,8 @@ export const regionalData: RegionData[] = [
         "name": "Banaue Rice Terraces",
         "province": "Ifugao",
         "description": "2000-year-old UNESCO terraces carved into mountains",
+        "address": "Banaue, Ifugao Province, Cordillera Administrative Region, Philippines",
+        "trivia": "Often called the 'Eighth Wonder of the World', these terraces were hand-carved by the Ifugao people over 2,000 years ago and reach up to 1,500 meters above sea level.",
         "images": [
           "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -2172,6 +2182,8 @@ export const regionalData: RegionData[] = [
         "name": "Burnham Park",
         "province": "Baguio",
         "description": "Central park with boating lake and gardens",
+        "address": "Jose Abad Santos Drive, Baguio City, Benguet, Philippines",
+        "trivia": "Named after American architect and urban planner Daniel Burnham, this 32.84-hectare park was established in 1909 and is the heart of Baguio's recreation area.",
         "images": [
           "https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -2182,6 +2194,8 @@ export const regionalData: RegionData[] = [
         "name": "Sagada Hanging Coffins",
         "province": "Mountain Province",
         "description": "Ancient burial tradition on cliff faces",
+        "address": "Echo Valley, Sagada, Mountain Province, Cordillera Administrative Region, Philippines",
+        "trivia": "This burial tradition is over 2,000 years old. The indigenous people believe that hanging coffins on cliffs brings the deceased closer to their ancestral spirits and protects them from floods and animals.",
         "images": [
           "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -2192,6 +2206,8 @@ export const regionalData: RegionData[] = [
         "name": "Strawberry Farm",
         "province": "Benguet",
         "description": "Pick your own strawberries in La Trinidad",
+        "address": "La Trinidad, Benguet Province, Cordillera Administrative Region, Philippines",
+        "trivia": "La Trinidad is known as the 'Strawberry Fields of the Philippines'. The cool climate at 1,400 meters elevation makes it perfect for strawberry cultivation, producing over 1,000 tons annually.",
         "images": [
           "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -6045,6 +6061,8 @@ export const regionalData: RegionData[] = [
         "name": "Vigan Heritage Village",
         "province": "Ilocos Sur",
         "description": "UNESCO World Heritage Spanish colonial town",
+        "address": "Vigan City, Ilocos Sur, Ilocos Region, Philippines",
+        "trivia": "Founded in 1572, Vigan is one of the few Hispanic towns left in the Philippines. It was declared a UNESCO World Heritage Site in 1999 and is famous for its cobblestone streets and kalesas (horse-drawn carriages).",
         "images": [
           "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -6055,6 +6073,8 @@ export const regionalData: RegionData[] = [
         "name": "Bangui Windmills",
         "province": "Ilocos Norte",
         "description": "Iconic windmill farm by the sea",
+        "address": "Bangui, Ilocos Norte, Ilocos Region, Philippines",
+        "trivia": "Completed in 2005, this is the first wind farm in Southeast Asia. The 20 wind turbines along a 9-kilometer coastline generate 40% of Ilocos Norte's energy needs and have become an iconic tourist attraction.",
         "images": [
           "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -6065,6 +6085,8 @@ export const regionalData: RegionData[] = [
         "name": "Paoay Church",
         "province": "Ilocos Norte",
         "description": "UNESCO World Heritage baroque church",
+        "address": "Paoay, Ilocos Norte, Ilocos Region, Philippines",
+        "trivia": "Also known as San Agustin Church, it was completed in 1710 and features unique earthquake baroque architecture with massive buttresses. It's one of four Philippine baroque churches inscribed as UNESCO World Heritage Sites.",
         "images": [
           "https://images.unsplash.com/photo-1548625149-720407e0b78f?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -6075,6 +6097,8 @@ export const regionalData: RegionData[] = [
         "name": "Hundred Islands",
         "province": "Pangasinan",
         "description": "124 islands and islets for island hopping",
+        "address": "Alaminos City, Pangasinan, Ilocos Region, Philippines",
+        "trivia": "Despite its name, the national park actually consists of 124 islands at low tide and 123 at high tide. It became the Philippines' first national park in 1940 and covers an area of 18.44 square kilometers.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -10342,6 +10366,8 @@ export const regionalData: RegionData[] = [
         "name": "Callao Cave",
         "province": "Cagayan",
         "description": "Seven-chamber cave with natural cathedral",
+        "address": "Penablanca, Cagayan, Cagayan Valley, Philippines",
+        "trivia": "Callao Cave is famous for the discovery of 'Callao Man' in 2007, one of the oldest human remains found in the Philippines, dating back at least 67,000 years. The cave's chapel chamber features a natural skylight that illuminates the space like a cathedral.",
         "images": [
           "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -10352,6 +10378,8 @@ export const regionalData: RegionData[] = [
         "name": "Palaui Island",
         "province": "Cagayan",
         "description": "Pristine island with Cape Engaño lighthouse",
+        "address": "Santa Ana, Cagayan, Cagayan Valley, Philippines",
+        "trivia": "Palaui Island was ranked by CNN in 2013 as one of the top 100 most beautiful beaches in the world. The island served as a filming location for the reality TV show 'Survivor' and features the historic Cape Engaño Lighthouse built by the Spanish in 1892.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -10362,6 +10390,8 @@ export const regionalData: RegionData[] = [
         "name": "Batanes Islands",
         "province": "Batanes",
         "description": "Northernmost islands with rolling hills",
+        "address": "Basco, Batanes, Cagayan Valley, Philippines",
+        "trivia": "Batanes is the smallest province in the Philippines and the northernmost inhabited islands in the country, located closer to Taiwan than to Manila. The Ivatan people have preserved their unique stone houses called 'Ivatan houses' designed to withstand powerful typhoons that frequently hit the islands.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -13893,6 +13923,8 @@ export const regionalData: RegionData[] = [
         "name": "Mount Pinatubo",
         "province": "Pampanga",
         "description": "Active volcano with stunning crater lake",
+        "address": "Botolan, Zambales / Capas, Tarlac, Central Luzon, Philippines",
+        "trivia": "Mount Pinatubo's 1991 eruption was the second-largest volcanic eruption of the 20th century, affecting global temperatures and creating the spectacular turquoise crater lake that attracts thousands of visitors today. The eruption buried the former US Clark Air Base under volcanic ash and lahars.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -13903,6 +13935,8 @@ export const regionalData: RegionData[] = [
         "name": "Subic Bay",
         "province": "Zambales",
         "description": "Former US naval base with beaches",
+        "address": "Subic Bay Freeport Zone, Zambales, Central Luzon, Philippines",
+        "trivia": "Subic Bay served as a major US Naval Base from 1901 to 1992 and was once the largest American naval facility outside the continental United States. After its closure, it was transformed into the Subic Bay Freeport Zone, becoming a thriving economic zone and tourist destination with pristine beaches and rich marine biodiversity.",
         "images": [
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -13913,6 +13947,8 @@ export const regionalData: RegionData[] = [
         "name": "Las Casas Filipinas",
         "province": "Bataan",
         "description": "Heritage resort with Spanish colonial houses",
+        "address": "Bagac, Bataan, Central Luzon, Philippines",
+        "trivia": "Las Casas Filipinas de Acuzar is a living museum featuring authentic Spanish colonial houses from the 18th and 19th centuries that were carefully dismantled from various parts of the Philippines, transported, and reconstructed brick-by-brick at this heritage resort. The resort aims to preserve Filipino architectural heritage that would have otherwise been lost to modernization.",
         "images": [
           "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -19638,6 +19674,8 @@ export const regionalData: RegionData[] = [
         "name": "Taal Volcano",
         "province": "Batangas",
         "description": "Active volcano on an island within a lake",
+        "address": "Talisay, Batangas, Calabarzon, Philippines",
+        "trivia": "Taal Volcano is one of the world's smallest active volcanoes but is also one of the most active in the Philippines, with 34 recorded eruptions since 1572. It features a unique geological formation: a volcano within a lake (Taal Lake) on an island (Luzon), creating what's called a crater lake on Volcano Island.",
         "images": [
           "https://images.unsplash.com/photo-1580274655877-957d95b24916?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -19648,6 +19686,8 @@ export const regionalData: RegionData[] = [
         "name": "Tagaytay",
         "province": "Cavite",
         "description": "Cool highland city with Taal Lake view",
+        "address": "Tagaytay City, Cavite, Calabarzon, Philippines",
+        "trivia": "Tagaytay sits on a ridge 2,250 feet above sea level, making it one of the country's most popular tourist destinations for its cool climate and panoramic views of Taal Lake and Volcano. The city's name comes from 'taga' (to cut) and 'itay' (father), after a legendary father and son who helped revolutionaries escape by cutting down bamboo bridges.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -19658,6 +19698,8 @@ export const regionalData: RegionData[] = [
         "name": "Pagsanjan Falls",
         "province": "Laguna",
         "description": "Stunning waterfalls accessible by boat",
+        "address": "Pagsanjan, Laguna, Calabarzon, Philippines",
+        "trivia": "Pagsanjan Falls, also known as Cavinti Falls, is one of the most famous waterfalls in the Philippines and was featured in Francis Ford Coppola's 1979 film 'Apocalypse Now.' Visitors experience a thrilling boat ride shooting the rapids through a scenic gorge with 14 rapids before reaching the majestic 300-foot high falls.",
         "images": [
           "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -19668,6 +19710,8 @@ export const regionalData: RegionData[] = [
         "name": "Masungi Georeserve",
         "province": "Rizal",
         "description": "Conservation area with rope courses",
+        "address": "Baras, Rizal, Calabarzon, Philippines",
+        "trivia": "Masungi Georeserve is a conservation area protecting 60 hectares of rainforest featuring 70-million-year-old limestone rock formations. The eco-tourism park was created by the Masungi Georeserve Foundation to rehabilitate degraded land that was previously threatened by illegal logging and quarrying, transforming it into an award-winning geopark with unique hanging bridges and rope courses.",
         "images": [
           "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -39299,6 +39343,8 @@ export const regionalData: RegionData[] = [
         "name": "El Nido",
         "province": "Palawan",
         "description": "Limestone cliffs, lagoons, and pristine beaches",
+        "address": "El Nido, Palawan, Mimaropa, Philippines",
+        "trivia": "El Nido is home to 45 islands and islets and was named after the edible nests of swiftlets found in the area's limestone caves, which are harvested for the Chinese delicacy bird's nest soup. The town's Bacuit Archipelago features dramatic karst limestone cliffs rising up to 900 feet from the sea and contains some of the best beaches in the world.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -39309,6 +39355,8 @@ export const regionalData: RegionData[] = [
         "name": "Underground River",
         "province": "Palawan",
         "description": "UNESCO World Heritage underground river",
+        "address": "Sabang, Puerto Princesa, Palawan, Mimaropa, Philippines",
+        "trivia": "The Puerto Princesa Subterranean River National Park features the world's longest navigable underground river at 8.2 kilometers, flowing directly into the sea. In 2012, it was voted as one of the New7Wonders of Nature and is a UNESCO World Heritage Site, home to unique cave formations and diverse wildlife including bats, swiftlets, and pythons.",
         "images": [
           "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -39319,6 +39367,8 @@ export const regionalData: RegionData[] = [
         "name": "Coron",
         "province": "Palawan",
         "description": "Shipwreck diving and stunning lakes",
+        "address": "Coron, Palawan, Mimaropa, Philippines",
+        "trivia": "Coron is world-renowned for having some of the best wreck diving sites in the world, with at least 12 Japanese warships sunk by American planes during World War II in September 1944. The island also features the mystical Kayangan Lake, often called the cleanest lake in the Philippines, nestled among towering limestone cliffs and accessible only through a challenging climb.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -49674,6 +49724,8 @@ export const regionalData: RegionData[] = [
         "name": "Mayon Volcano",
         "province": "Albay",
         "description": "Perfect cone-shaped active volcano",
+        "address": "Legazpi City, Albay, Bicol Region, Philippines",
+        "trivia": "Mount Mayon is renowned for its almost perfect cone shape and is considered the most active volcano in the Philippines with over 50 recorded eruptions in the past 400 years. The volcano's name comes from the local legend of Daragang Magayon (Beautiful Maiden), and its symmetrical cone has made it a popular subject for photographers and artists worldwide.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -49684,6 +49736,8 @@ export const regionalData: RegionData[] = [
         "name": "CamSur Watersports",
         "province": "Camarines Sur",
         "description": "World-class wakeboarding complex",
+        "address": "Pili, Camarines Sur, Bicol Region, Philippines",
+        "trivia": "CamSur Watersports Complex (CWC) is the world's first and only international-standard cable ski facility in Asia and has hosted numerous international wakeboarding and wakeskating competitions. Built in 2005, it features a state-of-the-art 6-point cable system and has attracted professional wakeboarders from around the world, putting the Philippines on the global wakeboarding map.",
         "images": [
           "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -49694,6 +49748,8 @@ export const regionalData: RegionData[] = [
         "name": "Caramoan Islands",
         "province": "Camarines Sur",
         "description": "Limestone islands with pristine beaches",
+        "address": "Caramoan, Camarines Sur, Bicol Region, Philippines",
+        "trivia": "The Caramoan Islands gained international fame as a filming location for multiple seasons of the reality TV series 'Survivor,' including editions from France, Israel, Bulgaria, and Serbia. The peninsula features over 20 pristine islands with dramatic limestone cliffs, secret lagoons, and white sand beaches that were largely unknown to tourists until being showcased on television.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -56591,6 +56647,8 @@ export const regionalData: RegionData[] = [
         "name": "Boracay White Beach",
         "province": "Aklan",
         "description": "World-famous 4km white sand beach",
+        "address": "Malay, Aklan, Western Visayas, Philippines",
+        "trivia": "Boracay's White Beach has been consistently ranked as one of the best beaches in the world by international travel publications, with its powdery white sand composed of 99% pure silica. The island underwent a six-month closure and rehabilitation in 2018 to address environmental concerns, and has since reopened with stricter environmental regulations to preserve its natural beauty.",
         "images": [
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -56601,6 +56659,8 @@ export const regionalData: RegionData[] = [
         "name": "The Ruins",
         "province": "Negros Occidental",
         "description": "Romantic mansion ruins in Talisay",
+        "address": "Talisay City, Negros Occidental, Western Visayas, Philippines",
+        "trivia": "The Ruins is the skeletal remains of a mansion built in the early 1900s by sugar baron Don Mariano Ledesma Lacson in memory of his Portuguese wife Maria Braga who died during her second pregnancy. During World War II, the mansion was burned by Filipino guerrillas to prevent Japanese forces from using it as headquarters, leaving only its concrete columns standing as a haunting testament to a tragic love story.",
         "images": [
           "https://images.unsplash.com/photo-1576495199011-eb94736d05d6?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -56611,6 +56671,8 @@ export const regionalData: RegionData[] = [
         "name": "Guimaras Island",
         "province": "Guimaras",
         "description": "Sweetest mangoes and pristine beaches",
+        "address": "Jordan, Guimaras, Western Visayas, Philippines",
+        "trivia": "Guimaras is known worldwide for producing the sweetest mangoes, certified by the Guinness Book of World Records, and is the only province in the Philippines with a mango variety named after it. The island's mangoes are so prized that they were once exclusively reserved for the British Royal Family, and the province celebrates an annual Manggahan Festival every May to honor this golden fruit.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -63146,6 +63208,8 @@ export const regionalData: RegionData[] = [
         "name": "Magellan's Cross",
         "province": "Cebu",
         "description": "Historic cross planted by Ferdinand Magellan",
+        "address": "Cebu City, Cebu, Central Visayas, Philippines",
+        "trivia": "Magellan's Cross was planted by Portuguese explorer Ferdinand Magellan on April 21, 1521, when he arrived in Cebu and baptized the first Filipino Christians including Rajah Humabon and his wife. The cross is housed in a chapel near the Basilica del Santo Niño, and the original cross is encased in tindalo wood to protect it from pilgrims who once chipped away pieces believing they held healing powers.",
         "images": [
           "https://images.unsplash.com/photo-1548625149-720407e0b78f?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -63156,6 +63220,8 @@ export const regionalData: RegionData[] = [
         "name": "Kawasan Falls",
         "province": "Cebu",
         "description": "Three-tiered turquoise waterfalls",
+        "address": "Badian, Cebu, Central Visayas, Philippines",
+        "trivia": "Kawasan Falls is a three-level waterfall system with stunning turquoise waters fed by natural springs in the Mantalongon mountain range. The falls have become famous for canyoneering adventures where visitors jump off cliffs, swim through gorges, and rappel down waterfalls before reaching the main falls, making it one of the most thrilling eco-adventure destinations in the Philippines.",
         "images": [
           "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -63166,6 +63232,8 @@ export const regionalData: RegionData[] = [
         "name": "Chocolate Hills",
         "province": "Bohol",
         "description": "1,200+ cone-shaped hills",
+        "address": "Carmen, Bohol, Central Visayas, Philippines",
+        "trivia": "The Chocolate Hills are a geological formation consisting of at least 1,260 cone-shaped hills spread over an area of 50 square kilometers, turning chocolate brown during the dry season. Listed as the Philippines' third National Geological Monument and proposed for UNESCO World Heritage status, local legend says the hills were formed from the tears of a giant named Arogo who wept over his lost love.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -63176,6 +63244,8 @@ export const regionalData: RegionData[] = [
         "name": "Tarsier Sanctuary",
         "province": "Bohol",
         "description": "See the world's smallest primates",
+        "address": "Corella, Bohol, Central Visayas, Philippines",
+        "trivia": "The Philippine Tarsier Sanctuary protects one of the world's smallest primates, the Philippine tarsier, which measures only 85 to 160 millimeters in height and can rotate its head 180 degrees. These endangered nocturnal creatures have enormous eyes (each eyeball is as large as their brain) and were once widespread across the archipelago but now survive only in select areas of Bohol, Samar, Leyte, and Mindanao.",
         "images": [
           "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -72921,6 +72991,8 @@ export const regionalData: RegionData[] = [
         "name": "MacArthur Landing Memorial",
         "province": "Leyte",
         "description": "WWII historical site",
+        "address": "Palo, Leyte, Eastern Visayas, Philippines",
+        "trivia": "The MacArthur Landing Memorial National Park commemorates General Douglas MacArthur's historic return to the Philippines on October 20, 1944, fulfilling his famous promise 'I shall return.' The park features larger-than-life bronze statues of MacArthur and his men wading ashore at Red Beach, marking a pivotal moment in the liberation of the Philippines from Japanese occupation during World War II.",
         "images": [
           "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -72931,6 +73003,8 @@ export const regionalData: RegionData[] = [
         "name": "Kalanggaman Island",
         "province": "Leyte",
         "description": "Sandbar island with crystal waters",
+        "address": "Palompon, Leyte, Eastern Visayas, Philippines",
+        "trivia": "Kalanggaman Island is famous for its long, pristine white sandbar that extends from both ends of the island, creating a stunning visual effect when viewed from above. The island's name comes from the Visayan word 'langgam' meaning 'bird,' as its shape resembles a bird with outstretched wings, and it has become one of the most photographed islands in the Philippines.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -72941,6 +73015,8 @@ export const regionalData: RegionData[] = [
         "name": "Sohoton Cove",
         "province": "Samar",
         "description": "Cave and lagoon adventure",
+        "address": "Basey, Samar, Eastern Visayas, Philippines",
+        "trivia": "Sohoton Cove National Park is a protected natural park featuring stunning limestone formations, enchanting caves, and a unique natural phenomenon called the 'Stingless Jellyfish Sanctuary' where thousands of harmless jellyfish gather in a serene lagoon. The park's Panhulugan Cave features a natural skylight that illuminates the cavern, while Magkukuob Cave is famous for its swarms of bats and swiftlets that perform a mesmerizing aerial dance at dawn and dusk.",
         "images": [
           "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -77542,6 +77618,8 @@ export const regionalData: RegionData[] = [
         "name": "Fort Pilar",
         "province": "Zamboanga City",
         "description": "Historic Spanish fort and shrine",
+        "address": "Zamboanga City, Zamboanga del Sur, Zamboanga Peninsula, Philippines",
+        "trivia": "Fort Pilar, officially known as Real Fuerza de Nuestra Señora del Pilar de Zaragoza, was built by Spanish Jesuit priest Melchor de Vera in 1635 to protect the city from pirate attacks. The fortress has withstood numerous battles throughout history and now houses the National Museum Zamboanga and the revered shrine of Our Lady of the Pillar, Zamboanga City's patroness, making it both a military and religious landmark.",
         "images": [
           "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -77552,6 +77630,8 @@ export const regionalData: RegionData[] = [
         "name": "Great Santa Cruz Island",
         "province": "Zamboanga City",
         "description": "Pink sand beach destination",
+        "address": "Zamboanga City, Zamboanga del Sur, Zamboanga Peninsula, Philippines",
+        "trivia": "Great Santa Cruz Island is one of only a few places in the world with naturally pink sand beaches, created by crushed red organ pipe coral mixed with white sand. The island was once used as a penal colony during the American occupation and later as a military installation, but today it's a popular tourist destination where visitors can experience the unique pink shoreline and crystal-clear waters.",
         "images": [
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -77562,6 +77642,8 @@ export const regionalData: RegionData[] = [
         "name": "Dakak Beach Resort",
         "province": "Zamboanga del Norte",
         "description": "Pristine beach resort",
+        "address": "Dapitan City, Zamboanga del Norte, Zamboanga Peninsula, Philippines",
+        "trivia": "Dakak Park Beach Resort sits on 15 hectares of pristine beachfront and was developed in the 1980s on what was once a secluded cove accessible only by sea. The resort is located near the historic city of Dapitan where national hero Dr. Jose Rizal was exiled from 1892 to 1896, and the area's white sand beaches and clear waters have made it one of Mindanao's premier beach destinations.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -80565,6 +80647,8 @@ export const regionalData: RegionData[] = [
         "name": "White Island",
         "province": "Camiguin",
         "description": "Uninhabited white sandbar",
+        "address": "Mambajao, Camiguin, Northern Mindanao, Philippines",
+        "trivia": "White Island is an uninhabited sandbar located 1.4 kilometers off the coast of Camiguin with no trees or structures, offering a pristine expanse of white sand and stunning 360-degree views of the ocean and Mount Hibok-Hibok volcano. The sandbar changes shape and size depending on the tides and seasons, making each visit a unique experience, and it's considered one of the most photographed destinations in Camiguin.",
         "images": [
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -80575,6 +80659,8 @@ export const regionalData: RegionData[] = [
         "name": "Sunken Cemetery",
         "province": "Camiguin",
         "description": "Underwater cemetery marked by cross",
+        "address": "Catarman, Camiguin, Northern Mindanao, Philippines",
+        "trivia": "The Sunken Cemetery of Camiguin was formed when a volcanic eruption of Mount Vulcan in 1871 caused the ground to sink, submerging the town's cemetery beneath the sea. A large white cross was erected in 1982 to mark the underwater gravesite, and today it has become a popular snorkeling and diving site where visitors can see coral-encrusted tombstones and diverse marine life thriving among the sunken graves.",
         "images": [
           "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -80585,6 +80671,8 @@ export const regionalData: RegionData[] = [
         "name": "Dahilayan Adventure Park",
         "province": "Bukidnon",
         "description": "Asia's longest dual zipline",
+        "address": "Manolo Fortich, Bukidnon, Northern Mindanao, Philippines",
+        "trivia": "Dahilayan Adventure Park is home to the longest dual zipline in Asia, stretching 840 meters at speeds reaching up to 90 kilometers per hour. Located at an elevation of 4,700 feet above sea level in the cool highlands of Bukidnon, the park offers breathtaking views of lush forests and mountains, and has become a premier adventure tourism destination since opening in 2008.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -84554,6 +84642,8 @@ export const regionalData: RegionData[] = [
         "name": "Mount Apo",
         "province": "Davao del Sur",
         "description": "Highest mountain in the Philippines",
+        "address": "Kidapawan City / Santa Cruz, Davao del Sur, Davao Region, Philippines",
+        "trivia": "Mount Apo stands at 2,954 meters (9,692 feet) above sea level, making it the highest peak in the Philippines and a sacred mountain for indigenous Lumad and Bagobo people who call it 'Apo Sandawa' (Master of All Mountains). The mountain is home to the critically endangered Philippine Eagle and features diverse ecosystems ranging from lowland forests to mossy forests and volcanic formations including sulfuric vents.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -84564,6 +84654,8 @@ export const regionalData: RegionData[] = [
         "name": "Philippine Eagle Center",
         "province": "Davao City",
         "description": "Conservation center for Philippine Eagles",
+        "address": "Malagos, Calinan District, Davao City, Davao Region, Philippines",
+        "trivia": "The Philippine Eagle Center, established in 1987 by the Philippine Eagle Foundation, is the world's primary breeding and research facility for the critically endangered Philippine Eagle, the country's national bird. The center has successfully bred eagles in captivity and works to protect the species, which is one of the largest and most powerful eagles in the world with a wingspan reaching up to 7 feet.",
         "images": [
           "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -84574,6 +84666,8 @@ export const regionalData: RegionData[] = [
         "name": "Eden Nature Park",
         "province": "Davao City",
         "description": "Mountain resort with nature activities",
+        "address": "Bayabas, Toril District, Davao City, Davao Region, Philippines",
+        "trivia": "Eden Nature Park is an 80-hectare mountain resort located 3,000 feet above sea level in the foothills of Mount Talomo, offering a cool climate and panoramic views of Davao City and Davao Gulf. Originally a hunting ground transformed into a conservation area, the park features lush gardens, an orchid sanctuary, a butterfly garden, and adventure activities while promoting sustainable eco-tourism and organic farming practices.",
         "images": [
           "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -84584,6 +84678,8 @@ export const regionalData: RegionData[] = [
         "name": "Samal Island",
         "province": "Davao del Norte",
         "description": "Island paradise with beaches and resorts",
+        "address": "Island Garden City of Samal, Davao del Norte, Davao Region, Philippines",
+        "trivia": "Samal Island, officially known as the Island Garden City of Samal, is the largest island in the Davao Gulf and is dubbed the 'Island Garden City' due to its lush vegetation and numerous beach resorts. The island features over 80 dive sites, pristine white sand beaches, and the famous Monfort Bat Cave, which holds the Guinness World Record for the largest colony of Geoffrey's Rousette fruit bats with an estimated 2.3 million bats.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -87299,6 +87395,8 @@ export const regionalData: RegionData[] = [
         "name": "Lake Sebu",
         "province": "South Cotabato",
         "description": "Highland lake with T'boli culture",
+        "address": "Lake Sebu, South Cotabato, Soccsksargen, Philippines",
+        "trivia": "Lake Sebu is a natural lake located in the highlands of South Cotabato and is home to the indigenous T'boli people, known for their intricate t'nalak weaving and rich cultural heritage. The area features three pristine lakes (Sebu, Seloton, and Lahit) and is called the 'Summer Capital of Southern Mindanao' for its cool climate and breathtaking mountain scenery.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -87309,6 +87407,8 @@ export const regionalData: RegionData[] = [
         "name": "Seven Falls",
         "province": "South Cotabato",
         "description": "Series of waterfalls with zipline",
+        "address": "Lake Sebu, South Cotabato, Soccsksargen, Philippines",
+        "trivia": "The Seven Falls of Lake Sebu is a series of seven majestic waterfalls cascading down the mountainside, with Hikong Alo (the main fall) standing at 70 meters high. Visitors can experience Southeast Asia's longest zipline, a 750-meter ride that offers a thrilling bird's-eye view of the waterfalls and surrounding rainforest, operated by the local T'boli community as part of their sustainable tourism efforts.",
         "images": [
           "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -87319,6 +87419,8 @@ export const regionalData: RegionData[] = [
         "name": "General Santos Fish Port",
         "province": "General Santos",
         "description": "Tuna capital of the Philippines",
+        "address": "General Santos City, South Cotabato, Soccsksargen, Philippines",
+        "trivia": "General Santos City is known as the 'Tuna Capital of the Philippines' and is one of the top tuna producers in the world, with its fish port complex being one of the most modern fishing facilities in Southeast Asia. The city exports premium-quality yellowfin tuna (locally called 'tambakol') to Japan, United States, and Europe, and hosts the annual Tuna Festival every September celebrating its fishing industry and cultural heritage.",
         "images": [
           "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -93392,6 +93494,8 @@ export const regionalData: RegionData[] = [
         "name": "Siargao Cloud 9",
         "province": "Surigao del Norte",
         "description": "World-class surfing waves",
+        "address": "General Luna, Siargao Island, Surigao del Norte, Caraga, Philippines",
+        "trivia": "Cloud 9 is one of the world's top surfing destinations, famous for its thick, hollow tubes and was named after a chocolate bar when traveling surfers discovered the wave in the 1980s. The iconic wooden boardwalk extending to the reef break has become a landmark, and Siargao hosts the annual Siargao Cup, an international surfing competition that attracts surfers from around the globe.",
         "images": [
           "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -93402,6 +93506,8 @@ export const regionalData: RegionData[] = [
         "name": "Sohoton Cove",
         "province": "Surigao del Norte",
         "description": "Enchanting lagoon with jellyfish",
+        "address": "Socorro, Siargao Island, Surigao del Norte, Caraga, Philippines",
+        "trivia": "Sohoton Cove in Siargao (not to be confused with the one in Samar) is a mystical lagoon surrounded by towering limestone cliffs and features crystal-clear waters filled with stingless jellyfish that visitors can safely swim with. The cove is part of the Sohoton National Park and contains several enchanting spots including the Hagukan Cave and Magkukuob Cave, accessible only during low tide through narrow crevices.",
         "images": [
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -93412,6 +93518,8 @@ export const regionalData: RegionData[] = [
         "name": "Sugba Lagoon",
         "province": "Surigao del Norte",
         "description": "Clear blue lagoon for swimming",
+        "address": "Del Carmen, Siargao Island, Surigao del Norte, Caraga, Philippines",
+        "trivia": "Sugba Lagoon is a hidden gem enclosed by mangrove forests and limestone formations, featuring pristine turquoise waters perfect for swimming, kayaking, and paddleboarding. The lagoon is part of the Siargao Island Protected Landscape and Seascape, and visitors can enjoy jumping off diving platforms into the deep, crystal-clear waters while surrounded by lush tropical vegetation.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
@@ -93422,6 +93530,8 @@ export const regionalData: RegionData[] = [
         "name": "Tinuy-an Falls",
         "province": "Surigao del Sur",
         "description": "Niagara of the Philippines",
+        "address": "Bislig, Surigao del Sur, Caraga, Philippines",
+        "trivia": "Tinuy-an Falls, known as the 'Niagara Falls of the Philippines,' is a majestic three-tiered waterfall spanning 95 meters wide and dropping 55 meters high. The falls are unique for their curtain-like cascade and the natural phenomenon where a rainbow appears in the mist during late mornings when sunlight hits the water just right, and visitors can experience the thrill of bamboo rafting at the base of the falls.",
         "images": [
           "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=400",
           "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400",
@@ -107779,6 +107889,8 @@ export const regionalData: RegionData[] = [
         "name": "Lake Lanao",
         "province": "Lanao del Sur",
         "description": "Second largest lake in the Philippines",
+        "address": "Marawi City, Lanao del Sur, Bangsamoro, Philippines",
+        "trivia": "Lake Lanao is the second largest and deepest lake in the Philippines, sitting at 700 meters above sea level and covering 340 square kilometers. The ancient lake is estimated to be 10 million years old and is home to 18 endemic fish species found nowhere else in the world, though many are now threatened due to the introduction of predatory fish species and environmental changes.",
         "images": [
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
           "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400",
@@ -107789,6 +107901,8 @@ export const regionalData: RegionData[] = [
         "name": "Grand Mosque",
         "province": "Cotabato City",
         "description": "Largest mosque in the Philippines",
+        "address": "Cotabato City, Maguindanao, Bangsamoro, Philippines",
+        "trivia": "The Sultan Haji Hassanal Bolkiah Masjid, commonly known as the Grand Mosque of Cotabato, is the largest mosque in the Philippines and can accommodate up to 15,000 worshippers. Built with financial assistance from Sultan Hassanal Bolkiah of Brunei in 2011, the mosque features stunning Islamic architecture with golden domes and minarets, and serves as a symbol of Islamic faith and culture in Mindanao.",
         "images": [
           "https://images.unsplash.com/photo-1548625149-720407e0b78f?w=400",
           "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400",
@@ -107799,6 +107913,8 @@ export const regionalData: RegionData[] = [
         "name": "Pink Beach",
         "province": "Zamboanga City",
         "description": "Unique pink sand beach",
+        "address": "Santa Cruz Island, Zamboanga City, Bangsamoro, Philippines",
+        "trivia": "The Pink Beach of Santa Cruz Island gets its distinctive rosy hue from crushed red organ pipe coral mixed with white sand, making it one of the few pink sand beaches in the world. The island has a rich history, having served as a penal colony during American rule and later as a military base, and today it's a protected marine sanctuary where the unique pink sand is carefully preserved for future generations.",
         "images": [
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",
           "https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=400",

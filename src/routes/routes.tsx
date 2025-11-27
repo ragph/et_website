@@ -87,7 +87,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: '/region/:regionId/:spotId',
+        path: '/details/:regionName/:province/:spotName',
         element: (
           <SuspenseWrapper>
             <TouristSpotDetails />

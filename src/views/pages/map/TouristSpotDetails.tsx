@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -10,36 +10,99 @@ import {
   Grid,
   Breadcrumbs,
   Link,
+  CircularProgress,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PlaceIcon from "@mui/icons-material/Place";
+import InfoIcon from "@mui/icons-material/Info";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import ExploreIcon from "@mui/icons-material/Explore";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { regionalData } from "./RegionalData";
+import { regionalData } from "./data/RegionalData";
 import { SectionHeader } from "../../landing/components/SectionHeader";
 import { AnimatedSection } from "../../landing/components/AnimatedSection";
+import { touristSpotApi } from "../../../api/touristSpotApi";
+import type { TouristSpotDetail } from "../../../api/types/touristSpot.types";
 
 const TouristSpotDetails = () => {
-  const { regionId, spotId } = useParams<{
-    regionId: string;
-    spotId: string;
+  const { regionName, province, spotName } = useParams<{
+    regionName: string;
+    province: string;
+    spotName: string;
   }>();
   const navigate = useNavigate();
+
+  // State management
+  const [touristSpot, setTouristSpot] = useState<TouristSpotDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch tourist spot data
+  useEffect(() => {
+    const fetchTouristSpot = async () => {
+      if (!regionName || !province || !spotName) {
+        setError("Missing required parameters");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await touristSpotApi.getTouristSpot({
+          regionName,
+          province,
+          spotName,
+        });
+
+        if (response.success) {
+          setTouristSpot(response.data);
+        } else {
+          setError(response.message || "Failed to load tourist spot");
+        }
+      } catch (err) {
+        setError("An unexpected error occurred");
+        console.error("Error fetching tourist spot:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTouristSpot();
+  }, [regionName, province, spotName]);
 
   // Scroll to top when component mounts or params change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [regionId, spotId]);
+  }, [regionName, province, spotName]);
 
-  // Find the region and tourist spot
-  const region = regionalData.find((r) => r.id === Number(regionId));
-  const touristSpot = region?.touristSpots[Number(spotId)];
+  // Loading state
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          minHeight: "100vh",
+          bgcolor: "background.default",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
 
-  if (!region || !touristSpot) {
+  // Error state
+  if (error || !touristSpot) {
     return (
       <Box
         sx={{
@@ -59,7 +122,7 @@ const TouristSpotDetails = () => {
               fontSize: { xs: "1.5rem", md: "2.125rem" },
             }}
           >
-            Tourist spot not found
+            {error || "Tourist spot not found"}
           </Typography>
           <Box sx={{ textAlign: "center" }}>
             <Button
@@ -81,15 +144,26 @@ const TouristSpotDetails = () => {
     );
   }
 
+  // Get region data for additional spots (guaranteed touristSpot exists here)
+  const region = regionalData.find((r) => r.region === touristSpot.region);
+
   return (
     <Box
       sx={{
         minHeight: "100vh",
         bgcolor: "background.default",
-        py: { xs: 2, md: 4 },
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <Container maxWidth="lg">
+      <Container
+        maxWidth="xl"
+        sx={{
+          pt: { xs: 2, md: 4 },
+          pb: { xs: 4, md: 8 },
+          flex: 1,
+        }}
+      >
         {/* Breadcrumbs */}
         <Breadcrumbs
           separator={<NavigateNextIcon fontSize="small" />}
@@ -145,7 +219,7 @@ const TouristSpotDetails = () => {
             }}
             onClick={() => navigate("/map")}
           >
-            {region.region}
+            {touristSpot.region}
           </Link>
           <Typography
             sx={{
@@ -171,7 +245,7 @@ const TouristSpotDetails = () => {
               }}
             >
               <Chip label={touristSpot.province} color="primary" size="medium" />
-              <Chip label={region.region} variant="outlined" size="medium" />
+              <Chip label={touristSpot.region} variant="outlined" size="medium" />
             </Box>
             <SectionHeader
               title={touristSpot.name}
@@ -184,7 +258,7 @@ const TouristSpotDetails = () => {
         {/* Main Content */}
         <Grid container spacing={3}>
           {/* Image Carousel Section */}
-          <Grid size={{ xs: 12, md: 12 }}>
+          <Grid size={{ xs: 12, lg: 8 }}>
             <AnimatedSection animation="fadeUp" duration={0.8} delay={0.2}>
               <Paper
                 elevation={3}
@@ -211,6 +285,12 @@ const TouristSpotDetails = () => {
                     "&:hover": {
                       transform: "scale(1.05)",
                     },
+                  },
+                  "& .swiper-button-prev": {
+                    left: "16px !important",
+                  },
+                  "& .swiper-button-next": {
+                    right: "16px !important",
                   },
                   "& .swiper-pagination": {
                     bottom: "16px",
@@ -245,7 +325,7 @@ const TouristSpotDetails = () => {
                     height: "auto",
                   }}
                 >
-                  {touristSpot.images.map((image, index) => (
+                  {touristSpot.images.map((image: string, index: number) => (
                     <SwiperSlide key={index}>
                       <Box
                         component="img"
@@ -253,7 +333,7 @@ const TouristSpotDetails = () => {
                         alt={`${touristSpot.name} - Image ${index + 1}`}
                         sx={{
                           width: "100%",
-                          height: { xs: 300, sm: 400, md: 500 },
+                          height: { xs: 300, sm: 400, md: 600 },
                           objectFit: "cover",
                           display: "block",
                         }}
@@ -266,99 +346,218 @@ const TouristSpotDetails = () => {
           </Grid>
 
           {/* Details Section */}
-          <Grid size={{ xs: 12, md: 12 }}>
+          <Grid size={{ xs: 12, lg: 4 }}>
             <AnimatedSection animation="fadeUp" duration={0.8} delay={0.2}>
               <Paper
-                elevation={2}
+                elevation={0}
                 sx={{
-                  p: { xs: 3, md: 3 },
-                  borderRadius: 2,
+                  p: { xs: 3, md: 4 },
+                  borderRadius: 3,
                   height: "100%",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  background: "linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,1) 100%)",
                 }}
               >
                 <Typography
                   variant="h5"
                   sx={{
-                    fontWeight: 600,
-                    mb: 3,
-                    fontSize: { xs: "1.25rem", md: "1.5rem" },
+                    fontWeight: 700,
+                    mb: 4,
+                    fontSize: { xs: "1.375rem", md: "1.625rem" },
+                    color: "text.primary",
+                    letterSpacing: "-0.02em",
                   }}
                 >
                   About this destination
                 </Typography>
 
-                <Box sx={{ mb: 3 }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "text.secondary", mb: 1, fontWeight: 600 }}
-                  >
-                    Location
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                    {touristSpot.province}, {region.region}
-                  </Typography>
-                </Box>
-
-                <Box sx={{ mb: 3 }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "text.secondary", mb: 1, fontWeight: 600 }}
-                  >
-                    Description
-                  </Typography>
-                  <Typography variant="body1" sx={{ lineHeight: 1.8 }}>
-                    {touristSpot.description}
-                  </Typography>
-                </Box>
-
-                <Box sx={{ mb: 3 }}>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "text.secondary", mb: 2, fontWeight: 600 }}
-                  >
-                    Quick Facts
-                  </Typography>
+                {/* Location */}
+                <Box sx={{ mb: 4, display: "flex", gap: 2, alignItems: "flex-start" }}>
                   <Box
-                    sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
+                    sx={{
+                      mt: 0.5,
+                      p: 1.5,
+                      borderRadius: 2,
+                      bgcolor: "warning.light",
+                      color: "warning.main",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
                   >
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      <Box
-                        sx={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: "50%",
-                          bgcolor: "primary.main",
-                          flexShrink: 0,
-                        }}
-                      />
-                      <Typography variant="body2">
-                        One of {region.touristSpots.length} tourist spots in{" "}
-                        {region.region}
-                      </Typography>
+                    <LocationOnIcon sx={{ fontSize: 24 }} />
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        color: "text.secondary",
+                        mb: 1,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        fontSize: "0.75rem",
+                        letterSpacing: "0.05em",
+                      }}
+                    >
+                      Location
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontWeight: 500,
+                        fontSize: { xs: "1rem", md: "1.125rem" },
+                        color: "text.primary",
+                      }}
+                    >
+                      {touristSpot.province}, {touristSpot.region}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                {/* Address */}
+                {touristSpot.address && (
+                  <Box sx={{ mb: 4, display: "flex", gap: 2, alignItems: "flex-start" }}>
+                    <Box
+                      sx={{
+                        mt: 0.5,
+                        p: 1.5,
+                        borderRadius: 2,
+                        bgcolor: "success.light",
+                        color: "success.main",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <PlaceIcon sx={{ fontSize: 24 }} />
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                      <Box
+                    <Box sx={{ flex: 1 }}>
+                      <Typography
+                        variant="subtitle2"
                         sx={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: "50%",
-                          bgcolor: "primary.main",
-                          flexShrink: 0,
+                          color: "text.secondary",
+                          mb: 1,
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                          fontSize: "0.75rem",
+                          letterSpacing: "0.05em",
                         }}
-                      />
-                      <Typography variant="body2">
-                        Province: {touristSpot.province}
+                      >
+                        Address
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          lineHeight: 1.8,
+                          fontSize: { xs: "0.9375rem", md: "1rem" },
+                          color: "text.secondary",
+                        }}
+                      >
+                        {touristSpot.address}
                       </Typography>
                     </Box>
                   </Box>
+                )}
+
+                {/* Description */}
+                <Box sx={{ mb: 4, display: "flex", gap: 2, alignItems: "flex-start" }}>
+                  <Box
+                    sx={{
+                      mt: 0.5,
+                      p: 1.5,
+                      borderRadius: 2,
+                      bgcolor: "info.light",
+                      color: "info.main",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <InfoIcon sx={{ fontSize: 24 }} />
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        color: "text.secondary",
+                        mb: 1,
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        fontSize: "0.75rem",
+                        letterSpacing: "0.05em",
+                      }}
+                    >
+                      Description
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        lineHeight: 1.8,
+                        fontSize: { xs: "0.9375rem", md: "1rem" },
+                        color: "text.secondary",
+                      }}
+                    >
+                      {touristSpot.description}
+                    </Typography>
+                  </Box>
                 </Box>
+
+                {/* Did You Know? */}
+                {touristSpot.trivia && (
+                  <Box
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      bgcolor: "warning.light",
+                      border: "1px solid",
+                      borderColor: "warning.main",
+                      position: "relative",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start" }}>
+                      <LightbulbIcon
+                        sx={{
+                          fontSize: 28,
+                          color: "warning.dark",
+                          mt: 0.5,
+                        }}
+                      />
+                      <Box sx={{ flex: 1 }}>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            color: "warning.dark",
+                            mb: 1.5,
+                            fontWeight: 700,
+                            fontSize: { xs: "0.875rem", md: "1rem" },
+                          }}
+                        >
+                          Did You Know?
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            lineHeight: 1.8,
+                            fontStyle: "italic",
+                            fontSize: { xs: "0.9375rem", md: "0.9rem" },
+                            color: "warning.dark",
+                          }}
+                        >
+                          {touristSpot.trivia}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
               </Paper>
             </AnimatedSection>
           </Grid>
         </Grid>
 
         {/* Other Tourist Spots in this Region */}
-        {region.touristSpots.length > 1 && (
+        {region && region.touristSpots.length > 1 && (
           <AnimatedSection animation="fadeUp" duration={0.8} delay={0.3}>
             <Box sx={{ mt: { xs: 4, md: 6 } }}>
               <Typography
@@ -374,13 +573,17 @@ const TouristSpotDetails = () => {
 
               <Grid container spacing={3}>
                 {region.touristSpots.map((spot, index) => {
-                  if (index === Number(spotId)) return null; // Skip current spot
+                  if (spot.name === touristSpot.name) return null; // Skip current spot
 
                   return (
                     <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
                       <Paper
                         elevation={2}
-                        onClick={() => navigate(`/region/${regionId}/${index}`)}
+                        onClick={() =>
+                          navigate(
+                            `/details/${encodeURIComponent(region.region)}/${encodeURIComponent(spot.province)}/${encodeURIComponent(spot.name)}`
+                          )
+                        }
                         sx={{
                           borderRadius: 2,
                           overflow: "hidden",

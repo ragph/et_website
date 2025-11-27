@@ -3,6 +3,7 @@ import { Box, Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Header from "../full/Header";
 import Sidebar from "../full/Sidebar";
+import { Footer } from "../../views/landing/sections/Footer";
 
 const BlankLayout = () => {
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -24,11 +25,14 @@ const BlankLayout = () => {
       <Header toggleMobileSidebar={toggleMobileSidebar} />
 
       {/* Page Content */}
-      <Box sx={{ py: 2 }}>
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <Container maxWidth={false} disableGutters>
           <Outlet />
         </Container>
       </Box>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Sidebar - only shows on mobile when menu is clicked */}
       <Sidebar

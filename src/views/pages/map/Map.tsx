@@ -33,8 +33,9 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { regionalData, RegionData } from "./RegionalData";
-import { provinceData } from "./ProvinceData";
+import { regionalData, RegionData } from "./data/RegionalData";
+import { provinceData } from "./data/ProvinceData";
+import { Footer } from "../../landing/sections/Footer";
 
 // Mapping between MapData region names and ProvinceData region names
 const regionNameMap: Record<string, string> = {
@@ -233,6 +234,7 @@ const ImageCarousel = ({ images, alt }: { images: string[]; alt: string }) => {
 const Map = () => {
   const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = useState<RegionData | null>(null);
+  const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
   const [mapCenter, setMapCenter] = useState<[number, number]>([
     12.8797, 121.774,
   ]); // Center of Philippines
@@ -318,14 +320,18 @@ const Map = () => {
     }
   }, []);
 
-  const handleRegionClick = (region: RegionData) => {
+  const handleRegionClick = (region: RegionData, province?: string) => {
+    console.log('Selected Province:', province);
+    console.log('Tourist Spots:', region.touristSpots.map(s => ({ name: s.name, province: s.province })));
     setSelectedRegion(region);
+    setSelectedProvince(province || null);
     setMapCenter([region.lat, region.lng]);
     setDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
+    setSelectedProvince(null); // Reset selected province when closing dialog
   };
 
   // Show loading state
@@ -357,7 +363,7 @@ const Map = () => {
   }
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "background.default", py: 2 }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.default", pt: 2, pb: 6 }}>
       <Container maxWidth="xl">
         {/* Header */}
         <SectionHeader
@@ -486,7 +492,7 @@ const Map = () => {
                             eventHandlers={{
                               click: () => {
                                 setMapCenter([province.lat, province.lng]);
-                                handleRegionClick(selectedRegion);
+                                handleRegionClick(selectedRegion, province.province);
                               },
                             }}
                           />
@@ -772,10 +778,38 @@ const Map = () => {
                 }}
               >
                 <Typography variant="h6" sx={{ mb: 3, fontWeight: 600 }}>
-                  Popular Tourist Spots
+                  {selectedProvince
+                    ? `Tourist Spots in ${selectedProvince}`
+                    : "Popular Tourist Spots"}
                 </Typography>
                 <Grid container spacing={2}>
-                  {selectedRegion.touristSpots.map((spot, index) => (
+                  {(() => {
+                    const filteredSpots = selectedRegion.touristSpots.filter((spot) => {
+                      if (!selectedProvince) return true;
+                      const matches = spot.province.toLowerCase() === selectedProvince.toLowerCase();
+                      console.log(`Comparing: "${spot.province.toLowerCase()}" === "${selectedProvince.toLowerCase()}" = ${matches}`);
+                      return matches;
+                    });
+                    console.log(`Filtered ${filteredSpots.length} spots out of ${selectedRegion.touristSpots.length}`);
+
+                    if (filteredSpots.length === 0) {
+                      return (
+                        <Grid size={{ xs: 12 }}>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              textAlign: "center",
+                              color: "text.secondary",
+                              py: 4,
+                            }}
+                          >
+                            No tourist spots found for {selectedProvince}
+                          </Typography>
+                        </Grid>
+                      );
+                    }
+
+                    return filteredSpots.map((spot, index) => (
                     <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                       <Card
                         sx={{
@@ -791,7 +825,9 @@ const Map = () => {
                         }}
                         onClick={() => {
                           handleCloseDialog();
-                          navigate(`/region/${selectedRegion.id}/${index}`);
+                          navigate(
+                            `/details/${encodeURIComponent(selectedRegion.region)}/${encodeURIComponent(spot.province)}/${encodeURIComponent(spot.name)}`
+                          );
                         }}
                       >
                         <ImageCarousel images={spot.images} alt={spot.name} />
@@ -826,7 +862,8 @@ const Map = () => {
                         </CardContent>
                       </Card>
                     </Grid>
-                  ))}
+                  ));
+                  })()}
                 </Grid>
               </DialogContent>
             </>
