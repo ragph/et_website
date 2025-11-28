@@ -35,7 +35,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { regionalData, RegionData } from "./data/RegionalData";
 import { provinceData } from "./data/ProvinceData";
-import { Footer } from "../../landing/sections/Footer";
 
 // Mapping between MapData region names and ProvinceData region names
 const regionNameMap: Record<string, string> = {
