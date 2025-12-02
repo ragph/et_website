@@ -144,12 +144,12 @@ export const Explore = () => {
         </Box>
       </Container>
 
-      <Container maxWidth={false} disableGutters>
+      <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3 } }}>
         {/* Swiper Carousel */}
-        <Box sx={{ px: { xs: 0, sm: 0 } }}>
+        <Box>
           <Swiper
             modules={[Autoplay]}
-            spaceBetween={24}
+            spaceBetween={16}
             slidesPerView={1}
             pagination={{ clickable: true }}
             autoplay={{
@@ -159,15 +159,18 @@ export const Explore = () => {
             breakpoints={{
               640: {
                 slidesPerView: 2,
+                spaceBetween: 20,
               },
               1024: {
                 slidesPerView: 3,
+                spaceBetween: 24,
               },
               1280: {
                 slidesPerView: 4,
+                spaceBetween: 24,
               },
             }}
-            style={{ paddingBottom: 50, paddingLeft: 16, paddingRight: 16 }}
+            style={{ paddingBottom: 50 }}
           >
             {destinations.map((destination, index) => (
               <SwiperSlide key={index}>

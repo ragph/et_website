@@ -6,11 +6,16 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 code {
@@ -19,6 +24,9 @@ code {
 
 #root {
   min-height: 100vh;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Leaflet Region Label Styles */
@@ -32,7 +40,7 @@ code {
     1px -1px 0 #fff,
     -1px 1px 0 #fff,
     1px 1px 0 #fff,
-    0 0 3px rgba(255,255,255,0.8);
+    0 0 3px rgba(255, 255, 255, 0.8);
   pointer-events: none;
 }
 

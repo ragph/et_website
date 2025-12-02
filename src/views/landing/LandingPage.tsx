@@ -30,6 +30,8 @@ const LandingPage = () => {
         display: "flex",
         flexDirection: "column",
         bgcolor: "background.default",
+        overflowX: "clip",
+        width: "100%",
       }}
     >
       {/* Sidebar - only shows on mobile when menu is clicked */}
@@ -43,8 +45,8 @@ const LandingPage = () => {
       <Header toggleMobileSidebar={toggleMobileSidebar} />
       
       {/* Page Content */}
-      <Container maxWidth={false} disableGutters>
-        <Box>
+      <Container maxWidth={false} disableGutters sx={{ overflowX: "clip" }}>
+        <Box sx={{ width: "100%" }}>
           {/* Hero - No animation (first view) */}
           <Hero />
 

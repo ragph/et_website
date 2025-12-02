@@ -102,8 +102,8 @@ export const Gallery = () => {
               key={`original-${image.id}`}
               sx={{
                 flexShrink: 0,
-                marginRight: '30px',
-                width: 'clamp(300px, 20vw, 500px)',
+                marginRight: { xs: '16px', sm: '24px', md: '30px' },
+                width: { xs: '250px', sm: 'clamp(280px, 20vw, 500px)', md: 'clamp(300px, 20vw, 500px)' },
                 aspectRatio: '1/1',
                 overflow: 'hidden',
                 borderRadius: 3,
@@ -129,8 +129,8 @@ export const Gallery = () => {
               key={`clone-${image.id}`}
               sx={{
                 flexShrink: 0,
-                marginRight: '30px',
-                width: 'clamp(300px, 20vw, 500px)',
+                marginRight: { xs: '16px', sm: '24px', md: '30px' },
+                width: { xs: '250px', sm: 'clamp(280px, 20vw, 500px)', md: 'clamp(300px, 20vw, 500px)' },
                 aspectRatio: '1/1',
                 overflow: 'hidden',
                 borderRadius: 3,

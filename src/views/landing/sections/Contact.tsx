@@ -22,7 +22,7 @@ const contactInfo = [
     icon: LocationOnIcon,
     title: "Visit Us",
     details:
-      "Industry Plaza Bldg. 1030 Campus Ave, McKinley Town Centre, Taguig 1634",
+      "Unit C And D 4th Floor Commerce And Industry Plaza Building 1030 Campus Avenue Mckinley Town Centre Mckinley Hill, Pinagsama, City Of Taguig",
   },
   {
     icon: PhoneIcon,
@@ -91,7 +91,7 @@ export const Contact = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={6}>
+        <Grid container spacing={{ xs: 4, sm: 5, md: 6 }}>
           {/* Left Side - Contact Info */}
           <Grid size={{ xs: 12, md: 5 }}>
             <Box>
@@ -124,8 +124,8 @@ export const Contact = () => {
                     >
                       <Box
                         sx={{
-                          width: 56,
-                          height: 56,
+                          width: { xs: 44, sm: 50, md: 56 },
+                          height: { xs: 44, sm: 50, md: 56 },
                           borderRadius: 2,
                           background: "linear-gradient(135deg, #3b82f6, #1e40af)",
                           display: "flex",
@@ -134,7 +134,7 @@ export const Contact = () => {
                           flexShrink: 0,
                         }}
                       >
-                        <Icon sx={{ fontSize: 28, color: "secondary.main" }} />
+                        <Icon sx={{ fontSize: { xs: 22, sm: 25, md: 28 }, color: "secondary.main" }} />
                       </Box>
                       <Box>
                         <Typography
@@ -142,16 +142,14 @@ export const Contact = () => {
                           sx={{
                             fontWeight: 600,
                             mb: 0.5,
-                            fontSize: "1.125rem",
                           }}
                         >
                           {info.title}
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           sx={{
                             color: "#6B7280",
-                            fontSize: "0.95rem",
                           }}
                         >
                           {info.details}

@@ -64,9 +64,17 @@ export const Footer = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4} sx={{ mb: 6 }}>
+        <Grid
+          container
+          spacing={4}
+          sx={{
+            mb: 6,
+            display: { xs: 'flex', md: 'grid' },
+            gridTemplateColumns: { md: '2fr 1fr 1fr 1fr' },
+          }}
+        >
           {/* Company Info */}
-          <Grid size={{ xs: 12, md: 3 }}>
+          <Grid size={{ xs: 12, md: 'auto' }}>
             <Box
               component="a"
               href="/"
@@ -107,7 +115,7 @@ export const Footer = () => {
               variant="body1"
               sx={{
                 color: "rgba(255,255,255,0.7)",
-                mb: 3,
+                mb: 2,
                 lineHeight: 1.7,
               }}
             >
@@ -115,6 +123,19 @@ export const Footer = () => {
               Explore the world while building your income through commissions,
               referrals, and rewards.
             </Typography>
+            <Box
+              component="img"
+              src="/images/ttt.png"
+              alt="TTT"
+              sx={{
+                height: 80,
+                width: "auto",
+                mb: 2,
+              }}
+              onError={(e: any) => {
+                e.target.style.display = "none";
+              }}
+            />
             <Box sx={{ display: "flex", gap: 1 }}>
               {socialLinks.map((social) => {
                 const Icon = social.icon;
@@ -140,7 +161,7 @@ export const Footer = () => {
           </Grid>
 
           {/* Quick Links */}
-          <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+          <Grid size={{ xs: 12, md: 'auto' }}>
             <Typography
               variant="h6"
               sx={{
@@ -172,7 +193,7 @@ export const Footer = () => {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+          <Grid size={{ xs: 12, md: 'auto' }}>
             <Typography
               variant="h6"
               sx={{
@@ -204,7 +225,7 @@ export const Footer = () => {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+          <Grid size={{ xs: 12, md: 'auto' }}>
             <Typography
               variant="h6"
               sx={{
@@ -229,8 +250,9 @@ export const Footer = () => {
                     fontSize: "0.875rem",
                   }}
                 >
-                  Industry Plaza Bldg. 1030 Campus Ave, McKinley Town Centre,
-                  Taguig 1634
+                  Unit C And D 4th Floor Commerce And Industry Plaza Building
+                  1030 Campus Avenue Mckinley Town Centre Mckinley Hill,
+                  Pinagsama, City Of Taguig
                 </Typography>
               </Box>
 
@@ -285,7 +307,7 @@ export const Footer = () => {
             Powered by{" "}
             <Box
               component="a"
-              href="https://ragph.com"
+              href="https://triptravelandtoursagency.com"
               target="_blank"
               rel="noopener noreferrer"
               sx={{
@@ -294,7 +316,7 @@ export const Footer = () => {
                 textDecoration: "none",
               }}
             >
-              RAG IT SOLUTIONS
+              TRIP TRAVEL AND TOURS AGENCY
             </Box>
           </Typography>
         </Box>

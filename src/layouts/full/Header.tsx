@@ -50,8 +50,7 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
     { label: "Home", href: "#hero" },
     { label: "About", href: "#about" },
     { label: "Features", href: "#features" },
-    { label: "Explore", href: "#explore" },
-    { label: "Promo", href: "#promo" },
+    { label: "Explore", href: "/map" },
     { label: "Blog", href: "#blog" },
     { label: "Contact", href: "#contact" },
   ];
@@ -96,6 +95,9 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
         // If we're on another page, navigate to landing page with hash
         navigate(`/${href}`);
       }
+    } else {
+      // Regular route navigation
+      navigate(href);
     }
   };
 
@@ -117,7 +119,10 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
     if (!isLandingPage) return;
 
     const handleScroll = () => {
-      const sections = navLinks.map((link) => link.href);
+      // Only get hash links (exclude regular routes like /map)
+      const sections = navLinks
+        .filter((link) => link.href.startsWith("#"))
+        .map((link) => link.href);
       let currentSection = sections[0]; // Default to first section
 
       // Find the section that is currently in view
@@ -153,14 +158,16 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
       position="sticky"
       elevation={0}
       sx={{
+        top: 0,
+        zIndex: 1100,
         bgcolor: "background.paper",
         borderRadius: 0,
         borderBottom: 1,
         borderColor: "divider",
       }}
     >
-      <Container maxWidth="lg">
-        <Toolbar sx={{ justifyContent: "space-between", py: 2, px: '0 !important' }}>
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
+        <Toolbar sx={{ justifyContent: "space-between", py: 2, px: 0 }}>
           {/* Logo/Title */}
           <Box
             component="a"
@@ -169,8 +176,10 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
               display: "flex",
               alignItems: "center",
               gap: 0.5,
-              // mr: "auto",
               textDecoration: "none",
+              flexShrink: 1,
+              minWidth: 0,
+              maxWidth: { xs: "60%", sm: "auto" },
             }}
           >
             <Box
@@ -180,6 +189,7 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
               sx={{
                 height: 40,
                 width: "auto",
+                flexShrink: 0,
               }}
               onError={(e: any) => {
                 e.target.style.display = "none";
@@ -191,8 +201,11 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
               sx={{
                 color: themeMode === "dark" ? "white" : "#0B5290",
                 fontWeight: 900,
-                fontSize: { xs: ".95rem", sm: "1.2rem" },
+                fontSize: { xs: ".7rem", sm: "1.2rem" },
                 letterSpacing: 0,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               Earning While Travelling
@@ -271,7 +284,7 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
               variant="contained"
               color="primary"
               sx={{
-                display: { xs: "none", sm: "inline-flex" },
+                display: { xs: "none", md: "inline-flex" },
                 borderRadius: 999,
                 px: { xs: 2, sm: 3 },
                 fontSize: { xs: "0.875rem", sm: "1rem" },

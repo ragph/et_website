@@ -100,7 +100,7 @@ const landingPageMenuItems: MenuItem[] = [
   {
     title: "Explore",
     icon: <ExploreIcon />,
-    href: "#explore",
+    href: "/map",
   },
   {
     title: "Promo",

@@ -65,7 +65,7 @@ export const SectionHeader = ({
           variant="body1"
           sx={{
             color: subtitleColor,
-            fontSize: '1.125rem',
+            fontSize: '1rem',
             lineHeight: 1.7,
             maxWidth: align === 'center' ? '800px' : '100%',
             mx: align === 'center' ? 'auto' : 0,
@@ -138,8 +138,8 @@ export const SectionHeaderWithChip = ({
         <Typography
           variant="body1"
           sx={{
+            fontSize: '1rem',
             color: subtitleColor,
-            fontSize: '1.125rem',
             lineHeight: 1.7,
           }}
         >

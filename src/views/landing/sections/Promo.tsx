@@ -23,16 +23,16 @@ export const Promo = () => {
       description:
         "Boost your earnings by referring new travelers. The more people you inspire, the more rewards and bonuses you unlock.",
       color: "#FF9800",
-      image: "/images/victors.png",
+      image: "/images/affiliate.png",
     },
     {
       icon: CheckCircleIcon,
-      title: "Victor",
+      title: "Victors",
       subtitle: "Lead the Pack, Enjoy Elite Rewards",
       description:
         "Our highest tier with premium benefits, top earning multipliers, and exclusive privileges for power users and top performers.",
       color: "#2196F3",
-      image: "/images/affiliate.png",
+      image: "/images/victors.png",
     },
   ];
 
