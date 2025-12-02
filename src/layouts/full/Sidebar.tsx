@@ -153,7 +153,10 @@ const Sidebar = ({
     if (!isLandingPage) return;
 
     const handleScroll = () => {
-      const sections = landingPageMenuItems.map((link) => link.href);
+      // Only get hash links (exclude regular routes like /map)
+      const sections = landingPageMenuItems
+        .filter((link) => link.href.startsWith("#"))
+        .map((link) => link.href);
       let currentSection = sections[0]; // Default to first section
 
       // Find the section that is currently in view

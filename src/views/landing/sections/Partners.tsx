@@ -29,6 +29,11 @@ export const Partners = () => {
       logo: "/images/qasia.png",
       alt: "Xendit",
     },
+    {
+      name: "Xendit",
+      logo: "/images/travelport.png",
+      alt: "Travelport",
+    },
   ];
 
   return (
@@ -57,7 +62,7 @@ export const Partners = () => {
               gridTemplateColumns: {
                 xs: "repeat(1, 1fr)",
                 sm: "repeat(1, 1fr)",
-                md: "repeat(5, 1fr)",
+                md: "repeat(6, 1fr)",
               },
               gap: { xs: 4, md: 6 },
               alignItems: "center",
