@@ -19,6 +19,9 @@ const AnalyticsChart = lazy(() => import('../views/charts/AnalyticsChart'));
 const ButtonsDemo = lazy(() => import('../views/ui-components/ButtonsDemo'));
 const Map = lazy(() => import('../views/pages/map/Map'));
 const TouristSpotDetails = lazy(() => import('../views/pages/map/TouristSpotDetails'));
+const FAQs = lazy(() => import('../views/pages/FAQs'));
+const TermsOfService = lazy(() => import('../views/pages/TermsOfService'));
+const PrivacyPolicy = lazy(() => import('../views/pages/PrivacyPolicy'));
 
 // Loading component
 const Loader = () => (
@@ -91,6 +94,30 @@ export const routes: RouteObject[] = [
         element: (
           <SuspenseWrapper>
             <TouristSpotDetails />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: '/faqs',
+        element: (
+          <SuspenseWrapper>
+            <FAQs />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: '/terms-of-service',
+        element: (
+          <SuspenseWrapper>
+            <TermsOfService />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: '/privacy-policy',
+        element: (
+          <SuspenseWrapper>
+            <PrivacyPolicy />
           </SuspenseWrapper>
         ),
       },

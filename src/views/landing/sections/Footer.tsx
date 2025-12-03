@@ -19,22 +19,22 @@ import EmailIcon from "@mui/icons-material/Email";
 
 const footerLinks = {
   company: [
-    { label: "About Us", href: "#" },
+    { label: "About Us", href: "#about" },
     { label: "Careers", href: "#" },
     { label: "Press", href: "#" },
-    { label: "Blog", href: "#" },
+    { label: "Blog", href: "#blog" },
   ],
   quickLinks: [
-    { label: "How It Works", href: "#" },
+    { label: "How It Works", href: "#features" },
     { label: "ET Points", href: "#" },
-    { label: "Destinations", href: "#" },
-    { label: "Partnerships", href: "#" },
+    { label: "Destinations", href: "/map" },
+    { label: "Partnerships", href: "#partners" },
   ],
   support: [
-    { label: "Help Center", href: "#" },
-    { label: "Contact Us", href: "#" },
-    { label: "Terms of Service", href: "#" },
-    { label: "Privacy Policy", href: "#" },
+    { label: "FAQs", href: "/faqs" },
+    { label: "Contact Us", href: "#contact" },
+    { label: "Terms of Service", href: "/terms-of-service" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
   ],
 };
 
@@ -252,7 +252,7 @@ export const Footer = () => {
                 >
                   Unit C And D 4th Floor Commerce And Industry Plaza Building
                   1030 Campus Avenue Mckinley Town Centre Mckinley Hill,
-                  Pinagsama, City Of Taguig
+                  Pinagsama, City Of Taguig, Philippines
                 </Typography>
               </Box>
 

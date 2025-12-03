@@ -22,7 +22,7 @@ const contactInfo = [
     icon: LocationOnIcon,
     title: "Visit Us",
     details:
-      "Unit C And D 4th Floor Commerce And Industry Plaza Building 1030 Campus Avenue Mckinley Town Centre Mckinley Hill, Pinagsama, City Of Taguig",
+      "Unit C And D 4th Floor Commerce And Industry Plaza Building 1030 Campus Avenue Mckinley Town Centre Mckinley Hill, Pinagsama, City Of Taguig, Philippines",
   },
   {
     icon: PhoneIcon,
