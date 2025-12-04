@@ -69,12 +69,12 @@ export const Footer = () => {
           spacing={4}
           sx={{
             mb: 6,
-            display: { xs: 'flex', md: 'grid' },
-            gridTemplateColumns: { md: '2fr 1fr 1fr 1fr' },
+            display: { xs: "flex", md: "grid" },
+            gridTemplateColumns: { md: "2fr 1fr 1fr 1fr" },
           }}
         >
           {/* Company Info */}
-          <Grid size={{ xs: 12, md: 'auto' }}>
+          <Grid size={{ xs: 12, md: "auto" }}>
             <Box
               component="a"
               href="/"
@@ -123,19 +123,21 @@ export const Footer = () => {
               Explore the world while building your income through commissions,
               referrals, and rewards.
             </Typography>
-            <Box
-              component="img"
-              src="/images/ttt.png"
-              alt="TTT"
-              sx={{
-                height: 80,
-                width: "auto",
-                mb: 2,
-              }}
-              onError={(e: any) => {
-                e.target.style.display = "none";
-              }}
-            />
+            <Box component="a" href="https://triptravelandtours.com/">
+              <Box
+                component="img"
+                src="/images/ttt.png"
+                alt="TTT"
+                sx={{
+                  height: 80,
+                  width: "auto",
+                  mb: 2,
+                }}
+                onError={(e: any) => {
+                  e.target.style.display = "none";
+                }}
+              />
+            </Box>
             <Box sx={{ display: "flex", gap: 1 }}>
               {socialLinks.map((social) => {
                 const Icon = social.icon;
@@ -161,7 +163,7 @@ export const Footer = () => {
           </Grid>
 
           {/* Quick Links */}
-          <Grid size={{ xs: 12, md: 'auto' }}>
+          <Grid size={{ xs: 12, md: "auto" }}>
             <Typography
               variant="h6"
               sx={{
@@ -193,7 +195,7 @@ export const Footer = () => {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 'auto' }}>
+          <Grid size={{ xs: 12, md: "auto" }}>
             <Typography
               variant="h6"
               sx={{
@@ -225,7 +227,7 @@ export const Footer = () => {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, md: 'auto' }}>
+          <Grid size={{ xs: 12, md: "auto" }}>
             <Typography
               variant="h6"
               sx={{
@@ -257,7 +259,7 @@ export const Footer = () => {
               </Box>
 
               {/* Phone */}
-              <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
+              <Box component="a" href="tel:+63 917 123 4567" sx={{ display: "flex", gap: 1.5, alignItems: "center", textDecoration: "none" }}>
                 <PhoneIcon sx={{ color: "#FFD23F", fontSize: 20 }} />
                 <Typography
                   variant="body2"
@@ -271,7 +273,7 @@ export const Footer = () => {
               </Box>
 
               {/* Email */}
-              <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
+              <Box component="a" href="mailto:contact@earningwhiletravelling.com" sx={{ display: "flex", gap: 1.5, alignItems: "center", textDecoration: "none" }}>
                 <EmailIcon sx={{ color: "#FFD23F", fontSize: 20 }} />
                 <Typography
                   variant="body2"
@@ -307,7 +309,7 @@ export const Footer = () => {
             Powered by{" "}
             <Box
               component="a"
-              href="https://triptravelandtoursagency.com"
+              href="https://triptravelandtours.com/"
               target="_blank"
               rel="noopener noreferrer"
               sx={{

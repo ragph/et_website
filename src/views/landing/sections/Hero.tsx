@@ -88,7 +88,14 @@ export const Hero = () => {
                 destination!
               </Typography>
 
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: { xs: "center", md: "start" }, mb: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: { xs: "center", md: "start" },
+                  mb: 2,
+                }}
+              >
                 <Typography
                   variant="caption"
                   color="initial"
@@ -97,19 +104,21 @@ export const Hero = () => {
                 >
                   Powered by
                 </Typography>
-                <Box
-                  component="img"
-                  src="/images/ttt.png"
-                  alt="TTT"
-                  sx={{
-                    height: 80,
-                    width: "auto",
-                    mb: 2,
-                  }}
-                  onError={(e: any) => {
-                    e.target.style.display = "none";
-                  }}
-                />
+                <Box component="a" href="https://triptravelandtours.com/">
+                  <Box
+                    component="img"
+                    src="/images/ttt.png"
+                    alt="TTT"
+                    sx={{
+                      height: 80,
+                      width: "auto",
+                      mb: 2,
+                    }}
+                    onError={(e: any) => {
+                      e.target.style.display = "none";
+                    }}
+                  />
+                </Box>
               </Box>
             </AnimatedSection>
 
