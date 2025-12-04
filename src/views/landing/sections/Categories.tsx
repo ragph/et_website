@@ -123,6 +123,7 @@ export const Categories = () => {
               <Button
                 variant="contained"
                 size="large"
+                href="https://app.earningwhiletravelling.com"
                 sx={{
                   px: 4,
                   py: 1.5,
@@ -162,7 +163,7 @@ export const Categories = () => {
                     position: "relative",
                     borderRadius: 3,
                     overflow: "hidden",
-                    transition: 'all 0.3s ease',
+                    transition: "all 0.3s ease",
                     "&:hover": {
                       "& .destination-image": {
                         transform: "scale(1.1)",
@@ -176,7 +177,7 @@ export const Categories = () => {
                     src={destinations[0].image}
                     alt={destinations[0].title}
                     sx={{
-                      transition: 'all 0.3s ease',
+                      transition: "all 0.3s ease",
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
@@ -213,7 +214,7 @@ export const Categories = () => {
                     borderRadius: 2,
                     overflow: "hidden",
                     alignSelf: "flex-start",
-                    transition: 'all 0.3s ease',
+                    transition: "all 0.3s ease",
                     "&:hover": {
                       "& .destination-image": {
                         transform: "scale(1.1)",
@@ -230,7 +231,7 @@ export const Categories = () => {
                       width: "100%",
                       height: 250,
                       objectFit: "cover",
-                      transition: 'all 0.3s ease',
+                      transition: "all 0.3s ease",
                     }}
                   />
                   <Box

@@ -9,7 +9,7 @@ export const Promo = () => {
   const promoCards = [
     {
       icon: TrendingUpIcon,
-      title: "Traveler",
+      title: "Traveller",
       subtitle: "Start Exploring, Start Earning",
       description:
         "Earn points on every booking and enjoy the essential perks of the platform—perfect for anyone who loves to travel and save.",

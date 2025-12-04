@@ -128,7 +128,7 @@ export const Hero = () => {
                   variant="contained"
                   size="large"
                   endIcon={<ArrowForwardIcon />}
-                  onClick={() => navigate("#")}
+                  href="https://app.earningwhiletravelling.com/register"
                   sx={{
                     px: 4,
                     py: 2,
