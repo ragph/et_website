@@ -20,17 +20,12 @@ export const Partners = () => {
       alt: "Wise",
     },
     {
-      name: "Xendit",
-      logo: "/images/xendit.png",
-      alt: "Xendit",
-    },
-    {
-      name: "Xendit",
+      name: "QAsia",
       logo: "/images/qasia.png",
-      alt: "Xendit",
+      alt: "QAsia",
     },
     {
-      name: "Xendit",
+      name: "Travelport",
       logo: "/images/travelport.png",
       alt: "Travelport",
     },
