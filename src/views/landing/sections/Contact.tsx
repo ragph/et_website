@@ -10,6 +10,7 @@ import {
   Alert,
   Card,
   CardContent,
+  CircularProgress,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -54,7 +55,16 @@ export const Contact = () => {
     subject: "",
     message: "",
   });
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alert, setAlert] = useState<{
+    show: boolean;
+    message: string;
+    severity: "success" | "error";
+  }>({
+    show: false,
+    message: "",
+    severity: "success",
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -65,22 +75,100 @@ export const Contact = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const showAlert = (message: string, severity: "success" | "error", duration = 5000) => {
+    setAlert({ show: true, message, severity });
+    setTimeout(() => {
+      setAlert({ show: false, message: "", severity: "success" });
+    }, duration);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    setShowSuccess(true);
-    // Reset form
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
-    // Hide success message after 5 seconds
-    setTimeout(() => setShowSuccess(false), 5000);
+
+    // Trim values
+    const trimmedData = {
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      subject: formData.subject,
+      message: formData.message.trim(),
+    };
+
+    // Validate email
+    if (!validateEmail(trimmedData.email)) {
+      showAlert("Please enter a valid email address.", "error");
+      return;
+    }
+
+    // Validate required fields
+    if (!trimmedData.firstName || !trimmedData.lastName || !trimmedData.subject || !trimmedData.message) {
+      showAlert("Please fill in all required fields.", "error");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare data for webhook
+      const webhookData = {
+        to: "reynon.alfredo@gmail.com",
+        subject: `Contact Form: ${trimmedData.subject}`,
+        contentType: "HTML",
+        firstName: trimmedData.firstName,
+        lastName: trimmedData.lastName,
+        email: trimmedData.email,
+        phone: trimmedData.phone || "Not provided",
+        formSubject: trimmedData.subject,
+        message: trimmedData.message,
+      };
+
+      // Send to Make.com webhook
+      const response = await fetch(
+        "https://hook.us2.make.com/i2iuhkhhuo5uajy1ryl18r7mx1ss3l49",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(webhookData),
+        }
+      );
+
+      if (response.ok) {
+        // Show success message
+        showAlert(
+          `Thank you for contacting us, ${trimmedData.firstName}! We'll get back to you within 24 hours at ${trimmedData.email}.`,
+          "success",
+          5000
+        );
+        // Reset form
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        throw new Error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending form:", error);
+      showAlert(
+        "Sorry, there was an error sending your message. Please try again or contact us directly at contact@earningwhiletravelling.com",
+        "error",
+        5000
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -170,9 +258,9 @@ export const Contact = () => {
               }}
             >
               <CardContent sx={{ p: { xs: 3, md: 5 } }}>
-                {showSuccess && (
-                  <Alert severity="success" sx={{ mb: 3 }}>
-                    Thank you for your message! We'll get back to you soon.
+                {alert.show && (
+                  <Alert severity={alert.severity} sx={{ mb: 3 }}>
+                    {alert.message}
                   </Alert>
                 )}
                 <form onSubmit={handleSubmit}>
@@ -345,7 +433,8 @@ export const Contact = () => {
                         variant="contained"
                         size="large"
                         fullWidth
-                        endIcon={<SendIcon />}
+                        disabled={isSubmitting}
+                        endIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : <SendIcon />}
                         color="primary"
                         sx={{
                           py: 1.8,
@@ -355,7 +444,7 @@ export const Contact = () => {
                           fontWeight: 600,
                         }}
                       >
-                        Send Message
+                        {isSubmitting ? "Sending..." : "Send Message"}
                       </Button>
                     </Grid>
                   </Grid>
