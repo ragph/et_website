@@ -15,6 +15,8 @@ export const Promo = () => {
         "Earn points on every booking and enjoy the essential perks of the platform—perfect for anyone who loves to travel and save.",
       color: "#4CAF50",
       image: "/images/travellers.png",
+      price: "FREE",
+      priceDetail: null,
     },
     {
       icon: CardGiftcardIcon,
@@ -24,6 +26,8 @@ export const Promo = () => {
         "Boost your earnings by referring new travelers. The more people you inspire, the more rewards and bonuses you unlock.",
       color: "#FF9800",
       image: "/images/affiliate.png",
+      price: "FREE",
+      priceDetail: null,
     },
     {
       icon: CheckCircleIcon,
@@ -33,6 +37,8 @@ export const Promo = () => {
         "Our highest tier with premium benefits, top earning multipliers, and exclusive privileges for power users and top performers.",
       color: "#2196F3",
       image: "/images/victors.png",
+      price: "₱99/year",
+      priceDetail: "FREE 1 month trial",
     },
   ];
 
@@ -99,7 +105,7 @@ export const Promo = () => {
                 {promoCards.map((card, index) => {
                   const Icon = card.icon;
                   return (
-                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index} sx={{ display: "inline-flex", height: { xs: 'auto', md: 500 } }}>
                       <AnimatedSection
                         animation="fadeUp"
                         duration={0.6}
@@ -135,7 +141,7 @@ export const Promo = () => {
                           />
 
                           {/* Card Content */}
-                          <Box sx={{ p: 2 }}>
+                          <Box sx={{ p: 2, display: "flex", flexDirection: "column", height: "calc(100% - 180px)" }}>
                             <Box
                               sx={{
                                 display: "flex",
@@ -170,10 +176,49 @@ export const Promo = () => {
                                 color: "#6B7280",
                                 lineHeight: 1.7,
                                 textAlign: "center",
+                                mb: 2,
+                                flex: 1,
                               }}
                             >
                               {card.description}
                             </Typography>
+
+                            {/* Pricing Section */}
+                            <Box
+                              sx={{
+                                mt: "auto",
+                                pt: 2,
+                                borderTop: "1px solid #E5E7EB",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                gap: 0.5,
+                              }}
+                            >
+                              <Typography
+                                variant="h5"
+                                sx={{
+                                  fontWeight: 700,
+                                  color: card.price === "FREE" ? "#4CAF50" : "primary.main",
+                                  fontSize: { xs: "1.5rem", md: "1.25rem" },
+                                  mb: { xs: 1, md: 0 }
+                                }}
+                              >
+                                {card.price}
+                              </Typography>
+                              {card.priceDetail && (
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    color: "#FF9800",
+                                    fontWeight: 600,
+                                    fontSize: "0.875rem",
+                                  }}
+                                >
+                                  {card.priceDetail}
+                                </Typography>
+                              )}
+                            </Box>
                           </Box>
                         </Paper>
                       </AnimatedSection>
