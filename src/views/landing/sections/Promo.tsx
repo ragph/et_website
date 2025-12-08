@@ -16,7 +16,7 @@ export const Promo = () => {
       color: "#4CAF50",
       image: "/images/travellers.png",
       price: "FREE",
-      priceDetail: null,
+      priceDetail: 'Subscription',
     },
     {
       icon: CardGiftcardIcon,
@@ -27,7 +27,7 @@ export const Promo = () => {
       color: "#FF9800",
       image: "/images/affiliate.png",
       price: "FREE",
-      priceDetail: null,
+      priceDetail: 'Subscription',
     },
     {
       icon: CheckCircleIcon,
@@ -37,7 +37,7 @@ export const Promo = () => {
         "Our highest tier with premium benefits, top earning multipliers, and exclusive privileges for power users and top performers.",
       color: "#2196F3",
       image: "/images/victors.png",
-      price: "₱99/year",
+      price: "₱99/Year Subscription",
       priceDetail: "FREE 1 month trial",
     },
   ];
@@ -52,7 +52,7 @@ export const Promo = () => {
         overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
         <AnimatedSection animation="fadeUp" duration={0.8} delay={0}>
           <SectionHeader
             title={
@@ -200,8 +200,8 @@ export const Promo = () => {
                                 sx={{
                                   fontWeight: 700,
                                   color: card.price === "FREE" ? "#4CAF50" : "primary.main",
-                                  fontSize: { xs: "1.5rem", md: "1.25rem" },
-                                  mb: { xs: 1, md: 0 }
+                                  fontSize: card.price === "FREE" ? { xs: "1.5rem", md: "1.25rem" } : { xs: "1rem", md: "1rem" },
+                                  textAlign: "center"
                                 }}
                               >
                                 {card.price}
@@ -213,6 +213,7 @@ export const Promo = () => {
                                     color: "#FF9800",
                                     fontWeight: 600,
                                     fontSize: "0.875rem",
+                                    mb: { xs: 1, md: 0 },
                                   }}
                                 >
                                   {card.priceDetail}
