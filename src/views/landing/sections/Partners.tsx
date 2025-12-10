@@ -57,7 +57,7 @@ export const Partners = () => {
               gridTemplateColumns: {
                 xs: "repeat(1, 1fr)",
                 sm: "repeat(1, 1fr)",
-                md: "repeat(6, 1fr)",
+                md: "repeat(5, 1fr)",
               },
               gap: { xs: 4, md: 6 },
               alignItems: "center",
