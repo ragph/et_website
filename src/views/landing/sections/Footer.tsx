@@ -259,7 +259,7 @@ export const Footer = () => {
               </Box>
 
               {/* Phone */}
-              <Box component="a" href="tel:+63 917 123 4567" sx={{ display: "flex", gap: 1.5, alignItems: "center", textDecoration: "none" }}>
+              <Box component="a" href="tel:+639567939117" sx={{ display: "flex", gap: 1.5, alignItems: "center", textDecoration: "none" }}>
                 <PhoneIcon sx={{ color: "#FFD23F", fontSize: 20 }} />
                 <Typography
                   variant="body2"
@@ -268,7 +268,7 @@ export const Footer = () => {
                     fontSize: "0.875rem",
                   }}
                 >
-                  +63 917 123 4567
+                  +639567939117
                 </Typography>
               </Box>
 
