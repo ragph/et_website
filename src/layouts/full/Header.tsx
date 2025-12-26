@@ -52,8 +52,8 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
     { label: "Features", href: "#features" },
     { label: "Explore", href: "/map" },
     { label: "Blog", href: "#blog" },
-    { label: "Contact", href: "#contact" },
     { label: "Surveys", href: "/surveys" },
+    { label: "Contact", href: "#contact" },
   ];
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {

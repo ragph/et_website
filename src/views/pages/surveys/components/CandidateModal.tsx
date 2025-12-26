@@ -23,6 +23,8 @@ interface CandidateModalProps {
 
 const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   if (!candidate) return null;
 
@@ -44,6 +46,34 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
   const handleClose = () => {
     setCurrentImageIndex(0);
     onClose();
+  };
+
+  // Touch event handlers for swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50; // Minimum swipe distance in pixels
+
+    if (distance > minSwipeDistance) {
+      // Swiped left - next image
+      handleNextImage();
+    } else if (distance < -minSwipeDistance) {
+      // Swiped right - previous image
+      handlePrevImage();
+    }
+
+    // Reset touch values
+    setTouchStart(0);
+    setTouchEnd(0);
   };
 
   return (
@@ -79,7 +109,12 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
 
       <DialogContent sx={{ p: 0 }}>
         {/* Image Slider */}
-        <Box sx={{ position: 'relative', bgcolor: 'black' }}>
+        <Box
+          sx={{ position: 'relative', bgcolor: 'black' }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <Box
             component="img"
             src={images[currentImageIndex]}
@@ -90,6 +125,8 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
               maxHeight: 500,
               objectFit: 'contain',
               display: 'block',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
             }}
           />
 

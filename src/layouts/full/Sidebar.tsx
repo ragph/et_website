@@ -108,14 +108,14 @@ const landingPageMenuItems: MenuItem[] = [
     href: "#blog",
   },
   {
-    title: "Contact",
-    icon: <ContactMailIcon />,
-    href: "#contact",
-  },
-  {
     title: "Surveys",
     icon: <ContactMailIcon />,
     href: "/surveys",
+  },
+  {
+    title: "Contact",
+    icon: <ContactMailIcon />,
+    href: "#contact",
   },
 ];
 
