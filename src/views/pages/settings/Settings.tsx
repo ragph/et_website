@@ -14,8 +14,8 @@ import {
   InputLabel,
 } from '@mui/material';
 import { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { toggleTheme } from '../../features/theme/themeSlice';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import { toggleTheme } from '../../../features/theme/themeSlice';
 
 const Settings = () => {
   const dispatch = useAppDispatch();

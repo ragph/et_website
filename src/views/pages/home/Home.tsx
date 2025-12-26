@@ -1,6 +1,6 @@
 import { Box, Typography, Card, CardContent, Grid, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../utils/constants';
+import { ROUTES } from '../../../utils/constants';
 
 const Home = () => {
   const navigate = useNavigate();

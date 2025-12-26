@@ -1,8 +1,8 @@
 import { Card, CardContent, Typography, Box, Avatar, TextField, Button, Divider, Grid } from '@mui/material';
 import { useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { updateUser } from '../../features/auth/authSlice';
-import { getInitials } from '../../utils/helpers';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import { updateUser } from '../../../features/auth/authSlice';
+import { getInitials } from '../../../utils/helpers';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
