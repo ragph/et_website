@@ -53,6 +53,7 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
     { label: "Explore", href: "/map" },
     { label: "Blog", href: "#blog" },
     { label: "Contact", href: "#contact" },
+    { label: "Surveys", href: "/surveys" },
   ];
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -221,8 +222,10 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
             }}
           >
             {navLinks.map((link) => {
-              // Only show active state on landing page
-              const isActive = isLandingPage && activeSection === link.href;
+              // Check if active based on hash (for landing page sections) or pathname (for routes)
+              const isActive = link.href.startsWith("#")
+                ? isLandingPage && activeSection === link.href
+                : location.pathname === link.href;
               return (
                 <Box
                   key={link.label}
@@ -268,33 +271,6 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
           </Box>
 
           {/* Right side icons */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            {/* Theme toggle */}
-            {/* <IconButton
-              onClick={handleThemeToggle}
-              color="inherit"
-              sx={{
-                color: "text.primary",
-              }}
-            >
-              {themeMode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton> */}
-
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{
-                display: { xs: "none", md: "inline-flex" },
-                borderRadius: 999,
-                px: { xs: 2, sm: 3 },
-                fontSize: { xs: "0.875rem", sm: "1rem" },
-              }}
-              href="https://app.earningwhiletravelling.com/"
-              // onClick={() => navigate("https://app.earningwhiletravelling.com/")}
-            >
-              Login to App
-            </Button>
-          </Box>
 
           {/* Mobile menu toggle */}
           <IconButton

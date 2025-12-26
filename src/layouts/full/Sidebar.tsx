@@ -103,11 +103,6 @@ const landingPageMenuItems: MenuItem[] = [
     href: "/map",
   },
   {
-    title: "Promo",
-    icon: <LocalOfferIcon />,
-    href: "#promo",
-  },
-  {
     title: "Blog",
     icon: <ArticleIcon />,
     href: "#blog",
@@ -116,6 +111,11 @@ const landingPageMenuItems: MenuItem[] = [
     title: "Contact",
     icon: <ContactMailIcon />,
     href: "#contact",
+  },
+  {
+    title: "Surveys",
+    icon: <ContactMailIcon />,
+    href: "/surveys",
   },
 ];
 

@@ -7,21 +7,23 @@ import { ROUTES } from '../utils/constants';
 
 // Lazy load components
 const LandingPage = lazy(() => import('../views/landing/LandingPage'));
-const Home = lazy(() => import('../views/pages/Home'));
+const Home = lazy(() => import('../views/pages/home/Home'));
 const Dashboard = lazy(() => import('../views/dashboards/DefaultDashboard'));
 const Login = lazy(() => import('../views/authentication/Login'));
 const Register = lazy(() => import('../views/authentication/Register'));
 const ForgotPassword = lazy(() => import('../views/authentication/ForgotPassword'));
-const Profile = lazy(() => import('../views/pages/Profile'));
-const Settings = lazy(() => import('../views/pages/Settings'));
+const Profile = lazy(() => import('../views/pages/profile/Profile'));
+const Settings = lazy(() => import('../views/pages/settings/Settings'));
 const UsersTable = lazy(() => import('../views/tables/UsersTable'));
 const AnalyticsChart = lazy(() => import('../views/charts/AnalyticsChart'));
 const ButtonsDemo = lazy(() => import('../views/ui-components/ButtonsDemo'));
 const Map = lazy(() => import('../views/pages/map/Map'));
 const TouristSpotDetails = lazy(() => import('../views/pages/map/TouristSpotDetails'));
-const FAQs = lazy(() => import('../views/pages/FAQs'));
-const TermsOfService = lazy(() => import('../views/pages/TermsOfService'));
-const PrivacyPolicy = lazy(() => import('../views/pages/PrivacyPolicy'));
+const FAQs = lazy(() => import('../views/pages/faqs/FAQs'));
+const TermsOfService = lazy(() => import('../views/pages/terms-of-service/TermsOfService'));
+const PrivacyPolicy = lazy(() => import('../views/pages/privacy-policy/PrivacyPolicy'));
+const Surveys = lazy(() => import('../views/pages/surveys/Surveys'));
+const SurveyDetails = lazy(() => import('../views/pages/surveys/SurveyDetails'));
 
 // Loading component
 const Loader = () => (
@@ -118,6 +120,22 @@ export const routes: RouteObject[] = [
         element: (
           <SuspenseWrapper>
             <PrivacyPolicy />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: '/surveys',
+        element: (
+          <SuspenseWrapper>
+            <Surveys />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: '/surveys/:surveyId',
+        element: (
+          <SuspenseWrapper>
+            <SurveyDetails />
           </SuspenseWrapper>
         ),
       },

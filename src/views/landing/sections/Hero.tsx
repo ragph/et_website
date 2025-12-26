@@ -128,7 +128,7 @@ export const Hero = () => {
                   variant="contained"
                   size="large"
                   endIcon={<ArrowForwardIcon />}
-                  href="https://app.earningwhiletravelling.com/register"
+                  href="https://app.earningwhiletravelling.com/login"
                   sx={{
                     px: 4,
                     py: 2,
@@ -145,7 +145,7 @@ export const Hero = () => {
                     transition: "all 0.3s ease",
                   }}
                 >
-                  Register Now For Free
+                  Login to App
                 </Button>
               </Box>
             </AnimatedSection>
