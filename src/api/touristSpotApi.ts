@@ -1,4 +1,4 @@
-import { regionalData } from '../views/pages/map/data/RegionalData';
+import axiosClient from './axiosClient';
 import type {
   TouristSpotDetail,
   TouristSpotListItem,
@@ -9,67 +9,117 @@ import type {
   ApiError,
 } from './types/touristSpot.types';
 
-// Simulate network delay for realistic API behavior
-const simulateNetworkDelay = (ms: number = 300): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
+// Interface for API response from backend
+interface BackendTouristSpot {
+  id: number;
+  name: string;
+  description: string;
+  images: string[];
+  province: string;
+  region: string;
+  address?: string;
+  trivia?: string;
+  latitude?: number;
+  longitude?: number;
+  isActive: boolean;
+  displayOrder: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface BackendApiResponse {
+  data: BackendTouristSpot[];
+  meta: {
+    total: number;
+    perPage: number;
+    currentPage: number;
+    lastPage: number;
+    firstPage: number;
+    firstPageUrl: string;
+    lastPageUrl: string;
+    nextPageUrl: string | null;
+    previousPageUrl: string | null;
+  };
+}
 
 /**
- * Mock API Service for Tourist Spots
- * This service simulates API calls for now. When the real API is ready,
- * simply replace the implementation with actual axios calls.
+ * API Service for Tourist Spots
+ * Fetches tourist spots data from the backend API
  */
 class TouristSpotApiService {
   /**
+   * Fetch all tourist spots from the backend
+   * Used for building the regional map data
+   */
+  async getAllTouristSpots(): Promise<BackendTouristSpot[]> {
+    try {
+      // Fetch all tourist spots (paginated, but we'll get all pages)
+      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+        params: { limit: 1000 } // Get all spots at once
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all tourist spots:', error);
+      return [];
+    }
+  }
+  /**
    * Get a single tourist spot by region, province, and spot name
-   *
-   * Future API endpoint: GET /api/tourist-spots/:regionName/:province/:spotName
+   * API endpoint: GET /api/tourist-spots?region=...&province=...&search=...
    */
   async getTouristSpot(
     params: GetTouristSpotParams
   ): Promise<ApiResponse<TouristSpotDetail> | ApiError> {
     try {
-      await simulateNetworkDelay();
-
       // Decode URL parameters
       const decodedRegionName = decodeURIComponent(params.regionName);
       const decodedProvince = decodeURIComponent(params.province);
       const decodedSpotName = decodeURIComponent(params.spotName);
 
-      // Find the region and tourist spot (simulating database query)
-      const region = regionalData.find((r) => r.region === decodedRegionName);
+      // Fetch from API with filters
+      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+        params: {
+          region: decodedRegionName,
+          province: decodedProvince,
+          search: decodedSpotName,
+          limit: 1
+        }
+      });
 
-      if (!region) {
-        return {
-          success: false,
-          message: `Region "${decodedRegionName}" not found`,
-        };
-      }
-
-      const touristSpot = region.touristSpots.find(
-        (spot) =>
-          spot.name === decodedSpotName && spot.province === decodedProvince
-      );
-
-      if (!touristSpot) {
+      if (!response.data || response.data.length === 0) {
         return {
           success: false,
           message: `Tourist spot "${decodedSpotName}" not found in ${decodedProvince}`,
         };
       }
 
+      const touristSpot = response.data[0];
+
+      // Get the API base URL from environment
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
+
+      // Convert relative image paths to absolute URLs
+      const absoluteImages = touristSpot.images.map((img) => {
+        // If it's already a full URL (http/https), return as is
+        if (img.startsWith('http://') || img.startsWith('https://')) {
+          return img;
+        }
+        // Otherwise, prepend the API base URL
+        return `${apiBaseUrl}${img}`;
+      });
+
       // Transform to API response format
       const spotDetail: TouristSpotDetail = {
-        id: `${region.id}-${decodedProvince}-${decodedSpotName}`.toLowerCase().replace(/\s+/g, '-'),
+        id: touristSpot.id.toString(),
         name: touristSpot.name,
         description: touristSpot.description,
-        images: touristSpot.images,
+        images: absoluteImages,
         province: touristSpot.province,
-        region: region.region,
+        region: touristSpot.region,
         address: touristSpot.address,
         trivia: touristSpot.trivia,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: touristSpot.createdAt,
+        updatedAt: touristSpot.updatedAt,
       };
 
       return {
@@ -89,33 +139,47 @@ class TouristSpotApiService {
 
   /**
    * Get all tourist spots in a region
-   *
-   * Future API endpoint: GET /api/tourist-spots/region/:regionName
+   * API endpoint: GET /api/tourist-spots?region=...
    */
   async getTouristSpotsByRegion(
     params: GetTouristSpotsByRegionParams
   ): Promise<ApiResponse<TouristSpotListItem[]> | ApiError> {
     try {
-      await simulateNetworkDelay();
-
       const decodedRegionName = decodeURIComponent(params.regionName);
-      const region = regionalData.find((r) => r.region === decodedRegionName);
 
-      if (!region) {
+      // Fetch from API with region filter
+      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+        params: {
+          region: decodedRegionName,
+          limit: 1000
+        }
+      });
+
+      if (!response.data) {
         return {
           success: false,
-          message: `Region "${decodedRegionName}" not found`,
+          message: `No tourist spots found in region "${decodedRegionName}"`,
         };
       }
 
-      const spots: TouristSpotListItem[] = region.touristSpots.map((spot) => ({
-        id: `${region.id}-${spot.province}-${spot.name}`.toLowerCase().replace(/\s+/g, '-'),
-        name: spot.name,
-        province: spot.province,
-        region: region.region,
-        thumbnail: spot.images[0],
-        description: spot.description,
-      }));
+      // Get the API base URL from environment
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
+
+      const spots: TouristSpotListItem[] = response.data.map((spot) => {
+        const thumbnail = spot.images[0];
+        const absoluteThumbnail = thumbnail?.startsWith('http://') || thumbnail?.startsWith('https://')
+          ? thumbnail
+          : `${apiBaseUrl}${thumbnail}`;
+
+        return {
+          id: spot.id.toString(),
+          name: spot.name,
+          province: spot.province,
+          region: spot.region,
+          thumbnail: absoluteThumbnail,
+          description: spot.description,
+        };
+      });
 
       return {
         success: true,
@@ -134,37 +198,49 @@ class TouristSpotApiService {
 
   /**
    * Get all tourist spots in a specific province
-   *
-   * Future API endpoint: GET /api/tourist-spots/region/:regionName/province/:province
+   * API endpoint: GET /api/tourist-spots?province=...
    */
   async getTouristSpotsByProvince(
     params: GetTouristSpotsByProvinceParams
   ): Promise<ApiResponse<TouristSpotListItem[]> | ApiError> {
     try {
-      await simulateNetworkDelay();
-
       const decodedRegionName = decodeURIComponent(params.regionName);
       const decodedProvince = decodeURIComponent(params.province);
 
-      const region = regionalData.find((r) => r.region === decodedRegionName);
+      // Fetch from API with province filter
+      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+        params: {
+          region: decodedRegionName,
+          province: decodedProvince,
+          limit: 1000
+        }
+      });
 
-      if (!region) {
+      if (!response.data) {
         return {
           success: false,
-          message: `Region "${decodedRegionName}" not found`,
+          message: `No tourist spots found in ${decodedProvince}`,
         };
       }
 
-      const spots: TouristSpotListItem[] = region.touristSpots
-        .filter((spot) => spot.province === decodedProvince)
-        .map((spot) => ({
-          id: `${region.id}-${spot.province}-${spot.name}`.toLowerCase().replace(/\s+/g, '-'),
+      // Get the API base URL from environment
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
+
+      const spots: TouristSpotListItem[] = response.data.map((spot) => {
+        const thumbnail = spot.images[0];
+        const absoluteThumbnail = thumbnail?.startsWith('http://') || thumbnail?.startsWith('https://')
+          ? thumbnail
+          : `${apiBaseUrl}${thumbnail}`;
+
+        return {
+          id: spot.id.toString(),
           name: spot.name,
           province: spot.province,
-          region: region.region,
-          thumbnail: spot.images[0],
+          region: spot.region,
+          thumbnail: absoluteThumbnail,
           description: spot.description,
-        }));
+        };
+      });
 
       return {
         success: true,

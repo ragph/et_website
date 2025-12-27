@@ -33,8 +33,9 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { regionalData, RegionData } from "./data/RegionalData";
+import { RegionData } from "./data/RegionalData";
 import { provinceData } from "./data/ProvinceData";
+import { mapDataService } from "../../../api/mapDataService";
 
 // Mapping between MapData region names and ProvinceData region names
 const regionNameMap: Record<string, string> = {
@@ -245,6 +246,7 @@ const Map = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [viewMode, setViewMode] = useState<"regions" | "provinces">("regions");
   const mapContainerRef = useRef<HTMLDivElement>(null);
+  const [regionalData, setRegionalData] = useState<RegionData[]>([]);
 
   // Toggle fullscreen mode
   const toggleFullscreen = useCallback(() => {
@@ -279,6 +281,17 @@ const Map = () => {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () =>
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  // Load regional data from API on component mount
+  useEffect(() => {
+    const loadRegionalData = async () => {
+      // Clear cache to ensure fresh data
+      mapDataService.clearCache();
+      const data = await mapDataService.getRegionalData();
+      setRegionalData(data);
+    };
+    loadRegionalData();
   }, []);
 
   // Scroll to top when component mounts
@@ -856,7 +869,7 @@ const Map = () => {
                               overflow: "hidden",
                             }}
                           >
-                            {spot.description}
+                            {spot.description.replace(/<[^>]*>/g, '')}
                           </Typography>
                         </CardContent>
                       </Card>

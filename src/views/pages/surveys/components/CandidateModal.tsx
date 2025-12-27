@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -12,13 +12,13 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Candidate } from '../data/CandidateData';
+import { CandidateOption } from '../../../../api/surveyApi';
 
 interface CandidateModalProps {
-  candidate: Candidate | null;
+  candidate: CandidateOption | null;
   open: boolean;
   onClose: () => void;
-  onVote: (candidateId: string) => void;
+  onVote?: (candidateText: string) => void;
 }
 
 const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProps) => {
@@ -26,9 +26,19 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
+  // Reset image index when candidate changes
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [candidate]);
+
   if (!candidate) return null;
 
-  const images = candidate.images || [candidate.image];
+  // Support both imageUrls array and single imageUrl
+  const images = candidate.imageUrls || (candidate.imageUrl ? [candidate.imageUrl] : []);
+
+  console.log('Candidate:', candidate.text);
+  console.log('Images:', images);
+  console.log('Current index:', currentImageIndex);
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -39,7 +49,9 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
   };
 
   const handleVote = () => {
-    onVote(candidate.id);
+    if (onVote) {
+      onVote(candidate.text);
+    }
     onClose();
   };
 
@@ -109,26 +121,31 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
 
       <DialogContent sx={{ p: 0 }}>
         {/* Image Slider */}
-        <Box
-          sx={{ position: 'relative', bgcolor: 'black' }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
+        {images.length > 0 && (
           <Box
-            component="img"
-            src={images[currentImageIndex]}
-            alt={`${candidate.name} - Image ${currentImageIndex + 1}`}
-            sx={{
-              width: '100%',
-              height: '100%',
-              maxHeight: 500,
-              objectFit: 'contain',
-              display: 'block',
-              userSelect: 'none',
-              WebkitUserSelect: 'none',
-            }}
-          />
+            sx={{ position: 'relative', bgcolor: 'black' }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <Box
+              component="img"
+              src={images[currentImageIndex] || images[0]}
+              alt={`${candidate.text} - Image ${currentImageIndex + 1}`}
+              onError={(e: any) => {
+                console.error('Image failed to load:', images[currentImageIndex]);
+                e.target.style.display = 'none';
+              }}
+              sx={{
+                width: '100%',
+                height: '100%',
+                maxHeight: 500,
+                objectFit: 'contain',
+                display: 'block',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+              }}
+            />
 
           {/* Image Navigation */}
           {images.length > 1 && (
@@ -191,29 +208,18 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
               </Box>
             </>
           )}
-        </Box>
+          </Box>
+        )}
 
         {/* Candidate Details */}
         <Box sx={{ p: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-            <Typography variant="h4" sx={{ fontWeight: 700 }}>
-              {candidate.name}
-            </Typography>
-            {/* {candidate.age && (
-              <Chip label={`${candidate.age} years old`} size="small" variant="outlined" />
-            )} */}
-          </Box>
+          <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
+            {candidate.text}
+          </Typography>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-            {/* <Chip label={candidate.region} color="primary" variant="outlined" /> */}
-            <Typography variant="body2" color="text.secondary">
-              {candidate.region}
-            </Typography>
-          </Box>
-
-          {candidate.bio && (
-            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-              {candidate.bio}
+          {candidate.description && (
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, whiteSpace: 'pre-line' }}>
+              {candidate.description}
             </Typography>
           )}
         </Box>
@@ -221,7 +227,7 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
 
       <DialogActions sx={{ p: 3, pt: 0 }}>
         <Button href="https://app.earningwhiletravelling.com/login" variant="contained" size="large" fullWidth>
-          Vote for {candidate.name}
+          Vote for {candidate.text}
         </Button>
       </DialogActions>
     </Dialog>

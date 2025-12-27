@@ -1,161 +1,210 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Container,
   Typography,
-  Paper,
-  Button,
   Chip,
-  Divider,
   Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { surveyData } from './data/SurveyData';
-import { candidatesData, Candidate } from './data/CandidateData';
-import CandidateCard from './components/CandidateCard';
+import { surveyApi, SurveyDetail as SurveyDetailType, CandidateOption } from '../../../api/surveyApi';
+import { SectionHeader } from '../../landing/components/SectionHeader';
 import CandidateModal from './components/CandidateModal';
 
-const SurveyDetails = () => {
-  const { surveyId } = useParams<{ surveyId: string }>();
-  const navigate = useNavigate();
-  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+const SurveyDetail = () => {
+  const { id } = useParams<{ id: string }>();
+  const [survey, setSurvey] = useState<SurveyDetailType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedCandidate, setSelectedCandidate] = useState<CandidateOption | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const survey = surveyData.find((s) => s.id === surveyId);
+  useEffect(() => {
+    const fetchSurvey = async () => {
+      if (!id) return;
 
-  const handleCandidateClick = (candidate: Candidate) => {
-    setSelectedCandidate(candidate);
+      setLoading(true);
+      setError(null);
+
+      const data = await surveyApi.getSurveyById(id);
+
+      if (!data) {
+        setError('Survey not found');
+      } else {
+        console.log('Survey data:', data);
+        console.log('Questions:', data.questions);
+        setSurvey(data);
+      }
+
+      setLoading(false);
+    };
+
+    fetchSurvey();
+  }, [id]);
+
+  const handleCandidateClick = (option: CandidateOption) => {
+    setSelectedCandidate(option);
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
+    setSelectedCandidate(null);
   };
 
-  const handleVote = (candidateId: string) => {
-    console.log('Voted for candidate:', candidateId);
-    // TODO: Implement vote submission logic
-  };
-
-  if (!survey) {
+  if (loading) {
     return (
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h4" sx={{ textAlign: 'center' }}>
-          Survey not found
-        </Typography>
-        <Box sx={{ textAlign: 'center', mt: 4 }}>
-          <Button
-            variant="contained"
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate('/surveys')}
-          >
-            Back to Surveys
-          </Button>
-        </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 8, minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error || !survey) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 8, minHeight: '100vh' }}>
+        <Alert severity="error">{error || 'Survey not found'}</Alert>
       </Container>
     );
   }
 
+  // Find the voting question (usually the first multiple choice question)
+  const votingQuestion = survey.questions.find((q) => q.type === 'multiple-choice' || q.type === 'multiple_choice');
+
+  console.log('All questions:', survey.questions);
+  console.log('Voting question:', votingQuestion);
+  console.log('Voting question options:', votingQuestion?.options);
+
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Container maxWidth="lg">
-          {/* Header */}
-          <Box sx={{ mb: 3, textAlign: 'center' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mb: 2 }}>
-              <Chip label={survey.category} color="primary" />
-              {survey.status === 'upcoming' && (
-                <Chip label="Upcoming" color="warning" />
-              )}
-            </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, mb: 2 }}>
-              {survey.title}
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              {survey.subtitle}
-            </Typography>
-          </Box>
+        {/* Survey Header */}
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Chip label={survey.category} color="primary" sx={{ mb: 2 }} />
+          <Typography variant="h3" sx={{ fontWeight: 700, mb: 2 }}>
+            {survey.title}
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+            {survey.description}
+          </Typography>
 
-          <Divider sx={{ my: 3 }} />
+          {/* Survey Main Image */}
+          {survey.image && (
+            <Box
+              component="img"
+              src={survey.image}
+              alt={survey.title}
+              sx={{
+                width: '100%',
+                maxWidth: 600,
+                height: 'auto',
+                mx: 'auto',
+                mb: 4,
+                borderRadius: 2,
+              }}
+            />
+          )}
+        </Box>
 
-          {/* Survey Image */}
-          <Box
-            component="img"
-            src={survey.image}
-            alt={survey.title}
-            sx={{
-              width: '100%',
-              maxWidth: 600,
-              mx: 'auto',
-              display: 'block',
-              objectFit: 'contain',
-              mb: 8,
-            }}
-          />
-
-          {/* Description */}
-          {survey.description && (
-            <Box sx={{ mb: 3, textAlign: 'center' }}>
-              <Typography variant="h4" sx={{ fontWeight: 600, mb: 4 }}>
-               {survey.description}
+        {/* Voting Question */}
+        {votingQuestion && (
+          <>
+            <Box sx={{ textAlign: 'center', mb: 4 }}>
+              <Typography variant="h4" sx={{ fontWeight: 700, fontSize: { xs: '1.75rem', md: '2rem' } }}>
+                {votingQuestion.question}
               </Typography>
             </Box>
-          )}
 
-          {/* Survey Stats */}
-          {/* <Box sx={{ display: 'flex', gap: 4, mb: 4 }}>
-            {survey.questions && (
-              <Box>
-                <Typography variant="h4" color="primary.main" sx={{ fontWeight: 700 }}>
-                  {survey.questions}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Questions
-                </Typography>
-              </Box>
-            )}
-            {survey.participants && (
-              <Box>
-                <Typography variant="h4" color="primary.main" sx={{ fontWeight: 700 }}>
-                  {survey.participants}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Participants
-                </Typography>
-              </Box>
-            )}
-          </Box> */}
+            {/* Candidates Grid */}
+            <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+              <Grid container spacing={3} justifyContent="center">
+                {votingQuestion.options?.map((option: any, index: number) => {
+                  const candidate: CandidateOption = typeof option === 'string'
+                    ? { text: option }
+                    : option;
 
-          {/* Candidates Grid */}
-          <Grid container spacing={3} sx={{ mb: 5 }}>
-            {candidatesData.map((candidate) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={candidate.id}>
-                <CandidateCard
-                  candidate={candidate}
-                  onClick={() => handleCandidateClick(candidate)}
-                />
+                  // Get the first image (either from imageUrl or imageUrls array)
+                  const thumbnailImage = candidate.imageUrls?.[0] || candidate.imageUrl;
+
+                  // Extract name and region from text (format: "Name (Region)")
+                  const textMatch = candidate.text.match(/^(.+?)\s*\((.+?)\)$/);
+                  const candidateName = textMatch ? textMatch[1].trim() : candidate.text;
+                  const candidateRegion = textMatch ? textMatch[2].trim() : '';
+
+                  return (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Card
+                        sx={{
+                          cursor: 'pointer',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          borderRadius: 2,
+                          overflow: 'hidden',
+                          transition: 'transform 0.2s, box-shadow 0.2s',
+                          width: '100%',
+                          maxWidth: 350,
+                          mx: 'auto',
+                          '&:hover': {
+                            transform: 'translateY(-4px)',
+                            boxShadow: 4,
+                          },
+                        }}
+                        onClick={() => handleCandidateClick(candidate)}
+                      >
+                        {thumbnailImage && (
+                          <CardMedia
+                            component="img"
+                            image={thumbnailImage}
+                            alt={candidate.text}
+                            sx={{
+                              width: '100%',
+                              height: 350,
+                              objectFit: 'cover',
+                            }}
+                          />
+                        )}
+                        <CardContent sx={{ textAlign: 'center', py: 2.5, px: 2, bgcolor: 'background.paper' }}>
+                          <Typography variant="body1" sx={{ fontWeight: 700, fontSize: '1rem', mb: 0.5, lineHeight: 1.4 }}>
+                            {candidateName}
+                          </Typography>
+                          {candidateRegion && (
+                            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
+                              {candidateRegion}
+                            </Typography>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })}
               </Grid>
-            ))}
-          </Grid>
+            </Box>
+          </>
+        )}
 
-
-          {/* Vote Button */}
-          <Box sx={{ textAlign: 'center' }}>
-            <Button href="https://app.earningwhiletravelling.com/login" variant="contained" size="large">
-              Cast Your Vote Now
-            </Button>
-          </Box>
-
-          {/* Candidate Modal */}
-          <CandidateModal
-            candidate={selectedCandidate}
-            open={modalOpen}
-            onClose={handleCloseModal}
-            onVote={handleVote}
-          />
+        {/* Vote Button - Could be added later */}
+        <Box sx={{ textAlign: 'center', mt: 6 }}>
+          <Typography variant="body2" color="text.secondary">
+            {survey.totalResponses} responses
+          </Typography>
+        </Box>
       </Container>
+
+      {/* Candidate Modal */}
+      {selectedCandidate && (
+        <CandidateModal
+          open={modalOpen}
+          onClose={handleCloseModal}
+          candidate={selectedCandidate}
+        />
+      )}
     </Box>
   );
 };
 
-export default SurveyDetails;
+export default SurveyDetail;

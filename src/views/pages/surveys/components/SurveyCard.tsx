@@ -1,5 +1,5 @@
 import { Card, CardMedia, CardContent, Typography, Chip, Box } from '@mui/material';
-import { Survey } from '../data/SurveyData';
+import { Survey } from '../../../../api/surveyApi';
 
 interface SurveyCardProps {
   survey: Survey;
@@ -7,6 +7,12 @@ interface SurveyCardProps {
 }
 
 const SurveyCard = ({ survey, onClick }: SurveyCardProps) => {
+  // Get API base URL for image
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || '';
+  const imageUrl = survey.image
+    ? (survey.image.startsWith('http') ? survey.image : `${apiBaseUrl}${survey.image}`)
+    : '/images/placeholder-survey.png';
+
   return (
     <Card
       sx={{
@@ -25,7 +31,7 @@ const SurveyCard = ({ survey, onClick }: SurveyCardProps) => {
     >
       <CardMedia
         component="img"
-        image={survey.image}
+        image={imageUrl}
         alt={survey.title}
         sx={{
           aspectRatio: '1 / 1',
@@ -40,9 +46,9 @@ const SurveyCard = ({ survey, onClick }: SurveyCardProps) => {
             color="primary"
             sx={{ mb: 1 }}
           />
-          {survey.status === 'upcoming' && (
+          {survey.status === 'inactive' && (
             <Chip
-              label="Upcoming"
+              label="Inactive"
               size="small"
               color="warning"
               sx={{ ml: 1, mb: 1 }}
@@ -53,12 +59,12 @@ const SurveyCard = ({ survey, onClick }: SurveyCardProps) => {
           {survey.title}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          {survey.subtitle}
+          {survey.description}
         </Typography>
         <Box sx={{ mt: 'auto', display: 'flex', gap: 2 }}>
-          {survey.participants && (
+          {survey.totalResponses > 0 && (
             <Typography variant="caption" color="success.main">
-              {survey.participants} responses
+              {survey.totalResponses} responses
             </Typography>
           )}
         </Box>

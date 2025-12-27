@@ -132,7 +132,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: '/surveys/:surveyId',
+        path: '/surveys/:id',
         element: (
           <SuspenseWrapper>
             <SurveyDetails />

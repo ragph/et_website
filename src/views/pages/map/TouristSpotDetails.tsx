@@ -253,9 +253,8 @@ const TouristSpotDetails = () => {
                   fontSize: { xs: "0.9375rem", md: "1rem" },
                   color: "text.secondary",
                 }}
-              >
-                {touristSpot.description}
-              </Typography>
+                dangerouslySetInnerHTML={{ __html: touristSpot.description }}
+              />
             </Box>
           </Grid>
 
@@ -472,7 +471,7 @@ const TouristSpotDetails = () => {
                             lineHeight: 1.5,
                           }}
                         >
-                          {spot.description}
+                          {spot.description.replace(/<[^>]*>/g, '')}
                         </Typography>
                       </Box>
                     </Paper>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -6,20 +6,41 @@ import {
   Chip,
   Grid,
   Paper,
+  CircularProgress,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { surveyData, surveyCategories } from './data/SurveyData';
+import { surveyApi, Survey } from '../../../api/surveyApi';
 import SurveyCard from './components/SurveyCard';
 import { SectionHeader } from '../../landing/components/SectionHeader';
 
 const Surveys = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [surveys, setSurveys] = useState<Survey[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<string[]>(['All']);
+
+  // Fetch surveys from API
+  useEffect(() => {
+    const fetchSurveys = async () => {
+      setLoading(true);
+      const data = await surveyApi.getPublicSurveys();
+      setSurveys(data);
+
+      // Extract unique categories from surveys
+      const uniqueCategories = ['All', ...new Set(data.map(s => s.category))];
+      setCategories(uniqueCategories);
+
+      setLoading(false);
+    };
+
+    fetchSurveys();
+  }, []);
 
   const filteredSurveys =
     selectedCategory === 'All'
-      ? surveyData
-      : surveyData.filter((survey) => survey.category === selectedCategory);
+      ? surveys
+      : surveys.filter((survey) => survey.category === selectedCategory);
 
   const handleSurveyClick = (surveyId: string) => {
     navigate(`/surveys/${surveyId}`);
@@ -37,58 +58,67 @@ const Surveys = () => {
           containerSx={{ mb: 4 }}
         />
 
-        {/* Filter Chips - Horizontally Scrollable */}
-        <Paper
-          elevation={1}
-          sx={{
-            mb: 4,
-            p: 2,
-            overflowX: 'auto',
-            display: 'flex',
-            gap: 1,
-            '&::-webkit-scrollbar': {
-              height: 8,
-            },
-            '&::-webkit-scrollbar-track': {
-              bgcolor: 'background.default',
-              borderRadius: 4,
-            },
-            '&::-webkit-scrollbar-thumb': {
-              bgcolor: 'divider',
-              borderRadius: 4,
-              '&:hover': {
-                bgcolor: 'text.secondary',
-              },
-            },
-          }}
-        >
-          {surveyCategories.map((category) => (
-            <Chip
-              key={category}
-              label={category}
-              onClick={() => setSelectedCategory(category)}
-              color={selectedCategory === category ? 'primary' : 'default'}
-              variant={selectedCategory === category ? 'filled' : 'outlined'}
+        {/* Loading State */}
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <>
+            {/* Filter Chips - Horizontally Scrollable */}
+            <Paper
+              elevation={1}
               sx={{
-                cursor: 'pointer',
-                fontWeight: selectedCategory === category ? 600 : 400,
-                whiteSpace: 'nowrap',
+                mb: 4,
+                p: 2,
+                overflowX: 'auto',
+                display: 'flex',
+                gap: 1,
+                '&::-webkit-scrollbar': {
+                  height: 8,
+                },
+                '&::-webkit-scrollbar-track': {
+                  bgcolor: 'background.default',
+                  borderRadius: 4,
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  bgcolor: 'divider',
+                  borderRadius: 4,
+                  '&:hover': {
+                    bgcolor: 'text.secondary',
+                  },
+                },
               }}
-            />
-          ))}
-        </Paper>
+            >
+              {categories.map((category) => (
+                <Chip
+                  key={category}
+                  label={category}
+                  onClick={() => setSelectedCategory(category)}
+                  color={selectedCategory === category ? 'primary' : 'default'}
+                  variant={selectedCategory === category ? 'filled' : 'outlined'}
+                  sx={{
+                    cursor: 'pointer',
+                    fontWeight: selectedCategory === category ? 600 : 400,
+                    whiteSpace: 'nowrap',
+                  }}
+                />
+              ))}
+            </Paper>
 
-        {/* Survey Cards Grid - 3 Columns */}
-        <Grid container spacing={3}>
-          {filteredSurveys.map((survey) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={survey.id}>
-              <SurveyCard
-                survey={survey}
-                onClick={() => handleSurveyClick(survey.id)}
-              />
+            {/* Survey Cards Grid - 3 Columns */}
+            <Grid container spacing={3}>
+              {filteredSurveys.map((survey) => (
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={survey.id}>
+                  <SurveyCard
+                    survey={survey}
+                    onClick={() => handleSurveyClick(String(survey.id))}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </>
+        )}
 
         {/* Empty State */}
         {filteredSurveys.length === 0 && (
