@@ -54,9 +54,9 @@ class TouristSpotApiService {
   async getAllTouristSpots(): Promise<BackendTouristSpot[]> {
     try {
       // Fetch all tourist spots (paginated, but we'll get all pages)
-      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+      const response = await axiosClient.get('/tourist-spots', {
         params: { limit: 1000 } // Get all spots at once
-      });
+      }) as BackendApiResponse;
       return response.data;
     } catch (error) {
       console.error('Error fetching all tourist spots:', error);
@@ -77,14 +77,14 @@ class TouristSpotApiService {
       const decodedSpotName = decodeURIComponent(params.spotName);
 
       // Fetch from API with filters
-      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+      const response = await axiosClient.get('/tourist-spots', {
         params: {
           region: decodedRegionName,
           province: decodedProvince,
           search: decodedSpotName,
           limit: 1
         }
-      });
+      }) as BackendApiResponse;
 
       if (!response.data || response.data.length === 0) {
         return {
@@ -99,7 +99,7 @@ class TouristSpotApiService {
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
 
       // Convert relative image paths to absolute URLs
-      const absoluteImages = touristSpot.images.map((img) => {
+      const absoluteImages = touristSpot.images.map((img: string) => {
         // If it's already a full URL (http/https), return as is
         if (img.startsWith('http://') || img.startsWith('https://')) {
           return img;
@@ -148,12 +148,12 @@ class TouristSpotApiService {
       const decodedRegionName = decodeURIComponent(params.regionName);
 
       // Fetch from API with region filter
-      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+      const response = await axiosClient.get('/tourist-spots', {
         params: {
           region: decodedRegionName,
           limit: 1000
         }
-      });
+      }) as BackendApiResponse;
 
       if (!response.data) {
         return {
@@ -165,7 +165,7 @@ class TouristSpotApiService {
       // Get the API base URL from environment
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
 
-      const spots: TouristSpotListItem[] = response.data.map((spot) => {
+      const spots: TouristSpotListItem[] = response.data.map((spot: BackendTouristSpot) => {
         const thumbnail = spot.images[0];
         const absoluteThumbnail = thumbnail?.startsWith('http://') || thumbnail?.startsWith('https://')
           ? thumbnail
@@ -208,13 +208,13 @@ class TouristSpotApiService {
       const decodedProvince = decodeURIComponent(params.province);
 
       // Fetch from API with province filter
-      const response = await axiosClient.get<BackendApiResponse>('/tourist-spots', {
+      const response = await axiosClient.get('/tourist-spots', {
         params: {
           region: decodedRegionName,
           province: decodedProvince,
           limit: 1000
         }
-      });
+      }) as BackendApiResponse;
 
       if (!response.data) {
         return {
@@ -226,7 +226,7 @@ class TouristSpotApiService {
       // Get the API base URL from environment
       const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
 
-      const spots: TouristSpotListItem[] = response.data.map((spot) => {
+      const spots: TouristSpotListItem[] = response.data.map((spot: BackendTouristSpot) => {
         const thumbnail = spot.images[0];
         const absoluteThumbnail = thumbnail?.startsWith('http://') || thumbnail?.startsWith('https://')
           ? thumbnail

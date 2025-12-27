@@ -49,7 +49,7 @@ class SurveyApiService {
    */
   async getPublicSurveys(): Promise<Survey[]> {
     try {
-      const response = await axiosClient.get<{ surveys: Survey[] }>('/surveys/public');
+      const response = await axiosClient.get('/surveys/public') as { surveys: Survey[] };
       return response.surveys || [];
     } catch (error) {
       console.error('Error fetching public surveys:', error);
@@ -62,7 +62,7 @@ class SurveyApiService {
    */
   async getSurveyById(id: string | number): Promise<SurveyDetail | null> {
     try {
-      const response = await axiosClient.get<{ survey: SurveyDetail }>(`/surveys/public/${id}`);
+      const response = await axiosClient.get(`/surveys/public/${id}`) as { survey: SurveyDetail };
 
       if (!response.survey) {
         return null;
@@ -79,7 +79,7 @@ class SurveyApiService {
 
       // Convert question option images to absolute URLs
       if (survey.questions) {
-        survey.questions = survey.questions.map((question) => {
+        survey.questions = survey.questions.map((question: SurveyQuestion) => {
           if ((question.type === 'multiple_choice' || question.type === 'multiple-choice') && question.options) {
             const convertedOptions = question.options.map((option: any) => {
               if (typeof option === 'object') {
