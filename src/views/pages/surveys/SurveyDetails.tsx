@@ -137,7 +137,7 @@ const SurveyDetail = () => {
                   const candidateRegion = textMatch ? textMatch[2].trim() : '';
 
                   return (
-                    <Grid item xs={12} sm={6} md={4} key={index}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                       <Card
                         sx={{
                           cursor: 'pointer',
