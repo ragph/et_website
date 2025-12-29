@@ -51,7 +51,23 @@ class SurveyApiService {
   async getPublicSurveys(): Promise<Survey[]> {
     try {
       const response = await axiosClient.get('/surveys/public') as { surveys: Survey[] };
-      return response.surveys || [];
+      const surveys = response.surveys || [];
+
+      // Convert image URLs for all surveys
+      return surveys.map(survey => {
+        if (survey.image && !survey.image.startsWith('http')) {
+          // Remove /api prefix if it exists in the image path
+          const imagePath = survey.image.startsWith('/api') ? survey.image.replace('/api', '') : survey.image;
+          const finalImageUrl = `${API_IMAGE_BASE_URL}${imagePath}`;
+          console.log('🖼️ Survey List Image URL:', {
+            surveyId: survey.id,
+            original: survey.image,
+            final: finalImageUrl
+          });
+          return { ...survey, image: finalImageUrl };
+        }
+        return survey;
+      });
     } catch (error) {
       console.error('Error fetching public surveys:', error);
       return [];
