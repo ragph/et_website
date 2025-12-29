@@ -74,7 +74,14 @@ class SurveyApiService {
       if (survey.image && !survey.image.startsWith('http')) {
         // Remove /api prefix if it exists in the image path
         const imagePath = survey.image.startsWith('/api') ? survey.image.replace('/api', '') : survey.image;
-        survey.image = `${API_IMAGE_BASE_URL}${imagePath}`;
+        const finalImageUrl = `${API_IMAGE_BASE_URL}${imagePath}`;
+        console.log('🖼️ Image URL Conversion:', {
+          original: survey.image,
+          imagePath,
+          API_IMAGE_BASE_URL,
+          final: finalImageUrl
+        });
+        survey.image = finalImageUrl;
       }
 
       // Convert question option images to absolute URLs
