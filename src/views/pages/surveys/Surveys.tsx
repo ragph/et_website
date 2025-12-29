@@ -52,7 +52,7 @@ const Surveys = () => {
         {/* Header */}
         <SectionHeader
           badge="SHARE YOUR EXPERIENCE"
-          title="Surveys"
+          title="Surveys and Votings"
           subtitle="Share your travel experiences and help us improve our services"
           align="center"
           containerSx={{ mb: 4 }}
