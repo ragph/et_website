@@ -116,10 +116,16 @@ function MapCenterController({ center }: { center: [number, number] }) {
   return null;
 }
 
+// Placeholder image for missing images
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400";
+
 // Image Carousel Component
 const ImageCarousel = ({ images, alt }: { images: string[]; alt: string }) => {
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = images.length;
+
+  // Use placeholder if images array is empty or undefined
+  const validImages = images && images.length > 0 ? images : [PLACEHOLDER_IMAGE];
+  const maxSteps = validImages.length;
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -136,9 +142,12 @@ const ImageCarousel = ({ images, alt }: { images: string[]; alt: string }) => {
       <CardMedia
         component="img"
         height="200"
-        image={images[activeStep]}
+        image={validImages[activeStep] || PLACEHOLDER_IMAGE}
         alt={`${alt} - Image ${activeStep + 1}`}
         sx={{ objectFit: "cover" }}
+        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+          e.currentTarget.src = PLACEHOLDER_IMAGE;
+        }}
       />
       {maxSteps > 1 && (
         <>
@@ -203,7 +212,7 @@ const ImageCarousel = ({ images, alt }: { images: string[]; alt: string }) => {
               padding: "6px 10px",
             }}
           >
-            {images.map((_, index) => (
+            {validImages.map((_, index) => (
               <Box
                 key={index}
                 onClick={(e) => {

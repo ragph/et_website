@@ -1,5 +1,6 @@
 import { touristSpotApi } from './touristSpotApi';
 import { regionalData, RegionData, TouristSpot } from '../views/pages/map/data/RegionalData';
+import { API_IMAGE_BASE_URL } from '../utils/constants';
 
 /**
  * Service to load and merge regional map data with tourist spots from API
@@ -24,9 +25,6 @@ class MapDataService {
       // Create a map of region name to tourist spots
       const spotsByRegion = new Map<string, TouristSpot[]>();
 
-      // Get the API base URL from environment
-      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
-
       touristSpots.forEach((spot) => {
         if (!spotsByRegion.has(spot.region)) {
           spotsByRegion.set(spot.region, []);
@@ -39,7 +37,7 @@ class MapDataService {
             return img;
           }
           // Otherwise, prepend the API base URL
-          return `${apiBaseUrl}${img}`;
+          return `${API_IMAGE_BASE_URL}${img}`;
         });
 
         spotsByRegion.get(spot.region)!.push({

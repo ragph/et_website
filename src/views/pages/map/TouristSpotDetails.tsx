@@ -19,6 +19,9 @@ import { regionalData } from "./data/RegionalData";
 import { touristSpotApi } from "../../../api/touristSpotApi";
 import type { TouristSpotDetail } from "../../../api/types/touristSpot.types";
 
+// Placeholder image for missing images
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400";
+
 const TouristSpotDetails = () => {
   const { regionName, province, spotName } = useParams<{
     regionName: string;
@@ -201,12 +204,15 @@ const TouristSpotDetails = () => {
           spaceBetween={0}
           slidesPerView={1}
         >
-          {touristSpot.images.map((image: string, index: number) => (
+          {(touristSpot.images && touristSpot.images.length > 0 ? touristSpot.images : [PLACEHOLDER_IMAGE]).map((image: string, index: number) => (
             <SwiperSlide key={index}>
               <Box
                 component="img"
-                src={image}
+                src={image || PLACEHOLDER_IMAGE}
                 alt={`${touristSpot.name} - Image ${index + 1}`}
+                onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                  e.currentTarget.src = PLACEHOLDER_IMAGE;
+                }}
                 sx={{
                   width: "100%",
                   height: "100%",
@@ -416,8 +422,11 @@ const TouristSpotDetails = () => {
                     >
                       <Box
                         component="img"
-                        src={spot.images[0]}
+                        src={spot.images && spot.images[0] ? spot.images[0] : PLACEHOLDER_IMAGE}
                         alt={spot.name}
+                        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                          e.currentTarget.src = PLACEHOLDER_IMAGE;
+                        }}
                         sx={{
                           width: "100%",
                           height: "100%",
