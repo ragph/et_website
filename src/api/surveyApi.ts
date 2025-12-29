@@ -72,7 +72,9 @@ class SurveyApiService {
       // Convert relative image paths to absolute URLs
       const survey = response.survey;
       if (survey.image && !survey.image.startsWith('http')) {
-        survey.image = `${API_IMAGE_BASE_URL}${survey.image}`;
+        // Remove /api prefix if it exists in the image path
+        const imagePath = survey.image.startsWith('/api') ? survey.image.replace('/api', '') : survey.image;
+        survey.image = `${API_IMAGE_BASE_URL}${imagePath}`;
       }
 
       // Convert question option images to absolute URLs
@@ -85,14 +87,19 @@ class SurveyApiService {
 
                 // Handle single imageUrl
                 if (converted.imageUrl && !converted.imageUrl.startsWith('http')) {
-                  converted.imageUrl = `${API_IMAGE_BASE_URL}${converted.imageUrl}`;
+                  // Remove /api prefix if it exists
+                  const imgPath = converted.imageUrl.startsWith('/api') ? converted.imageUrl.replace('/api', '') : converted.imageUrl;
+                  converted.imageUrl = `${API_IMAGE_BASE_URL}${imgPath}`;
                 }
 
                 // Handle multiple imageUrls
                 if (converted.imageUrls && Array.isArray(converted.imageUrls)) {
-                  converted.imageUrls = converted.imageUrls.map((img: string) =>
-                    img.startsWith('http') ? img : `${API_IMAGE_BASE_URL}${img}`
-                  );
+                  converted.imageUrls = converted.imageUrls.map((img: string) => {
+                    if (img.startsWith('http')) return img;
+                    // Remove /api prefix if it exists
+                    const imgPath = img.startsWith('/api') ? img.replace('/api', '') : img;
+                    return `${API_IMAGE_BASE_URL}${imgPath}`;
+                  });
                 }
 
                 return converted;
