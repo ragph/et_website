@@ -1,5 +1,6 @@
 // API Configuration
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.example.com';
+export const API_IMAGE_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'https://api.earningwhiletravelling.com/api').replace('/api', '');
 export const API_TIMEOUT = 30000;
 
 // LocalStorage Keys

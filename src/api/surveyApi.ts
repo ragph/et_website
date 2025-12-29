@@ -1,4 +1,5 @@
 import axiosClient from './axiosClient';
+import { API_IMAGE_BASE_URL } from '../utils/constants';
 
 export interface Survey {
   id: number;
@@ -68,13 +69,10 @@ class SurveyApiService {
         return null;
       }
 
-      // Get API base URL for image conversion
-      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || '';
-
       // Convert relative image paths to absolute URLs
       const survey = response.survey;
       if (survey.image && !survey.image.startsWith('http')) {
-        survey.image = `${apiBaseUrl}${survey.image}`;
+        survey.image = `${API_IMAGE_BASE_URL}${survey.image}`;
       }
 
       // Convert question option images to absolute URLs
@@ -87,13 +85,13 @@ class SurveyApiService {
 
                 // Handle single imageUrl
                 if (converted.imageUrl && !converted.imageUrl.startsWith('http')) {
-                  converted.imageUrl = `${apiBaseUrl}${converted.imageUrl}`;
+                  converted.imageUrl = `${API_IMAGE_BASE_URL}${converted.imageUrl}`;
                 }
 
                 // Handle multiple imageUrls
                 if (converted.imageUrls && Array.isArray(converted.imageUrls)) {
                   converted.imageUrls = converted.imageUrls.map((img: string) =>
-                    img.startsWith('http') ? img : `${apiBaseUrl}${img}`
+                    img.startsWith('http') ? img : `${API_IMAGE_BASE_URL}${img}`
                   );
                 }
 
