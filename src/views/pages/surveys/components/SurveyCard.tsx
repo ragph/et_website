@@ -7,11 +7,8 @@ interface SurveyCardProps {
 }
 
 const SurveyCard = ({ survey, onClick }: SurveyCardProps) => {
-  // Get API base URL for image
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || '';
-  const imageUrl = survey.image
-    ? (survey.image.startsWith('http') ? survey.image : `${apiBaseUrl}${survey.image}`)
-    : '/images/placeholder-survey.png';
+  // Image URL is already converted to absolute URL in surveyApi.ts
+  const imageUrl = survey.image || '/images/placeholder-survey.png';
 
   return (
     <Card
