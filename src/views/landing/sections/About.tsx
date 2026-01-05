@@ -211,6 +211,12 @@ export const About = () => {
               <Button
                 variant="outlined"
                 size="large"
+                onClick={() => {
+                  document.getElementById('video')?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+                }}
                 sx={{
                   width: { xs: "100%", md: "auto" },
                   px: 4,

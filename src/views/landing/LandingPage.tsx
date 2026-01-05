@@ -8,6 +8,7 @@ import { Explore } from "./sections/Explore";
 import { Promo } from "./sections/Promo";
 import { Partners } from "./sections/Partners";
 import { Gallery } from "./sections/Gallery";
+import { Video } from "./sections/Video";
 import { Blog } from "./sections/Blog";
 import { Contact } from "./sections/Contact";
 import { Footer } from "./sections/Footer";
@@ -53,6 +54,8 @@ const LandingPage = () => {
           {/* Animated Sections */}
           <About />
 
+          <Video />
+          
           <Features />
 
           <Categories />
@@ -66,6 +69,7 @@ const LandingPage = () => {
           <AnimatedSection animation="fadeUp" duration={0.8} delay={0.1}>
             <Gallery />
           </AnimatedSection>
+
 
           <Blog />
 
