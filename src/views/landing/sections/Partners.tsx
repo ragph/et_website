@@ -39,6 +39,11 @@ export const Partners = () => {
       logo: "/images/dragonpay.png",
       alt: "Dragonpay",
     },
+    {
+      name: "Travelopro",
+      logo: "/images/travelopro.png",
+      alt: "Travelopro",
+    },
   ];
 
   return (
@@ -67,7 +72,7 @@ export const Partners = () => {
               gridTemplateColumns: {
                 xs: "repeat(1, 1fr)",
                 sm: "repeat(1, 1fr)",
-                md: "repeat(7, 1fr)",
+                md: "repeat(4, 2fr)",
               },
               gap: { xs: 4, md: 6 },
               alignItems: "center",
