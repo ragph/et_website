@@ -34,6 +34,11 @@ export const Partners = () => {
       logo: "/images/paymongo.png",
       alt: "Paymongo",
     },
+    {
+      name: "Dragonpay",
+      logo: "/images/dragonpay.png",
+      alt: "Dragonpay",
+    },
   ];
 
   return (
@@ -44,7 +49,7 @@ export const Partners = () => {
         bgcolor: "background.paper",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         {/* Section Title */}
         <AnimatedSection animation="fadeUp" duration={0.8} delay={0}>
           <SectionHeader
@@ -62,7 +67,7 @@ export const Partners = () => {
               gridTemplateColumns: {
                 xs: "repeat(1, 1fr)",
                 sm: "repeat(1, 1fr)",
-                md: "repeat(6, 1fr)",
+                md: "repeat(7, 1fr)",
               },
               gap: { xs: 4, md: 6 },
               alignItems: "center",
