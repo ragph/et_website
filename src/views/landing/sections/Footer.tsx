@@ -268,7 +268,7 @@ export const Footer = () => {
                     fontSize: "0.875rem",
                   }}
                 >
-                  +639567939117
+                  +6302-8683-6213
                 </Typography>
               </Box>
 
