@@ -150,7 +150,7 @@ const sections: Section[] = [
     content: [
       "For questions, concerns, or notices regarding these Terms of Service, please contact us:",
       "Email: contact@earningwhiletravelling.com",
-      "Phone: +63 917 123 4567",
+      "Phone: +632-8683-6213",
       "Address: Unit C And D 4th Floor Commerce And Industry Plaza Building, 1030 Campus Avenue, McKinley Town Centre, McKinley Hill, Pinagsama, City of Taguig, Philippines",
       "Business Hours: Monday to Friday, 9:00 AM - 6:00 PM (PHT)",
     ],
@@ -218,7 +218,7 @@ const TermsOfService = () => {
               {section.content.map((paragraph, pIndex) => (
                 <Typography
                   key={pIndex}
-                  variant="body2"
+                  variant="body1"
                   sx={{
                     mb: 2,
                     lineHeight: 1.8,
@@ -275,10 +275,10 @@ const TermsOfService = () => {
           <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
             Questions about our Terms?
           </Typography>
-          <Typography variant="body2" sx={{ mb: 2, opacity: 0.9 }}>
+          <Typography variant="body1" sx={{ mb: 2, opacity: 0.9 }}>
             Our legal team is here to help clarify any concerns
           </Typography>
-          <Typography variant="body2">
+          <Typography variant="body1">
             📧 contact@earningwhiletravelling.com
           </Typography>
         </Paper>

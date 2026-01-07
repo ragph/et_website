@@ -164,7 +164,7 @@ const sections: Section[] = [
       "Privacy Team Email: privacy@earningwhiletravelling.com",
       "Data Protection Officer: dpo@earningwhiletravelling.com",
       "General Inquiries: contact@earningwhiletravelling.com",
-      "Phone: +63 917 123 4567",
+      "Phone: +632-8683-6213",
       "Mailing Address:",
       "Earning While Travelling - Privacy Department",
       "Unit C And D 4th Floor Commerce And Industry Plaza Building",
@@ -266,7 +266,7 @@ const PrivacyPolicy = () => {
               {section.content.map((paragraph, pIndex) => (
                 <Typography
                   key={pIndex}
-                  variant="body2"
+                  variant="body1"
                   sx={{
                     mb: 2,
                     lineHeight: 1.8,
@@ -323,11 +323,11 @@ const PrivacyPolicy = () => {
           <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
             Privacy Questions or Concerns?
           </Typography>
-          <Typography variant="body2" sx={{ mb: 2, opacity: 0.9 }}>
+          <Typography variant="body1" sx={{ mb: 2, opacity: 0.9 }}>
             Our privacy team is dedicated to addressing your data protection needs
           </Typography>
           <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
-            <Typography variant="body2">
+            <Typography variant="body1">
               📧 contact@earningwhiletravelling.com
             </Typography>
           </Box>

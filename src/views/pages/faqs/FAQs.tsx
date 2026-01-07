@@ -291,11 +291,11 @@ const FAQs = () => {
             Can't find the answer you're looking for? Our support team is here to help.
           </Typography>
           <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
-            <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="body1" sx={{ display: "flex", alignItems: "center" }}>
               📧 contact@earningwhiletravelling.com
             </Typography>
-            <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}>
-              📞 +63 917 123 4567
+            <Typography variant="body1" sx={{ display: "flex", alignItems: "center" }}>
+              📞 +632-8683-6213
             </Typography>
           </Box>
         </Paper>
