@@ -28,7 +28,7 @@ const contactInfo = [
   {
     icon: PhoneIcon,
     title: "Call Us",
-    details: "+6302-8683-6213",
+    details: "+632-8683-6213",
   },
   {
     icon: EmailIcon,
@@ -353,7 +353,7 @@ export const Contact = () => {
                       </Typography>
                       <TextField
                         fullWidth
-                        placeholder="+63 917 123 4567"
+                        placeholder="+63 xxx xxx xxxx"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
