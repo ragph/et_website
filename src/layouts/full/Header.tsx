@@ -207,6 +207,7 @@ const Header = ({ toggleMobileSidebar }: HeaderProps) => {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                lineHeight: 1.5,
               }}
             >
               Earning While Travelling

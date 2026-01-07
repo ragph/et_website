@@ -9,13 +9,20 @@ import {
   Button,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
+import { SvgIcon } from "@mui/material";
+
+// TikTok Icon Component
+const TikTokIcon = (props: React.ComponentProps<typeof SvgIcon>) => (
+  <SvgIcon {...props} viewBox="0 0 24 24">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+  </SvgIcon>
+);
 
 const footerLinks = {
   company: [
@@ -39,10 +46,9 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: FacebookIcon, href: "#", label: "Facebook" },
-  { icon: TwitterIcon, href: "#", label: "Twitter" },
+  { icon: FacebookIcon, href: "https://www.facebook.com/profile.php?id=61555167518114", label: "Facebook" },
+  { icon: TikTokIcon, href: "https://www.tiktok.com/@earningwhiletravellingph?is_from_webapp=1&sender_device=pc", label: "TikTok" },
   { icon: InstagramIcon, href: "#", label: "Instagram" },
-  { icon: LinkedInIcon, href: "#", label: "LinkedIn" },
   { icon: YouTubeIcon, href: "#", label: "YouTube" },
 ];
 
@@ -145,6 +151,8 @@ export const Footer = () => {
                   <IconButton
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={social.label}
                     sx={{
                       color: "rgba(255,255,255,0.7)",

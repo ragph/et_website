@@ -227,8 +227,11 @@ const CandidateModal = ({ candidate, open, onClose, onVote }: CandidateModalProp
 
       <DialogActions sx={{ p: 3, pt: 0 }}>
         <Button href="https://app.earningwhiletravelling.com/login" variant="contained" size="large" fullWidth>
-          Vote for {candidate.text}
+          Vote Now
         </Button>
+        {/* <Button href="https://app.earningwhiletravelling.com/login" variant="contained" size="large" fullWidth>
+          Vote for {candidate.text}
+        </Button> */}
       </DialogActions>
     </Dialog>
   );

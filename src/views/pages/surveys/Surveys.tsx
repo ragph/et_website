@@ -42,8 +42,17 @@ const Surveys = () => {
       ? surveys
       : surveys.filter((survey) => survey.category === selectedCategory);
 
-  const handleSurveyClick = (surveyId: string) => {
-    navigate(`/surveys/${surveyId}`);
+  // Helper function to create URL-friendly slug from title
+  const createSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
+  const handleSurveyClick = (survey: Survey) => {
+    const slug = createSlug(survey.title);
+    navigate(`/surveys/${slug}`, { state: { surveyId: survey.id } });
   };
 
   return (
@@ -112,7 +121,7 @@ const Surveys = () => {
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={survey.id}>
                   <SurveyCard
                     survey={survey}
-                    onClick={() => handleSurveyClick(String(survey.id))}
+                    onClick={() => handleSurveyClick(survey)}
                   />
                 </Grid>
               ))}

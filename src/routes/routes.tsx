@@ -24,6 +24,7 @@ const TermsOfService = lazy(() => import('../views/pages/terms-of-service/TermsO
 const PrivacyPolicy = lazy(() => import('../views/pages/privacy-policy/PrivacyPolicy'));
 const Surveys = lazy(() => import('../views/pages/surveys/Surveys'));
 const SurveyDetails = lazy(() => import('../views/pages/surveys/SurveyDetails'));
+const SurveyResults = lazy(() => import('../views/pages/surveys/SurveyResults'));
 
 // Loading component
 const Loader = () => (
@@ -136,6 +137,14 @@ export const routes: RouteObject[] = [
         element: (
           <SuspenseWrapper>
             <SurveyDetails />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: '/surveys/:id/results',
+        element: (
+          <SuspenseWrapper>
+            <SurveyResults />
           </SuspenseWrapper>
         ),
       },

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -11,41 +11,74 @@ import {
   CardContent,
   CircularProgress,
   Alert,
+  Button,
 } from '@mui/material';
 import { surveyApi, SurveyDetail as SurveyDetailType, CandidateOption } from '../../../api/surveyApi';
 import { SectionHeader } from '../../landing/components/SectionHeader';
 import CandidateModal from './components/CandidateModal';
 
 const SurveyDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: slug } = useParams<{ id: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [survey, setSurvey] = useState<SurveyDetailType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateOption | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
+  // Helper function to create slug from title
+  const createSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
   useEffect(() => {
     const fetchSurvey = async () => {
-      if (!id) return;
+      if (!slug) return;
 
       setLoading(true);
       setError(null);
 
-      const data = await surveyApi.getSurveyById(id);
+      try {
+        // If surveyId is passed via navigation state, use it directly
+        const stateId = (location.state as any)?.surveyId;
 
-      if (!data) {
-        setError('Survey not found');
-      } else {
-        console.log('Survey data:', data);
-        console.log('Questions:', data.questions);
-        setSurvey(data);
+        if (stateId) {
+          const data = await surveyApi.getSurveyById(stateId);
+          if (!data) {
+            setError('Survey not found');
+          } else {
+            setSurvey(data);
+          }
+        } else {
+          // Otherwise, fetch all surveys and find by slug
+          const surveys = await surveyApi.getPublicSurveys();
+          const matchingSurvey = surveys.find(s => createSlug(s.title) === slug);
+
+          if (matchingSurvey) {
+            const data = await surveyApi.getSurveyById(matchingSurvey.id);
+            if (!data) {
+              setError('Survey not found');
+            } else {
+              setSurvey(data);
+            }
+          } else {
+            setError('Survey not found');
+          }
+        }
+      } catch (err) {
+        setError('Error loading survey');
+        console.error('Error fetching survey:', err);
       }
 
       setLoading(false);
     };
 
     fetchSurvey();
-  }, [id]);
+  }, [slug, location.state]);
 
   const handleCandidateClick = (option: CandidateOption) => {
     setSelectedCandidate(option);
@@ -56,6 +89,18 @@ const SurveyDetail = () => {
     setModalOpen(false);
     setSelectedCandidate(null);
   };
+
+  const handleTallyClick = () => {
+    if (slug) {
+      navigate(`/surveys/${slug}/results`);
+    }
+  };
+
+  // Check if this is a pageant survey (case-insensitive)
+  const isPageantSurvey = survey?.category.toLowerCase().includes('pageant') ||
+                          survey?.category.toLowerCase().includes('beauty') ||
+                          survey?.title.toLowerCase().includes('miss') ||
+                          survey?.title.toLowerCase().includes('pageant');
 
   if (loading) {
     return (
@@ -187,11 +232,33 @@ const SurveyDetail = () => {
           </>
         )}
 
-        {/* Vote Button - Could be added later */}
+        {/* Vote Button and Tally Button */}
         <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             {survey.totalResponses} responses
           </Typography>
+
+          {/* Tally Button - Only show for pageant surveys */}
+          {isPageantSurvey && (
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={handleTallyClick}
+              sx={{
+                mt: 2,
+                px: 4,  
+                py: 1.5,
+                fontSize: '1rem',
+                fontWeight: 600,
+                borderRadius: 2,
+                textTransform: 'none',
+                display: 'none'
+              }}
+            >
+              Tally
+            </Button>
+          )}
         </Box>
       </Container>
 
