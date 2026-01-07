@@ -209,7 +209,7 @@ const SurveyResults = () => {
                 tick={{ fontSize: 12 }}
               />
               <Tooltip
-                formatter={(value: number) => `${value} votes`}
+                formatter={(value) => `${value} votes`}
                 labelStyle={{ color: '#000' }}
               />
               <Legend />
