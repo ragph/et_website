@@ -33,7 +33,7 @@ export const Video = () => {
         >
           <Box
             component="iframe"
-            src="https://www.youtube.com/embed/CfdRj-tJodU?si=6tTy0py--yJymJRq"
+            src="https://www.youtube.com/embed/CfdRj-tJodU"
             title="YouTube video player"
             sx={{
               position: 'absolute',
