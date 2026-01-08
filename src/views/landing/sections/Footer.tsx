@@ -49,7 +49,7 @@ const socialLinks = [
   { icon: FacebookIcon, href: "https://www.facebook.com/profile.php?id=61555167518114", label: "Facebook" },
   { icon: TikTokIcon, href: "https://www.tiktok.com/@earningwhiletravellingph?is_from_webapp=1&sender_device=pc", label: "TikTok" },
   { icon: InstagramIcon, href: "#", label: "Instagram" },
-  { icon: YouTubeIcon, href: "#", label: "YouTube" },
+  { icon: YouTubeIcon, href: "https://www.youtube.com/@earningwhiletravelling2026", label: "YouTube" },
 ];
 
 export const Footer = () => {
