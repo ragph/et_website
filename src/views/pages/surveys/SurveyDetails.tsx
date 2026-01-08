@@ -154,6 +154,35 @@ const SurveyDetail = () => {
               }}
             />
           )}
+
+          {/* Vote Button and Tally Button */}
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              {survey.totalResponses} responses
+            </Typography>
+
+            {/* Tally Button - Only show for pageant surveys */}
+            {isPageantSurvey && (
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={handleTallyClick}
+                sx={{
+                  mt: 2,
+                  px: 4,  
+                  py: 1.5,
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  borderRadius: 2,
+                  textTransform: 'none',
+                }}
+              >
+                View Tally
+              </Button>
+            )}
+          </Box>
+
         </Box>
 
         {/* Voting Question */}
@@ -231,35 +260,6 @@ const SurveyDetail = () => {
             </Box>
           </>
         )}
-
-        {/* Vote Button and Tally Button */}
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {survey.totalResponses} responses
-          </Typography>
-
-          {/* Tally Button - Only show for pageant surveys */}
-          {isPageantSurvey && (
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={handleTallyClick}
-              sx={{
-                mt: 2,
-                px: 4,  
-                py: 1.5,
-                fontSize: '1rem',
-                fontWeight: 600,
-                borderRadius: 2,
-                textTransform: 'none',
-                display: 'none'
-              }}
-            >
-              Tally
-            </Button>
-          )}
-        </Box>
       </Container>
 
       {/* Candidate Modal */}

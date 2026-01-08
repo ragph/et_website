@@ -26,6 +26,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
+  LabelList,
 } from 'recharts';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { surveyApi, SurveyDetail as SurveyDetailType } from '../../../api/surveyApi';
@@ -38,6 +39,93 @@ interface CandidateScore {
   rank: number;
   imageUrl?: string;
 }
+
+// Custom label component for the bar chart
+const CustomBarLabel = (props: any) => {
+  const { x, y, width, height, value, imageUrl, rank } = props;
+
+  // Adjust sizes based on available width
+  const isMobile = width < 300;
+  const imageSize = isMobile ? 30 : 40;
+  const padding = 5;
+  const imageX = x + padding;
+  const imageY = y + (height - imageSize) / 2;
+  const badgeRadius = isMobile ? 10 : 12;
+  const badgeOffset = isMobile ? 8 : 10;
+
+  return (
+    <g>
+      {/* Rank badge */}
+      <circle
+        cx={imageX + imageSize / 2}
+        cy={imageY - badgeOffset}
+        r={badgeRadius}
+        fill={rank <= 3 ? '#FFD700' : '#666'}
+        stroke="#fff"
+        strokeWidth={2}
+      />
+      <text
+        x={imageX + imageSize / 2}
+        y={imageY - (badgeOffset - 3)}
+        fill="#fff"
+        fontSize={isMobile ? 10 : 12}
+        fontWeight="bold"
+        textAnchor="middle"
+      >
+        {rank}
+      </text>
+
+      {/* Candidate image */}
+      {imageUrl ? (
+        <>
+          <defs>
+            <clipPath id={`clip-${rank}`}>
+              <circle cx={imageX + imageSize / 2} cy={imageY + imageSize / 2} r={imageSize / 2} />
+            </clipPath>
+          </defs>
+          <image
+            x={imageX}
+            y={imageY}
+            width={imageSize}
+            height={imageSize}
+            href={imageUrl}
+            clipPath={`url(#clip-${rank})`}
+          />
+          <circle
+            cx={imageX + imageSize / 2}
+            cy={imageY + imageSize / 2}
+            r={imageSize / 2}
+            fill="none"
+            stroke="#fff"
+            strokeWidth={2}
+          />
+        </>
+      ) : (
+        <circle
+          cx={imageX + imageSize / 2}
+          cy={imageY + imageSize / 2}
+          r={imageSize / 2}
+          fill="#ccc"
+          stroke="#fff"
+          strokeWidth={2}
+        />
+      )}
+
+      {/* Vote count at the end of the bar */}
+      <text
+        x={x + width - (isMobile ? 5 : 10)}
+        y={y + height / 2}
+        fill="#333"
+        fontSize={isMobile ? 12 : 14}
+        fontWeight="600"
+        textAnchor="end"
+        dominantBaseline="middle"
+      >
+        {value.toLocaleString()}
+      </text>
+    </g>
+  );
+};
 
 const SurveyResults = () => {
   const { id: slug } = useParams<{ id: string }>();
@@ -190,36 +278,52 @@ const SurveyResults = () => {
         </Box>
 
         {/* Bar Chart */}
-        <Paper elevation={2} sx={{ p: 4, mb: 4, borderRadius: 2 }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, mb: 3 }}>
+        <Paper elevation={2} sx={{ p: { xs: 2, md: 4 }, mb: 4, borderRadius: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, fontSize: { xs: '1.25rem', md: '1.5rem' } }}>
             Vote Distribution
           </Typography>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart
-              data={candidateScores}
-              layout="vertical"
-              margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
-              <YAxis
-                dataKey="name"
-                type="category"
-                width={90}
-                tick={{ fontSize: 12 }}
-              />
-              <Tooltip
-                formatter={(value) => `${value} votes`}
-                labelStyle={{ color: '#000' }}
-              />
-              <Legend />
-              <Bar dataKey="votes" name="Votes" radius={[0, 8, 8, 0]}>
-                {candidateScores.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={getBarColor(entry.rank)} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <Box sx={{ width: '100%', overflowX: 'auto' }}>
+            <Box sx={{ minWidth: { xs: 400, md: '100%' } }}>
+              <ResponsiveContainer width="100%" height={Math.max(candidateScores.length * 70, 400)}>
+                <BarChart
+                  data={candidateScores}
+                  layout="vertical"
+                  margin={{ top: 30, right: 10, left: 5, bottom: 5 }}
+                  barCategoryGap="20%"
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis
+                    dataKey="name"
+                    type="category"
+                    width={140}
+                    tick={{ fontSize: 10 }}
+                    interval={0}
+                  />
+                  <Tooltip
+                    formatter={(value) => `${value} votes`}
+                    labelStyle={{ color: '#000' }}
+                  />
+                  <Legend />
+                  <Bar dataKey="votes" name="Votes" radius={[0, 8, 8, 0]} barSize={40}>
+                    {candidateScores.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={getBarColor(entry.rank)} />
+                    ))}
+                    <LabelList
+                      dataKey="votes"
+                      content={(props) => (
+                        <CustomBarLabel
+                          {...props}
+                          imageUrl={candidateScores[props.index || 0]?.imageUrl}
+                          rank={candidateScores[props.index || 0]?.rank}
+                        />
+                      )}
+                    />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </Box>
+          </Box>
         </Paper>
 
         {/* Rankings Table */}
@@ -229,21 +333,26 @@ const SurveyResults = () => {
               Rankings & Scores
             </Typography>
           </Box>
-          <TableContainer>
-            <Table>
+          <TableContainer sx={{ overflowX: 'auto' }}>
+            <Table sx={{ minWidth: { xs: 600, md: 'auto' } }}>
               <TableHead>
                 <TableRow sx={{ bgcolor: 'grey.100' }}>
-                  <TableCell align="center" sx={{ fontWeight: 600, width: 80 }}>
+                  <TableCell align="center" sx={{ fontWeight: 600, width: 80, minWidth: 60 }}>
                     Rank
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>Candidate</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>Region</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 600 }}>
+                  <TableCell sx={{ fontWeight: 600, minWidth: 150 }}>Candidate</TableCell>
+                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', sm: 'table-cell' }, minWidth: 100 }}>
+                    Region
+                  </TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600, minWidth: 80 }}>
                     Votes
                   </TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 600, width: 120 }}>
-                    Percentage
+                  <TableCell sx={{ fontWeight: 600, minWidth: 150 }}>
+                    Vote Progress
                   </TableCell>
+                  {/* <TableCell align="right" sx={{ fontWeight: 600, width: 120, minWidth: 90 }}>
+                    Percentage
+                  </TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -276,40 +385,76 @@ const SurveyResults = () => {
                       </Box>
                     </TableCell>
                     <TableCell>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
                         {candidate.imageUrl && (
                           <Avatar
                             src={candidate.imageUrl}
                             alt={candidate.name}
-                            sx={{ width: 50, height: 50 }}
+                            sx={{ width: { xs: 40, sm: 50 }, height: { xs: 40, sm: 50 } }}
                           />
                         )}
-                        <Typography
-                          sx={{
-                            fontWeight: candidate.rank <= 3 ? 600 : 400,
-                            fontSize: candidate.rank === 1 ? '1.1rem' : '1rem',
-                          }}
-                        >
-                          {candidate.name}
-                        </Typography>
+                        <Box>
+                          <Typography
+                            sx={{
+                              fontWeight: candidate.rank <= 3 ? 600 : 400,
+                              fontSize: { xs: '0.875rem', sm: candidate.rank === 1 ? '1.1rem' : '1rem' },
+                            }}
+                          >
+                            {candidate.name}
+                          </Typography>
+                          {/* Show region on mobile below name */}
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ display: { xs: 'block', sm: 'none' } }}
+                          >
+                            {candidate.region}
+                          </Typography>
+                        </Box>
                       </Box>
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
                       <Typography variant="body2" color="text.secondary">
                         {candidate.region}
                       </Typography>
                     </TableCell>
                     <TableCell align="right">
-                      <Typography sx={{ fontWeight: 500 }}>{candidate.votes.toLocaleString()}</Typography>
+                      <Typography sx={{ fontWeight: 500, fontSize: { xs: '0.875rem', sm: '1rem' } }}>
+                        {candidate.votes.toLocaleString()}
+                      </Typography>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Box
+                          sx={{
+                            flex: 1,
+                            height: 24,
+                            bgcolor: 'grey.200',
+                            borderRadius: 2,
+                            overflow: 'hidden',
+                            position: 'relative',
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              height: '100%',
+                              width: `${candidate.percentage}%`,
+                              bgcolor: getBarColor(candidate.rank),
+                              borderRadius: 2,
+                              transition: 'width 0.5s ease-in-out',
+                            }}
+                          />
+                        </Box>
+                      </Box>
+                    </TableCell>
+                    {/* <TableCell align="right">
                       <Chip
                         label={`${candidate.percentage.toFixed(1)}%`}
                         color={candidate.rank === 1 ? 'primary' : 'default'}
                         size="small"
                         sx={{ fontWeight: 600, minWidth: 70 }}
                       />
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>
