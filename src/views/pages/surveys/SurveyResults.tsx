@@ -42,7 +42,7 @@ interface CandidateScore {
 
 // Custom label component for the bar chart
 const CustomBarLabel = (props: any) => {
-  const { x, y, width, height, value, imageUrl, rank } = props;
+  const { x, y, width, height, value, imageUrl, rank, percentage } = props;
 
   // Adjust sizes based on available width
   const isMobile = width < 300;
@@ -111,7 +111,7 @@ const CustomBarLabel = (props: any) => {
         />
       )}
 
-      {/* Vote count at the end of the bar */}
+      {/* Percentage at the end of the bar */}
       <text
         x={x + width - (isMobile ? 5 : 10)}
         y={y + height / 2}
@@ -121,7 +121,7 @@ const CustomBarLabel = (props: any) => {
         textAnchor="end"
         dominantBaseline="middle"
       >
-        {value.toLocaleString()}
+        {percentage ? `${percentage.toFixed(1)}%` : '0%'}
       </text>
     </g>
   );
@@ -173,41 +173,57 @@ const SurveyResults = () => {
         } else {
           setSurvey(surveyData);
 
-          // Process candidate scores
-          // For now, generating mock data - you'll need to replace this with actual vote data from your API
-          const votingQuestion = surveyData.questions.find(
-            (q) => q.type === 'multiple-choice' || q.type === 'multiple_choice'
-          );
+          console.log('📊 Survey Data:', {
+            id: surveyData.id,
+            title: surveyData.title,
+            castingToken: surveyData.castingToken,
+            hasToken: !!surveyData.castingToken
+          });
 
-          if (votingQuestion && votingQuestion.options) {
-            const totalVotes = surveyData.totalResponses || 100; // Placeholder
-            const scores: CandidateScore[] = votingQuestion.options.map((option: any, index: number) => {
-              const candidate = typeof option === 'string' ? { text: option } : option;
-              const textMatch = candidate.text.match(/^(.+?)\s*\((.+?)\)$/);
-              const candidateName = textMatch ? textMatch[1].trim() : candidate.text;
-              const candidateRegion = textMatch ? textMatch[2].trim() : '';
+          // Fetch real voting results from API
+          if (surveyData.castingToken) {
+            try {
+              console.log('🔍 Fetching results with token:', surveyData.castingToken);
+              const resultsData = await surveyApi.getSurveyResults(surveyData.castingToken);
+              console.log('📈 Results Data:', resultsData);
 
-              // Mock vote data - replace with actual data from API
-              const votes = Math.floor(Math.random() * totalVotes);
-              const percentage = totalVotes > 0 ? (votes / totalVotes) * 100 : 0;
+              if (resultsData && resultsData.statistics && resultsData.statistics.length > 0) {
+                // Get the first question's statistics (voting question)
+                const votingStats = resultsData.statistics[0];
 
-              return {
-                name: candidateName,
-                region: candidateRegion,
-                votes,
-                percentage,
-                rank: 0, // Will be set after sorting
-                imageUrl: candidate.imageUrls?.[0] || candidate.imageUrl,
-              };
-            });
+                if (votingStats && votingStats.options) {
+                  const scores: CandidateScore[] = votingStats.options.map((option: any, index: number) => {
+                    const textMatch = option.option.match(/^(.+?)\s*\((.+?)\)$/);
+                    const candidateName = textMatch ? textMatch[1].trim() : option.option;
+                    const candidateRegion = textMatch ? textMatch[2].trim() : '';
 
-            // Sort by votes descending and assign ranks
-            scores.sort((a, b) => b.votes - a.votes);
-            scores.forEach((score, index) => {
-              score.rank = index + 1;
-            });
+                    return {
+                      name: candidateName,
+                      region: candidateRegion,
+                      votes: option.votes || 0,
+                      percentage: option.percentage || 0,
+                      rank: 0, // Will be set after sorting
+                      imageUrl: option.imageUrls?.[0] || option.imageUrl,
+                    };
+                  });
 
-            setCandidateScores(scores);
+                  // Sort by votes descending and assign ranks
+                  scores.sort((a, b) => b.votes - a.votes);
+                  scores.forEach((score, index) => {
+                    score.rank = index + 1;
+                  });
+
+                  setCandidateScores(scores);
+                }
+              }
+            } catch (error: any) {
+              console.error('❌ Error fetching voting results:', error);
+              console.error('Error details:', error.response?.data || error.message);
+              setError('Failed to load voting results: ' + (error.response?.data?.message || error.message));
+            }
+          } else {
+            console.warn('⚠️ No casting token found for survey');
+            setError('Survey results are not available - casting token not configured');
           }
         }
       } catch (err) {
@@ -275,6 +291,11 @@ const SurveyResults = () => {
           <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
             Total Responses: {survey.totalResponses}
           </Typography>
+          {candidateScores.length > 0 && candidateScores.every(c => c.votes === 0) && (
+            <Alert severity="info" sx={{ maxWidth: 600, mx: 'auto', mt: 2 }}>
+              No votes have been cast yet. Be the first to vote!
+            </Alert>
+          )}
         </Box>
 
         {/* Bar Chart */}
@@ -316,6 +337,7 @@ const SurveyResults = () => {
                           {...props}
                           imageUrl={candidateScores[props.index || 0]?.imageUrl}
                           rank={candidateScores[props.index || 0]?.rank}
+                          percentage={candidateScores[props.index || 0]?.percentage}
                         />
                       )}
                     />
