@@ -6,7 +6,7 @@ export const Banner = () => {
     <Box
       id="banner"
       sx={{
-        py: { xs: 6, md: 8 },
+        py: { xs: 6, md: 6 },
         background: "linear-gradient(180deg, #0d47a1 0%, #1565c0 50%, #0d47a1 100%)",
         position: "relative",
         overflow: "hidden",
@@ -46,7 +46,7 @@ export const Banner = () => {
               src="/images/logo-white.png"
               alt="ET Logo"
               sx={{
-                height: { xs: 50, md: 60 },
+                height: { xs: 60, md: 100 },
                 width: "auto",
                 mb: 1,
               }}
@@ -57,7 +57,7 @@ export const Banner = () => {
           </AnimatedSection>
 
           {/* Brand Name */}
-          <AnimatedSection animation="fadeUp" duration={0.6} delay={0.05}>
+          {/* <AnimatedSection animation="fadeUp" duration={0.6} delay={0.05}>
             <Typography
               variant="h5"
               component="div"
@@ -71,7 +71,7 @@ export const Banner = () => {
             >
               Earning While Travelling
             </Typography>
-          </AnimatedSection>
+          </AnimatedSection> */}
 
           {/* Title */}
           <AnimatedSection animation="fadeUp" duration={0.6} delay={0.1}>
@@ -85,7 +85,7 @@ export const Banner = () => {
                 lineHeight: 1.2,
               }}
             >
-              Explore the World with{" "}
+              Explore the World with{" "} <br />
               <Box
                 component="span"
                 sx={{
@@ -100,87 +100,104 @@ export const Banner = () => {
             </Typography>
           </AnimatedSection>
 
-          {/* Model Image in Circle */}
-          <AnimatedSection animation="fadeUp" duration={0.6} delay={0.15}>
-            <Box
-              sx={{
-                position: "relative",
-                mb: 4,
-              }}
-            >
-              {/* Yellow circle background */}
+          {/* Two Column Layout - Image & Description */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              alignItems: "center",
+              justifyContent: "center",
+              gap: { xs: 3, md: 6 },
+              mb: 4,
+              width: "100%",
+            }}
+          >
+            {/* Model Image */}
+            <AnimatedSection animation="fadeUp" duration={0.6} delay={0.15}>
               <Box
                 sx={{
-                  width: { xs: 220, sm: 280, md: 400 },
-                  height: "auto",
-                  // borderRadius: "50%",
-                  // background: "linear-gradient(180deg, #FFD54F 0%, #FFA726 100%)",
-                  display: "flex",
-                  alignItems: "flex-end",
-                  justifyContent: "center",
-                  overflow: "hidden",
+                  flex: { md: "0 0 auto" },
                 }}
               >
                 <Box
-                  component="img"
-                  src="/images/model.png"
-                  alt="Traveler"
                   sx={{
-                    width: "100%",
+                    width: { xs: 220, sm: 280, md: 350 },
                     height: "auto",
-                    objectFit: "cover",
-                    objectPosition: "top",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "center",
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  <Box
+                    component="img"
+                    src="/images/model.png"
+                    alt="Traveler"
+                    sx={{
+                      width: "100%",
+                      height: "auto",
+                      objectFit: "cover",
+                      objectPosition: "top",
+                    }}
+                  />
+                </Box>
               </Box>
-            </Box>
-          </AnimatedSection>
+            </AnimatedSection>
 
-          {/* Description */}
-          <AnimatedSection animation="fadeUp" duration={0.6} delay={0.2}>
-            <Typography
-              variant="body1"
-              sx={{
-                color: "rgba(255,255,255,0.9)",
-                mb: 4,
-                fontSize: { xs: "0.95rem", md: "1.05rem" },
-                lineHeight: 1.8,
-                // maxWidth: 600,
-                px: 2,
-              }}
-            >
-              ET is your gateway to unforgettable travel experiences while earning rewards along the way.
-              We connect passionate travelers with exclusive destinations, offering a unique opportunity
-              to explore the world's most beautiful places while building a sustainable income.
-              Turn your wanderlust into wealth with our innovative travel and rewards platform.
-            </Typography>
-          </AnimatedSection>
+            {/* Description */}
+            <AnimatedSection animation="fadeUp" duration={0.6} delay={0.2}>
+              <Box
+                sx={{
+                  flex: { md: 1 },
+                  textAlign: { xs: "center", md: "left" },
+                  maxWidth: { xs: "100%", md: 450 },
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "rgba(255,255,255,0.9)",
+                    fontSize: { xs: "0.95rem", md: "1.05rem" },
+                    lineHeight: 1.8,
+                    px: { xs: 2, md: 0 },
+                    mb: 4,
+                  }}
+                >
+                  ET App is your gateway to unforgettable travel experiences while earning rewards along the way.
+                  We connect passionate travelers with exclusive destinations, offering a unique opportunity
+                  to explore the world's most beautiful places while building a sustainable income.
+                </Typography>
 
-          {/* CTA Button */}
-          <AnimatedSection animation="fadeUp" duration={0.6} delay={0.25}>
-            <Button
-              variant="contained"
-              size="large"
-              href="https://triptravelandtours.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                px: { xs: 5, md: 6 },
-                py: { xs: 1.5, md: 1.8 },
-                borderRadius: 999,
-                textTransform: "uppercase",
-                fontSize: { xs: "1rem", md: "1.2rem" },
-                fontWeight: 700,
-                letterSpacing: 1,
-                bgcolor: "#FFC107",
-                color: "#0d47a1",
-                transition: "all 0.3s ease",
-                mb:8,
-              }}
-            >
-              Book Now
-            </Button>
-          </AnimatedSection>
+                {/* CTA Button */}
+                <AnimatedSection animation="fadeUp" duration={0.6} delay={0.25}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    href="https://triptravelandtours.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      px: { xs: 5, md: 6 },
+                      py: { xs: 1.5, md: 1.8 },
+                      borderRadius: 999,
+                      width: "100%",
+                      textTransform: "uppercase",
+                      fontSize: { xs: "1rem", md: "1.2rem" },
+                      fontWeight: 700,
+                      letterSpacing: 1,
+                      bgcolor: "#FFC107",
+                      color: "#0d47a1",
+                      transition: "all 0.3s ease",
+                      mb:8,
+                    }}
+                  >
+                    Book Now
+                  </Button>
+                </AnimatedSection>
+              </Box>
+            </AnimatedSection>
+          </Box>
+
 
           {/* Tier Badges */}
           <AnimatedSection animation="fadeUp" duration={0.6} delay={0.3}>

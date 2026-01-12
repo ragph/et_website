@@ -59,11 +59,11 @@ export const Footer = () => {
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
-            mb: 5,
+            mb: 2,
           }}
         >
           {/* Logo and Brand */}
-          <Box
+          {/* <Box
             component="a"
             href="/"
             sx={{
@@ -81,8 +81,9 @@ export const Footer = () => {
               src="/images/logo-white.png"
               alt="ET Logo"
               sx={{
-                height: 50,
+                height: 100,
                 width: "auto",
+                mb: 2
               }}
               onError={(e: any) => {
                 e.target.style.display = "none";
@@ -99,10 +100,10 @@ export const Footer = () => {
             >
               Earning While Travelling
             </Typography>
-          </Box>
+          </Box> */}
 
           {/* Description */}
-          <Typography
+          {/* <Typography
             variant="body1"
             sx={{
               color: "rgba(255,255,255,0.75)",
@@ -114,14 +115,14 @@ export const Footer = () => {
             Your ultimate platform for booking travel and earning money. Explore
             the world while building your income through commissions, referrals,
             and rewards.
-          </Typography>
+          </Typography> */}
 
           {/* Powered by TTT */}
           <Typography
             variant="h5"
             component="div"
             sx={{
-              fontWeight: 800,
+              fontWeight: 400,
               fontSize: { xs: ".75rem", sm: "0.95rem" },
               letterSpacing: 0,
               mb: 1,
@@ -134,14 +135,14 @@ export const Footer = () => {
             href="https://triptravelandtours.com/"
             target="_blank"
             rel="noopener noreferrer"
-            sx={{ mb: 4 }}
+            sx={{ mb: 2 }}
           >
             <Box
               component="img"
               src="/images/ttt.png"
               alt="TTT"
               sx={{
-                height: 90,
+                height: 100,
                 width: "auto",
                 opacity: 0.9,
                 transition: "opacity 0.3s ease",
@@ -154,9 +155,21 @@ export const Footer = () => {
               }}
             />
           </Box>
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{
+              fontWeight: 800,
+              fontSize: { xs: ".75rem", sm: "0.95rem" },
+              letterSpacing: 0,
+              mb: 1,
+            }}
+          >
+            Trip Travel and Tours Agency
+          </Typography>
 
           {/* Social Links */}
-          <Box sx={{ display: "flex", gap: 1.5, mb: 5 }}>
+          {/* <Box sx={{ display: "flex", gap: 1.5, mb: 5 }}>
             {socialLinks.map((social) => {
               const Icon = social.icon;
               return (
@@ -183,10 +196,10 @@ export const Footer = () => {
                 </IconButton>
               );
             })}
-          </Box>
+          </Box> */}
 
           {/* Contact Info - Horizontal Layout */}
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               flexDirection: { xs: "column", md: "row" },
@@ -196,7 +209,6 @@ export const Footer = () => {
               flexWrap: "wrap",
             }}
           >
-            {/* Phone */}
             <Box
               component="a"
               href="tel:+63286836213"
@@ -218,7 +230,6 @@ export const Footer = () => {
               </Typography>
             </Box>
 
-            {/* Email */}
             <Box
               component="a"
               href="mailto:contact@earningwhiletravelling.com"
@@ -239,23 +250,7 @@ export const Footer = () => {
                 contact@earningwhiletravelling.com
               </Typography>
             </Box>
-
-            {/* Location */}
-            {/* <Box
-              sx={{
-                display: "flex",
-                gap: 1,
-                alignItems: "center",
-                color: "rgba(255,255,255,0.75)",
-                maxWidth: { xs: 300, md: 400 },
-              }}
-            >
-              <LocationOnIcon sx={{ color: "#FFD23F", fontSize: 20, flexShrink: 0 }} />
-              <Typography variant="body2" sx={{ fontSize: "0.9rem" }}>
-                McKinley Hill, Taguig City, Philippines
-              </Typography>
-            </Box> */}
-          </Box>
+          </Box> */}
         </Box>
 
         {/* Bottom Bar */}
