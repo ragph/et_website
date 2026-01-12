@@ -125,7 +125,7 @@ export const Footer = () => {
               fontWeight: 400,
               fontSize: { xs: ".75rem", sm: "0.95rem" },
               letterSpacing: 0,
-              mb: 1,
+              mb: 2,
             }}
           >
             Powered By
@@ -133,9 +133,8 @@ export const Footer = () => {
           <Box
             component="a"
             href="https://triptravelandtours.com/"
-            target="_blank"
             rel="noopener noreferrer"
-            sx={{ mb: 2 }}
+            sx={{ mb: 1 }}
           >
             <Box
               component="img"

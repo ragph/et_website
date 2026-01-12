@@ -174,7 +174,6 @@ export const Banner = () => {
                     variant="contained"
                     size="large"
                     href="https://triptravelandtours.com/"
-                    target="_blank"
                     rel="noopener noreferrer"
                     sx={{
                       px: { xs: 5, md: 6 },
