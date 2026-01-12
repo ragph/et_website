@@ -1,13 +1,4 @@
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  Link,
-  IconButton,
-  TextField,
-  Button,
-} from "@mui/material";
+import { Box, Container, Typography, IconButton } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -24,32 +15,23 @@ const TikTokIcon = (props: React.ComponentProps<typeof SvgIcon>) => (
   </SvgIcon>
 );
 
-const footerLinks = {
-  company: [
-    { label: "About Us", href: "#about" },
-    { label: "Careers", href: "#" },
-    { label: "Press", href: "#" },
-    { label: "Blog", href: "#blog" },
-  ],
-  quickLinks: [
-    { label: "How It Works", href: "#features" },
-    { label: "ET Points", href: "#" },
-    { label: "Destinations", href: "/map" },
-    { label: "Partnerships", href: "#partners" },
-  ],
-  support: [
-    { label: "FAQs", href: "/faqs" },
-    { label: "Contact Us", href: "/#contact" },
-    { label: "Terms of Service", href: "/terms-of-service" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
-  ],
-};
-
 const socialLinks = [
-  { icon: FacebookIcon, href: "https://www.facebook.com/profile.php?id=61555167518114", label: "Facebook" },
-  { icon: TikTokIcon, href: "https://www.tiktok.com/@earningwhiletravellingph?is_from_webapp=1&sender_device=pc", label: "TikTok" },
+  {
+    icon: FacebookIcon,
+    href: "https://www.facebook.com/profile.php?id=61555167518114",
+    label: "Facebook",
+  },
+  {
+    icon: TikTokIcon,
+    href: "https://www.tiktok.com/@earningwhiletravellingph?is_from_webapp=1&sender_device=pc",
+    label: "TikTok",
+  },
   { icon: InstagramIcon, href: "#", label: "Instagram" },
-  { icon: YouTubeIcon, href: "https://www.youtube.com/@earningwhiletravelling2026", label: "YouTube" },
+  {
+    icon: YouTubeIcon,
+    href: "https://www.youtube.com/@earningwhiletravelling2026",
+    label: "YouTube",
+  },
 ];
 
 export const Footer = () => {
@@ -58,7 +40,7 @@ export const Footer = () => {
       component="footer"
       sx={{
         background:
-          "linear-gradient(135deg, rgba(31, 41, 55, 0) 0%, rgba(31, 41, 55, 0.5) 100%), url(/images/silhouette3.jpg)",
+          "linear-gradient(135deg, rgba(31, 41, 55, 0) 0%, rgba(31, 41, 55, 0.8) 100%), url(/images/silhouette3.jpg)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -69,233 +51,212 @@ export const Footer = () => {
         pb: 6,
       }}
     >
-      <Container maxWidth="lg">
-        <Grid
-          container
-          spacing={4}
+      <Container maxWidth="md">
+        {/* Centered Company Info */}
+        <Box
           sx={{
-            mb: 6,
-            display: { xs: "flex", md: "grid" },
-            gridTemplateColumns: { md: "2fr 1fr 1fr 1fr" },
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            mb: 5,
           }}
         >
-          {/* Company Info */}
-          <Grid size={{ xs: 12, md: "auto" }}>
+          {/* Logo and Brand */}
+          <Box
+            component="a"
+            href="/"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 1.5,
+              mb: 3,
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <Box
+              component="img"
+              src="/images/logo-white.png"
+              alt="ET Logo"
+              sx={{
+                height: 50,
+                width: "auto",
+              }}
+              onError={(e: any) => {
+                e.target.style.display = "none";
+              }}
+            />
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{
+                fontWeight: 800,
+                fontSize: { xs: "1rem", sm: "1.2rem" },
+                letterSpacing: 0,
+              }}
+            >
+              Earning While Travelling
+            </Typography>
+          </Box>
+
+          {/* Description */}
+          <Typography
+            variant="body1"
+            sx={{
+              color: "rgba(255,255,255,0.75)",
+              mb: 4,
+              lineHeight: 1.8,
+              maxWidth: 500,
+            }}
+          >
+            Your ultimate platform for booking travel and earning money. Explore
+            the world while building your income through commissions, referrals,
+            and rewards.
+          </Typography>
+
+          {/* Powered by TTT */}
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{
+              fontWeight: 800,
+              fontSize: { xs: ".75rem", sm: "0.95rem" },
+              letterSpacing: 0,
+              mb: 1,
+            }}
+          >
+            Powered By
+          </Typography>
+          <Box
+            component="a"
+            href="https://triptravelandtours.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ mb: 4 }}
+          >
+            <Box
+              component="img"
+              src="/images/ttt.png"
+              alt="TTT"
+              sx={{
+                height: 90,
+                width: "auto",
+                opacity: 0.9,
+                transition: "opacity 0.3s ease",
+                "&:hover": {
+                  opacity: 1,
+                },
+              }}
+              onError={(e: any) => {
+                e.target.style.display = "none";
+              }}
+            />
+          </Box>
+
+          {/* Social Links */}
+          <Box sx={{ display: "flex", gap: 1.5, mb: 5 }}>
+            {socialLinks.map((social) => {
+              const Icon = social.icon;
+              return (
+                <IconButton
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  sx={{
+                    color: "rgba(255,255,255,0.8)",
+                    bgcolor: "rgba(255,255,255,0.1)",
+                    width: 44,
+                    height: 44,
+                    "&:hover": {
+                      color: "#1a237e",
+                      bgcolor: "#FFD23F",
+                      transform: "translateY(-3px)",
+                    },
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  <Icon />
+                </IconButton>
+              );
+            })}
+          </Box>
+
+          {/* Contact Info - Horizontal Layout */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              alignItems: "center",
+              justifyContent: "center",
+              gap: { xs: 2, md: 4 },
+              flexWrap: "wrap",
+            }}
+          >
+            {/* Phone */}
             <Box
               component="a"
-              href="/"
+              href="tel:+63286836213"
               sx={{
                 display: "flex",
-                alignItems: "center",
                 gap: 1,
-                mb: 2,
-                color: "inherit",
+                alignItems: "center",
                 textDecoration: "none",
+                color: "rgba(255,255,255,0.75)",
+                transition: "color 0.3s ease",
+                "&:hover": {
+                  color: "#FFD23F",
+                },
               }}
             >
-              <Box
-                component="img"
-                src="/images/logo-white.png"
-                alt="ET Logo"
-                sx={{
-                  height: 40,
-                  width: "auto",
-                }}
-                onError={(e: any) => {
-                  e.target.style.display = "none";
-                }}
-              />
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  fontWeight: 800,
-                  fontSize: { xs: ".95rem", sm: ".95rem" },
-                  letterSpacing: 0,
-                }}
-              >
-                Earning While Travelling
+              <PhoneIcon sx={{ color: "#FFD23F", fontSize: 20 }} />
+              <Typography variant="body2" sx={{ fontSize: "0.9rem" }}>
+                +632-8683-6213
               </Typography>
             </Box>
-            <Typography
-              variant="body1"
+
+            {/* Email */}
+            <Box
+              component="a"
+              href="mailto:contact@earningwhiletravelling.com"
               sx={{
-                color: "rgba(255,255,255,0.7)",
-                mb: 2,
-                lineHeight: 1.7,
+                display: "flex",
+                gap: 1,
+                alignItems: "center",
+                textDecoration: "none",
+                color: "rgba(255,255,255,0.75)",
+                transition: "color 0.3s ease",
+                "&:hover": {
+                  color: "#FFD23F",
+                },
               }}
             >
-              Your ultimate platform for booking travel and earning money.
-              Explore the world while building your income through commissions,
-              referrals, and rewards.
-            </Typography>
-            <Box component="a" href="https://triptravelandtours.com/">
-              <Box
-                component="img"
-                src="/images/ttt.png"
-                alt="TTT"
-                sx={{
-                  height: 80,
-                  width: "auto",
-                  mb: 2,
-                }}
-                onError={(e: any) => {
-                  e.target.style.display = "none";
-                }}
-              />
+              <EmailIcon sx={{ color: "#FFD23F", fontSize: 20 }} />
+              <Typography variant="body2" sx={{ fontSize: "0.9rem" }}>
+                contact@earningwhiletravelling.com
+              </Typography>
             </Box>
-            <Box sx={{ display: "flex", gap: 1 }}>
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <IconButton
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    sx={{
-                      color: "rgba(255,255,255,0.7)",
-                      bgcolor: "rgba(255,255,255,0.1)",
-                      "&:hover": {
-                        color: "primary.main",
-                        bgcolor: "secondary.main",
-                      },
-                    }}
-                  >
-                    <Icon />
-                  </IconButton>
-                );
-              })}
-            </Box>
-          </Grid>
 
-          {/* Quick Links */}
-          <Grid size={{ xs: 12, md: "auto" }}>
-            <Typography
-              variant="h6"
+            {/* Location */}
+            {/* <Box
               sx={{
-                fontWeight: 600,
-                mb: 2,
-                color: "white",
+                display: "flex",
+                gap: 1,
+                alignItems: "center",
+                color: "rgba(255,255,255,0.75)",
+                maxWidth: { xs: 300, md: 400 },
               }}
             >
-              Quick Links
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {footerLinks.quickLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  sx={{
-                    color: "rgba(255,255,255,0.7)",
-                    textDecoration: "none",
-                    fontSize: "0.875rem",
-                    transition: "color 0.3s ease",
-                    "&:hover": {
-                      color: "#FFD23F",
-                    },
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </Box>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: "auto" }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                mb: 2,
-                color: "white",
-              }}
-            >
-              Support
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {footerLinks.support.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  sx={{
-                    color: "rgba(255,255,255,0.7)",
-                    textDecoration: "none",
-                    fontSize: "0.875rem",
-                    transition: "color 0.3s ease",
-                    "&:hover": {
-                      color: "#FFD23F",
-                    },
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </Box>
-          </Grid>
-
-          <Grid size={{ xs: 12, md: "auto" }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                mb: 2,
-                color: "white",
-              }}
-            >
-              Contact Info
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {/* Address */}
-              <Box sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}>
-                <LocationOnIcon
-                  sx={{ color: "#FFD23F", fontSize: 20, mt: 0.3 }}
-                />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "rgba(255,255,255,0.7)",
-                    lineHeight: 1.6,
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  Unit C And D 4th Floor Commerce And Industry Plaza Building
-                  1030 Campus Avenue Mckinley Town Centre Mckinley Hill,
-                  Pinagsama, City Of Taguig, Philippines
-                </Typography>
-              </Box>
-
-              {/* Phone */}
-              <Box component="a" href="tel:+63286836213" sx={{ display: "flex", gap: 1.5, alignItems: "center", textDecoration: "none" }}>
-                <PhoneIcon sx={{ color: "#FFD23F", fontSize: 20 }} />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "rgba(255,255,255,0.7)",
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  +632-8683-6213
-                </Typography>
-              </Box>
-
-              {/* Email */}
-              <Box component="a" href="mailto:contact@earningwhiletravelling.com" sx={{ display: "flex", gap: 1.5, alignItems: "center", textDecoration: "none" }}>
-                <EmailIcon sx={{ color: "#FFD23F", fontSize: 20 }} />
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "rgba(255,255,255,0.7)",
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  contact@earningwhiletravelling.com
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
+              <LocationOnIcon sx={{ color: "#FFD23F", fontSize: 20, flexShrink: 0 }} />
+              <Typography variant="body2" sx={{ fontSize: "0.9rem" }}>
+                McKinley Hill, Taguig City, Philippines
+              </Typography>
+            </Box> */}
+          </Box>
+        </Box>
 
         {/* Bottom Bar */}
         <Box
@@ -303,7 +264,7 @@ export const Footer = () => {
             pt: 4,
             borderTop: "1px solid rgba(255,255,255,0.1)",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
             flexWrap: "wrap",
             gap: 2,
@@ -313,7 +274,7 @@ export const Footer = () => {
             © {new Date().getFullYear()} Earning While Travelling. All rights
             reserved.
           </Typography>
-          <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.5)" }}>
+          {/* <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.5)" }}>
             Powered by{" "}
             <Box
               component="a"
@@ -328,7 +289,7 @@ export const Footer = () => {
             >
               TRIP TRAVEL AND TOURS AGENCY
             </Box>
-          </Typography>
+          </Typography> */}
         </Box>
       </Container>
     </Box>

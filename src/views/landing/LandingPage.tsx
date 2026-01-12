@@ -12,6 +12,7 @@ import { Video } from "./sections/Video";
 import { Blog } from "./sections/Blog";
 import { Contact } from "./sections/Contact";
 import { Footer } from "./sections/Footer";
+import { Banner } from "./sections/Banner";
 import Header from "@/layouts/full/Header";
 import Sidebar from "@/layouts/full/Sidebar";
 import { AnimatedSection } from "./components/AnimatedSection";
@@ -36,23 +37,23 @@ const LandingPage = () => {
       }}
     >
       {/* Sidebar - only shows on mobile when menu is clicked */}
-      <Sidebar
+      {/* <Sidebar
         isMobileSidebarOpen={isMobileSidebarOpen}
         onSidebarClose={() => setMobileSidebarOpen(false)}
         mobileOnly={true}
-      />
+      /> */}
 
       {/* Header */}
-      <Header toggleMobileSidebar={toggleMobileSidebar} />
+      {/* <Header toggleMobileSidebar={toggleMobileSidebar} /> */}
       
       {/* Page Content */}
       <Container maxWidth={false} disableGutters sx={{ overflowX: "clip" }}>
         <Box sx={{ width: "100%" }}>
           {/* Hero - No animation (first view) */}
-          <Hero />
+          {/* <Hero /> */}
 
           {/* Animated Sections */}
-          <About />
+          {/* <About />
 
           <Video />
           
@@ -68,14 +69,16 @@ const LandingPage = () => {
 
           <AnimatedSection animation="fadeUp" duration={0.8} delay={0.1}>
             <Gallery />
-          </AnimatedSection>
+          </AnimatedSection> */}
 
 
-          <Blog />
+          {/* <Blog /> */}
 
-          <AnimatedSection animation="fadeUp" duration={0.8} delay={0.1}>
+          <Banner />
+
+          {/* <AnimatedSection animation="fadeUp" duration={0.8} delay={0.1}>
             <Contact />
-          </AnimatedSection>
+          </AnimatedSection> */}
 
           <Footer />
         </Box>
