@@ -60,94 +60,94 @@ export const routes: RouteObject[] = [
     path: '/',
     element: <BlankLayout />,
     children: [
-      {
-        path: ROUTES.LOGIN,
-        element: (
-          <SuspenseWrapper>
-            <Login />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: ROUTES.REGISTER,
-        element: (
-          <SuspenseWrapper>
-            <Register />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: ROUTES.FORGOT_PASSWORD,
-        element: (
-          <SuspenseWrapper>
-            <ForgotPassword />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: ROUTES.MAP,
-        element: (
-          <SuspenseWrapper>
-            <Map />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: '/details/:regionName/:province/:spotName',
-        element: (
-          <SuspenseWrapper>
-            <TouristSpotDetails />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: '/faqs',
-        element: (
-          <SuspenseWrapper>
-            <FAQs />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: '/terms-of-service',
-        element: (
-          <SuspenseWrapper>
-            <TermsOfService />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: '/privacy-policy',
-        element: (
-          <SuspenseWrapper>
-            <PrivacyPolicy />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: '/surveys',
-        element: (
-          <SuspenseWrapper>
-            <Surveys />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: '/surveys/:id',
-        element: (
-          <SuspenseWrapper>
-            <SurveyDetails />
-          </SuspenseWrapper>
-        ),
-      },
-      {
-        path: '/surveys/:id/results',
-        element: (
-          <SuspenseWrapper>
-            <SurveyResults />
-          </SuspenseWrapper>
-        ),
-      },
+      // {
+      //   path: ROUTES.LOGIN,
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <Login />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: ROUTES.REGISTER,
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <Register />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: ROUTES.FORGOT_PASSWORD,
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <ForgotPassword />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: ROUTES.MAP,
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <Map />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: '/details/:regionName/:province/:spotName',
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <TouristSpotDetails />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: '/faqs',
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <FAQs />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: '/terms-of-service',
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <TermsOfService />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: '/privacy-policy',
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <PrivacyPolicy />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: '/surveys',
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <Surveys />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: '/surveys/:id',
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <SurveyDetails />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
+      // {
+      //   path: '/surveys/:id/results',
+      //   element: (
+      //     <SuspenseWrapper>
+      //       <SurveyResults />
+      //     </SuspenseWrapper>
+      //   ),
+      // },
     ],
   },
   // Protected routes with FullLayout (moved to /app prefix)
